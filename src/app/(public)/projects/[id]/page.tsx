@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase";
+import { createServerSupabase } from "@/lib/supabase-server";
 import { Project, ProjectUpdate, UpdatePhoto } from "@/lib/types";
 import ProjectHero from "@/components/ProjectHero";
 import ImpactStats from "@/components/ImpactStats";
@@ -16,6 +16,7 @@ export default async function ProjectPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const supabase = await createServerSupabase();
 
   // Fetch project
   const { data: project } = await supabase
@@ -28,7 +29,9 @@ export default async function ProjectPage({
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Project not found</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            Project not found
+          </h1>
           <Link href="/" className="text-emerald-600 hover:underline">
             Back to all projects
           </Link>

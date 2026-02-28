@@ -22,6 +22,7 @@ export interface Project {
 export interface ProjectUpdate {
   id: string;
   project_id: string;
+  submitted_by: string | null;
   field_notes: string | null;
   field_notes_en: string | null;
   personal_story_name: string | null;
@@ -41,4 +42,17 @@ export interface UpdatePhoto {
   photo_url: string;
   caption: string | null;
   is_hero: boolean;
+}
+
+export interface Profile {
+  id: string;
+  email: string | null;
+  full_name: string | null;
+  role: "field_team" | "editor" | "admin";
+  avatar_url: string | null;
+  preferred_language: "es" | "en";
+  phone: string | null;
+  is_active: boolean;
+  last_login_at: string | null;
+  created_at: string;
 }
