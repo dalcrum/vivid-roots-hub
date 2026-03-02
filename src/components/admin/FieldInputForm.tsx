@@ -14,10 +14,18 @@ interface FormData {
   projectName: string;
   projectType: string;
   status: string;
+  // Community details
   community: string;
   region: string;
+  communityPopulation: string;
+  communityDescription: string;
+  // School details (optional)
+  hasSchool: boolean;
+  schoolName: string;
+  schoolSize: string;
+  gradesServed: string;
+  // Impact & internal
   peopleServed: string;
-  studentsImpacted: string;
   cost: string;
   // Step 2
   challenge: string;
@@ -40,8 +48,13 @@ const initialFormData: FormData = {
   status: "in_progress",
   community: "",
   region: "",
+  communityPopulation: "",
+  communityDescription: "",
+  hasSchool: false,
+  schoolName: "",
+  schoolSize: "",
+  gradesServed: "",
   peopleServed: "",
-  studentsImpacted: "",
   cost: "",
   challenge: "",
   solution: "",
@@ -119,8 +132,20 @@ export default function FieldInputForm({
             status: formData.status,
             community: formData.community,
             region: formData.region,
+            community_population:
+              parseInt(formData.communityPopulation) || null,
+            community_context: formData.communityDescription || null,
+            school_name: formData.hasSchool ? formData.schoolName || null : null,
+            school_size: formData.hasSchool
+              ? parseInt(formData.schoolSize) || null
+              : null,
+            grades_served: formData.hasSchool
+              ? formData.gradesServed || null
+              : null,
             people_served: parseInt(formData.peopleServed) || 0,
-            students_impacted: parseInt(formData.studentsImpacted) || 0,
+            students_impacted: formData.hasSchool
+              ? parseInt(formData.schoolSize) || 0
+              : 0,
             cost: parseFloat(formData.cost) || 0,
             funded: 0,
             started_at: new Date().toISOString().split("T")[0],
@@ -184,7 +209,11 @@ export default function FieldInputForm({
       setSubmitted(true);
     } catch (error) {
       console.error("Error submitting:", error);
-      alert(lang === "es" ? "Algo salio mal. Intenta de nuevo." : "Something went wrong. Please try again.");
+      alert(
+        lang === "es"
+          ? "Algo salio mal. Intenta de nuevo."
+          : "Something went wrong. Please try again."
+      );
     } finally {
       setSubmitting(false);
     }
@@ -195,7 +224,11 @@ export default function FieldInputForm({
       <div className="max-w-2xl mx-auto text-center py-12">
         <div className="text-6xl mb-4">🎉</div>
         <h2 className="text-2xl font-bold text-gray-900 mb-2">
-          <BLabel en="Update Submitted!" es="Actualizacion Enviada!" lang={lang} />
+          <BLabel
+            en="Update Submitted!"
+            es="Actualizacion Enviada!"
+            lang={lang}
+          />
         </h2>
         <p className="text-gray-600 mb-6">
           <BLabel
@@ -237,92 +270,181 @@ export default function FieldInputForm({
 
       {/* Step 1: Basic Info */}
       {step === 0 && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">
-            📋 <BLabel en="Basic Information" es="Informacion Basica" lang={lang} />
-          </h2>
+        <div className="space-y-6">
+          {/* Project selection */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <h2 className="text-lg font-bold text-gray-900 mb-4">
+              📋{" "}
+              <BLabel
+                en="Basic Information"
+                es="Informacion Basica"
+                lang={lang}
+              />
+            </h2>
 
-          {/* New vs existing project toggle */}
-          <div className="flex gap-2 mb-6">
-            <button
-              onClick={() => update("isNewProject", true)}
-              className={`flex-1 py-3 rounded-xl text-sm font-medium transition-colors ${
-                formData.isNewProject
-                  ? "bg-emerald-600 text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-              }`}
-            >
-              🆕 <BLabel en="New Project" es="Nuevo Proyecto" lang={lang} />
-            </button>
-            <button
-              onClick={() => update("isNewProject", false)}
-              className={`flex-1 py-3 rounded-xl text-sm font-medium transition-colors ${
-                !formData.isNewProject
-                  ? "bg-emerald-600 text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-              }`}
-            >
-              🔄 <BLabel en="Existing Project" es="Proyecto Existente" lang={lang} />
-            </button>
+            {/* New vs existing project toggle */}
+            <div className="flex gap-2 mb-6">
+              <button
+                onClick={() => update("isNewProject", true)}
+                className={`flex-1 py-3 rounded-xl text-sm font-medium transition-colors ${
+                  formData.isNewProject
+                    ? "bg-emerald-600 text-white"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                🆕{" "}
+                <BLabel en="New Project" es="Nuevo Proyecto" lang={lang} />
+              </button>
+              <button
+                onClick={() => update("isNewProject", false)}
+                className={`flex-1 py-3 rounded-xl text-sm font-medium transition-colors ${
+                  !formData.isNewProject
+                    ? "bg-emerald-600 text-white"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                🔄{" "}
+                <BLabel
+                  en="Existing Project"
+                  es="Proyecto Existente"
+                  lang={lang}
+                />
+              </button>
+            </div>
+
+            {formData.isNewProject ? (
+              <>
+                <div className="mb-4">
+                  <label className={labelClass}>
+                    <BLabel
+                      en="Project Name"
+                      es="Nombre del Proyecto"
+                      lang={lang}
+                    />
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.projectName}
+                    onChange={(e) => update("projectName", e.target.value)}
+                    placeholder={ph(
+                      "e.g. Escuela El Mirador - Clean Water",
+                      "ej. Escuela El Mirador - Agua Limpia",
+                      lang
+                    )}
+                    className={inputClass}
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className={labelClass}>
+                      <BLabel
+                        en="Project Type"
+                        es="Tipo de Proyecto"
+                        lang={lang}
+                      />
+                    </label>
+                    <select
+                      value={formData.projectType}
+                      onChange={(e) => update("projectType", e.target.value)}
+                      className={inputClass}
+                    >
+                      <option value="Clean Water">
+                        💧 {lang === "es" ? "Agua Limpia" : "Clean Water"}
+                      </option>
+                      <option value="Education">
+                        📚 {lang === "es" ? "Educacion" : "Education"}
+                      </option>
+                      <option value="Health">
+                        🏥 {lang === "es" ? "Salud" : "Health"}
+                      </option>
+                      <option value="Infrastructure">
+                        🏗️{" "}
+                        {lang === "es" ? "Infraestructura" : "Infrastructure"}
+                      </option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className={labelClass}>
+                      <BLabel en="Status" es="Estado" lang={lang} />
+                    </label>
+                    <select
+                      value={formData.status}
+                      onChange={(e) => update("status", e.target.value)}
+                      className={inputClass}
+                    >
+                      <option value="planning">
+                        {lang === "es" ? "Planificando" : "Planning"}
+                      </option>
+                      <option value="in_progress">
+                        {lang === "es" ? "En Progreso" : "In Progress"}
+                      </option>
+                      <option value="completed">
+                        {lang === "es" ? "Completado" : "Completed"}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div>
+                <label className={labelClass}>
+                  <BLabel
+                    en="Select Project"
+                    es="Seleccionar Proyecto"
+                    lang={lang}
+                  />
+                </label>
+                <select
+                  value={formData.projectId}
+                  onChange={(e) => update("projectId", e.target.value)}
+                  className={inputClass}
+                >
+                  <option value="">
+                    {lang === "es"
+                      ? "Elige un proyecto..."
+                      : "Choose a project..."}
+                  </option>
+                  {projects.map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.title} - {p.community}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
           </div>
 
-          {formData.isNewProject ? (
-            <>
-              <div className="mb-4">
-                <label className={labelClass}>
-                  <BLabel en="Project Name" es="Nombre del Proyecto" lang={lang} />
-                </label>
-                <input
-                  type="text"
-                  value={formData.projectName}
-                  onChange={(e) => update("projectName", e.target.value)}
-                  placeholder={ph("e.g. Escuela El Mirador - Clean Water", "ej. Escuela El Mirador - Agua Limpia", lang)}
-                  className={inputClass}
+          {/* Community Details — only show for new projects */}
+          {formData.isNewProject && (
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+              <h2 className="text-lg font-bold text-gray-900 mb-4">
+                🏘️{" "}
+                <BLabel
+                  en="Community Details"
+                  es="Detalles de la Comunidad"
+                  lang={lang}
                 />
-              </div>
+              </h2>
 
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
                   <label className={labelClass}>
-                    <BLabel en="Project Type" es="Tipo de Proyecto" lang={lang} />
-                  </label>
-                  <select
-                    value={formData.projectType}
-                    onChange={(e) => update("projectType", e.target.value)}
-                    className={inputClass}
-                  >
-                    <option value="Clean Water">💧 {lang === "es" ? "Agua Limpia" : "Clean Water"}</option>
-                    <option value="Education">📚 {lang === "es" ? "Educacion" : "Education"}</option>
-                    <option value="Health">🏥 {lang === "es" ? "Salud" : "Health"}</option>
-                    <option value="Infrastructure">🏗️ {lang === "es" ? "Infraestructura" : "Infrastructure"}</option>
-                  </select>
-                </div>
-                <div>
-                  <label className={labelClass}>
-                    <BLabel en="Status" es="Estado" lang={lang} />
-                  </label>
-                  <select
-                    value={formData.status}
-                    onChange={(e) => update("status", e.target.value)}
-                    className={inputClass}
-                  >
-                    <option value="planning">{lang === "es" ? "Planificando" : "Planning"}</option>
-                    <option value="in_progress">{lang === "es" ? "En Progreso" : "In Progress"}</option>
-                    <option value="completed">{lang === "es" ? "Completado" : "Completed"}</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className={labelClass}>
-                    <BLabel en="Community" es="Comunidad" lang={lang} />
+                    <BLabel
+                      en="Community Name"
+                      es="Nombre de la Comunidad"
+                      lang={lang}
+                    />
                   </label>
                   <input
                     type="text"
                     value={formData.community}
                     onChange={(e) => update("community", e.target.value)}
-                    placeholder={ph("e.g. El Mirador, Solola", "ej. El Mirador, Solola", lang)}
+                    placeholder={ph(
+                      "e.g. El Mirador",
+                      "ej. El Mirador",
+                      lang
+                    )}
                     className={inputClass}
                   />
                 </div>
@@ -334,68 +456,221 @@ export default function FieldInputForm({
                     type="text"
                     value={formData.region}
                     onChange={(e) => update("region", e.target.value)}
-                    placeholder={ph("e.g. Solola, Guatemala", "ej. Solola, Guatemala", lang)}
+                    placeholder={ph(
+                      "e.g. Solola, Guatemala",
+                      "ej. Solola, Guatemala",
+                      lang
+                    )}
                     className={inputClass}
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
                   <label className={labelClass}>
-                    <BLabel en="People Served" es="Personas Beneficiadas" lang={lang} />
+                    <BLabel
+                      en="Community Population"
+                      es="Poblacion de la Comunidad"
+                      lang={lang}
+                    />
+                  </label>
+                  <input
+                    type="number"
+                    value={formData.communityPopulation}
+                    onChange={(e) =>
+                      update("communityPopulation", e.target.value)
+                    }
+                    placeholder={ph(
+                      "How many people live here?",
+                      "Cuantas personas viven aqui?",
+                      lang
+                    )}
+                    className={inputClass}
+                  />
+                </div>
+                <div>
+                  <label className={labelClass}>
+                    <BLabel
+                      en="People Impacted"
+                      es="Personas Impactadas"
+                      lang={lang}
+                    />
                   </label>
                   <input
                     type="number"
                     value={formData.peopleServed}
                     onChange={(e) => update("peopleServed", e.target.value)}
-                    placeholder="0"
-                    className={inputClass}
-                  />
-                </div>
-                <div>
-                  <label className={labelClass}>
-                    <BLabel en="Students" es="Estudiantes" lang={lang} />
-                  </label>
-                  <input
-                    type="number"
-                    value={formData.studentsImpacted}
-                    onChange={(e) => update("studentsImpacted", e.target.value)}
-                    placeholder="0"
-                    className={inputClass}
-                  />
-                </div>
-                <div>
-                  <label className={labelClass}>
-                    <BLabel en="Cost (USD)" es="Costo (USD)" lang={lang} />
-                  </label>
-                  <input
-                    type="number"
-                    value={formData.cost}
-                    onChange={(e) => update("cost", e.target.value)}
-                    placeholder="0"
+                    placeholder={ph(
+                      "How many people benefit?",
+                      "Cuantas personas se benefician?",
+                      lang
+                    )}
                     className={inputClass}
                   />
                 </div>
               </div>
-            </>
-          ) : (
-            <div className="mb-4">
-              <label className={labelClass}>
-                <BLabel en="Select Project" es="Seleccionar Proyecto" lang={lang} />
-              </label>
-              <select
-                value={formData.projectId}
-                onChange={(e) => update("projectId", e.target.value)}
-                className={inputClass}
-              >
-                <option value="">{lang === "es" ? "Elige un proyecto..." : "Choose a project..."}</option>
-                {projects.map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {p.title} - {p.community}
-                  </option>
-                ))}
-              </select>
+
+              <div>
+                <label className={labelClass}>
+                  <BLabel
+                    en="About this Community"
+                    es="Sobre esta Comunidad"
+                    lang={lang}
+                  />
+                </label>
+                <textarea
+                  value={formData.communityDescription}
+                  onChange={(e) =>
+                    update("communityDescription", e.target.value)
+                  }
+                  placeholder={ph(
+                    "Describe the community — what is life like there? What do people do? What are the main challenges?",
+                    "Describe la comunidad — como es la vida alli? Que hacen las personas? Cuales son los principales desafios?",
+                    lang
+                  )}
+                  rows={3}
+                  className={inputClass}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* School Details — toggleable, only for new projects */}
+          {formData.isNewProject && (
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h2 className="text-lg font-bold text-gray-900">
+                    🏫{" "}
+                    <BLabel
+                      en="School Details"
+                      es="Detalles de la Escuela"
+                      lang={lang}
+                    />
+                  </h2>
+                  <p className="text-sm text-gray-500 mt-1">
+                    <BLabel
+                      en="Does this project involve a school?"
+                      es="Este proyecto involucra una escuela?"
+                      lang={lang}
+                    />
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => update("hasSchool", !formData.hasSchool)}
+                  className={`relative w-12 h-6 rounded-full transition-colors ${
+                    formData.hasSchool ? "bg-emerald-600" : "bg-gray-300"
+                  }`}
+                >
+                  <span
+                    className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+                      formData.hasSchool ? "translate-x-6" : ""
+                    }`}
+                  />
+                </button>
+              </div>
+
+              {formData.hasSchool && (
+                <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 space-y-4">
+                  <div>
+                    <label className={labelClass}>
+                      <BLabel
+                        en="School Name"
+                        es="Nombre de la Escuela"
+                        lang={lang}
+                      />
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.schoolName}
+                      onChange={(e) => update("schoolName", e.target.value)}
+                      placeholder={ph(
+                        "e.g. Escuela Oficial Rural Mixta El Mirador",
+                        "ej. Escuela Oficial Rural Mixta El Mirador",
+                        lang
+                      )}
+                      className={inputClass}
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className={labelClass}>
+                        <BLabel
+                          en="Number of Students"
+                          es="Numero de Estudiantes"
+                          lang={lang}
+                        />
+                      </label>
+                      <input
+                        type="number"
+                        value={formData.schoolSize}
+                        onChange={(e) => update("schoolSize", e.target.value)}
+                        placeholder={ph(
+                          "How many students attend?",
+                          "Cuantos estudiantes asisten?",
+                          lang
+                        )}
+                        className={inputClass}
+                      />
+                    </div>
+                    <div>
+                      <label className={labelClass}>
+                        <BLabel
+                          en="Grades Served"
+                          es="Grados que Atiende"
+                          lang={lang}
+                        />
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.gradesServed}
+                        onChange={(e) => update("gradesServed", e.target.value)}
+                        placeholder={ph(
+                          "e.g. K-6, Pre-K through 6th",
+                          "ej. K-6, Preescolar a 6to",
+                          lang
+                        )}
+                        className={inputClass}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Internal tracking — only for new projects */}
+          {formData.isNewProject && (
+            <div className="bg-gray-50 rounded-xl border border-dashed border-gray-300 p-6">
+              <h2 className="text-sm font-bold text-gray-500 mb-1">
+                🔒{" "}
+                <BLabel
+                  en="Internal Only — Not Shown to Donors"
+                  es="Solo Interno — No Visible para Donantes"
+                  lang={lang}
+                />
+              </h2>
+              <p className="text-xs text-gray-400 mb-4">
+                <BLabel
+                  en="This information is for team tracking only."
+                  es="Esta informacion es solo para el equipo."
+                  lang={lang}
+                />
+              </p>
+              <div>
+                <label className={labelClass}>
+                  <BLabel en="Project Cost (USD)" es="Costo del Proyecto (USD)" lang={lang} />
+                </label>
+                <input
+                  type="number"
+                  value={formData.cost}
+                  onChange={(e) => update("cost", e.target.value)}
+                  placeholder="0"
+                  className={inputClass}
+                />
+              </div>
             </div>
           )}
         </div>
@@ -437,7 +712,11 @@ export default function FieldInputForm({
             <textarea
               value={formData.challenge}
               onChange={(e) => update("challenge", e.target.value)}
-              placeholder={ph("Describe the problem or need...", "Describe el problema o la necesidad...", lang)}
+              placeholder={ph(
+                "Describe the problem or need...",
+                "Describe el problema o la necesidad...",
+                lang
+              )}
               rows={4}
               className={inputClass}
             />
@@ -454,7 +733,11 @@ export default function FieldInputForm({
             <textarea
               value={formData.solution}
               onChange={(e) => update("solution", e.target.value)}
-              placeholder={ph("Describe the project's approach...", "Describe como el proyecto aborda el problema...", lang)}
+              placeholder={ph(
+                "Describe the project's approach...",
+                "Describe como el proyecto aborda el problema...",
+                lang
+              )}
               rows={4}
               className={inputClass}
             />
@@ -471,7 +754,11 @@ export default function FieldInputForm({
             <textarea
               value={formData.brighterFuture}
               onChange={(e) => update("brighterFuture", e.target.value)}
-              placeholder={ph("Describe the impact or expected outcome...", "Describe el impacto o resultado esperado...", lang)}
+              placeholder={ph(
+                "Describe the impact or expected outcome...",
+                "Describe el impacto o resultado esperado...",
+                lang
+              )}
               rows={4}
               className={inputClass}
             />
@@ -482,7 +769,11 @@ export default function FieldInputForm({
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h3 className="font-medium text-gray-900">
-                  <BLabel en="Add a Personal Story" es="Agregar una Historia Personal" lang={lang} />
+                  <BLabel
+                    en="Add a Personal Story"
+                    es="Agregar una Historia Personal"
+                    lang={lang}
+                  />
                 </h3>
                 <p className="text-sm text-gray-500">
                   <BLabel
@@ -493,6 +784,7 @@ export default function FieldInputForm({
                 </p>
               </div>
               <button
+                type="button"
                 onClick={() =>
                   update("hasPersonalStory", !formData.hasPersonalStory)
                 }
@@ -519,7 +811,11 @@ export default function FieldInputForm({
                       type="text"
                       value={formData.personalName}
                       onChange={(e) => update("personalName", e.target.value)}
-                      placeholder={ph("e.g. Maria Elena", "ej. Maria Elena", lang)}
+                      placeholder={ph(
+                        "e.g. Maria Elena",
+                        "ej. Maria Elena",
+                        lang
+                      )}
                       className={inputClass}
                     />
                   </div>
@@ -556,7 +852,11 @@ export default function FieldInputForm({
                 </div>
                 <div>
                   <label className={labelClass}>
-                    <BLabel en="A quote from them (in their words)" es="Una cita de ellos (en sus palabras)" lang={lang} />
+                    <BLabel
+                      en="A quote from them (in their words)"
+                      es="Una cita de ellos (en sus palabras)"
+                      lang={lang}
+                    />
                   </label>
                   <input
                     type="text"
@@ -580,7 +880,8 @@ export default function FieldInputForm({
       {step === 2 && (
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
           <h2 className="text-lg font-bold text-gray-900 mb-2">
-            📸 <BLabel en="Photos & Details" es="Fotos y Detalles" lang={lang} />
+            📸{" "}
+            <BLabel en="Photos & Details" es="Fotos y Detalles" lang={lang} />
           </h2>
           <p className="text-sm text-gray-500 mb-6">
             <BLabel
@@ -634,7 +935,11 @@ export default function FieldInputForm({
 
           <div>
             <label className={labelClass}>
-              <BLabel en="Additional Notes" es="Notas Adicionales" lang={lang} />
+              <BLabel
+                en="Additional Notes"
+                es="Notas Adicionales"
+                lang={lang}
+              />
             </label>
             <textarea
               value={formData.additionalNotes}
@@ -655,7 +960,8 @@ export default function FieldInputForm({
       {step === 3 && (
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
           <h2 className="text-lg font-bold text-gray-900 mb-4">
-            ✅ <BLabel en="Review & Submit" es="Revisar y Enviar" lang={lang} />
+            ✅{" "}
+            <BLabel en="Review & Submit" es="Revisar y Enviar" lang={lang} />
           </h2>
 
           <div className="space-y-4">
@@ -670,11 +976,38 @@ export default function FieldInputForm({
               </p>
               {formData.isNewProject && (
                 <p className="text-sm text-gray-500 mt-1">
-                  {formData.projectType} - {formData.community} -{" "}
-                  {formData.status}
+                  {formData.projectType} - {formData.community},{" "}
+                  {formData.region}
                 </p>
               )}
             </div>
+
+            {formData.isNewProject && (
+              <div className="bg-gray-50 rounded-xl p-4">
+                <h3 className="text-sm font-medium text-gray-500 mb-1">
+                  <BLabel en="Community" es="Comunidad" lang={lang} />
+                </h3>
+                <div className="space-y-1 text-sm">
+                  {formData.communityPopulation && (
+                    <p>
+                      🏘️ {lang === "es" ? "Poblacion" : "Population"}:{" "}
+                      {parseInt(formData.communityPopulation).toLocaleString()}
+                    </p>
+                  )}
+                  <p>
+                    👥 {lang === "es" ? "Personas impactadas" : "People impacted"}:{" "}
+                    {formData.peopleServed || "0"}
+                  </p>
+                  {formData.hasSchool && formData.schoolName && (
+                    <p>
+                      🏫 {formData.schoolName}
+                      {formData.schoolSize && ` (${formData.schoolSize} ${lang === "es" ? "estudiantes" : "students"})`}
+                      {formData.gradesServed && ` - ${formData.gradesServed}`}
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
 
             <div className="bg-gray-50 rounded-xl p-4">
               <h3 className="text-sm font-medium text-gray-500 mb-1">
@@ -683,15 +1016,27 @@ export default function FieldInputForm({
               <div className="space-y-1 text-sm">
                 <p>
                   {formData.challenge ? "✅" : "⬜"}{" "}
-                  <BLabel en="Challenge described" es="Desafio descrito" lang={lang} />
+                  <BLabel
+                    en="Challenge described"
+                    es="Desafio descrito"
+                    lang={lang}
+                  />
                 </p>
                 <p>
                   {formData.solution ? "✅" : "⬜"}{" "}
-                  <BLabel en="Solution described" es="Solucion descrita" lang={lang} />
+                  <BLabel
+                    en="Solution described"
+                    es="Solucion descrita"
+                    lang={lang}
+                  />
                 </p>
                 <p>
                   {formData.brighterFuture ? "✅" : "⬜"}{" "}
-                  <BLabel en="Impact described" es="Impacto descrito" lang={lang} />
+                  <BLabel
+                    en="Impact described"
+                    es="Impacto descrito"
+                    lang={lang}
+                  />
                 </p>
               </div>
             </div>
@@ -699,10 +1044,15 @@ export default function FieldInputForm({
             {formData.hasPersonalStory && (
               <div className="bg-emerald-50 rounded-xl p-4">
                 <h3 className="text-sm font-medium text-emerald-700 mb-1">
-                  <BLabel en="Personal Story" es="Historia Personal" lang={lang} />
+                  <BLabel
+                    en="Personal Story"
+                    es="Historia Personal"
+                    lang={lang}
+                  />
                 </h3>
                 <p className="font-medium text-gray-900">
-                  {formData.personalName}, {lang === "es" ? "edad" : "age"} {formData.personalAge}
+                  {formData.personalName},{" "}
+                  {lang === "es" ? "edad" : "age"} {formData.personalAge}
                 </p>
                 {formData.personalQuote && (
                   <p className="text-sm italic text-gray-600 mt-1">
@@ -717,7 +1067,8 @@ export default function FieldInputForm({
                 <BLabel en="Photos" es="Fotos" lang={lang} />
               </h3>
               <p className="text-sm text-gray-900">
-                {photos.length} {lang === "es" ? "foto" : "photo"}{photos.length !== 1 ? "s" : ""}{" "}
+                {photos.length} {lang === "es" ? "foto" : "photo"}
+                {photos.length !== 1 ? "s" : ""}{" "}
                 {lang === "es" ? "adjuntas" : "attached"}
               </p>
             </div>
@@ -728,12 +1079,18 @@ export default function FieldInputForm({
       {/* Navigation buttons */}
       <div className="flex items-center justify-between mt-6">
         <button
-          onClick={() => (step > 0 ? setStep(step - 1) : router.push("/admin"))}
+          onClick={() =>
+            step > 0 ? setStep(step - 1) : router.push("/admin")
+          }
           className="px-5 py-2.5 text-sm font-medium text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors"
         >
           {step === 0
-            ? (lang === "es" ? "Cancelar" : "Cancel")
-            : (lang === "es" ? "Atras" : "Back")}
+            ? lang === "es"
+              ? "Cancelar"
+              : "Cancel"
+            : lang === "es"
+              ? "Atras"
+              : "Back"}
         </button>
 
         {step < 3 ? (
@@ -750,8 +1107,12 @@ export default function FieldInputForm({
             className="px-6 py-2.5 text-sm font-medium text-white bg-emerald-600 rounded-xl hover:bg-emerald-700 transition-colors disabled:opacity-50"
           >
             {submitting
-              ? (lang === "es" ? "Enviando..." : "Submitting...")
-              : (lang === "es" ? "Enviar Actualizacion" : "Submit Update")}
+              ? lang === "es"
+                ? "Enviando..."
+                : "Submitting..."
+              : lang === "es"
+                ? "Enviar Actualizacion"
+                : "Submit Update"}
           </button>
         )}
       </div>

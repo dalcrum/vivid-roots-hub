@@ -2,7 +2,6 @@ import { createServerSupabase } from "@/lib/supabase-server";
 import { Project, ProjectUpdate, UpdatePhoto } from "@/lib/types";
 import ProjectHero from "@/components/ProjectHero";
 import ImpactStats from "@/components/ImpactStats";
-import FundingProgress from "@/components/FundingProgress";
 import StorySection from "@/components/StorySection";
 import PhotoGallery from "@/components/PhotoGallery";
 import CommunityContext from "@/components/CommunityContext";
@@ -65,7 +64,6 @@ export default async function ProjectPage({
     <main className="min-h-screen bg-gray-50">
       <ProjectHero project={project} />
       <ImpactStats project={project} />
-      <FundingProgress project={project} />
       {update && <StorySection update={update} />}
       <PhotoGallery photos={photos} />
       <CommunityContext project={project} />

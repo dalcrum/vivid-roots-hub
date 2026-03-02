@@ -17,7 +17,6 @@ const statusConfig: Record<string, { label: string; dot: string; text: string }>
 export default function ProjectCard({ project }: { project: Project }) {
   const status = statusConfig[project.status] || statusConfig.planning;
   const icon = typeIcons[project.type] || "📋";
-  const percentage = project.cost > 0 ? Math.round((project.funded / project.cost) * 100) : 0;
 
   return (
     <Link href={`/projects/${project.id}`} className="group">
@@ -56,23 +55,8 @@ export default function ProjectCard({ project }: { project: Project }) {
           </p>
 
           {/* Stats row */}
-          <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
-            <span>👥 {project.people_served.toLocaleString()}</span>
-            {project.students_impacted > 0 && (
-              <span>🎒 {project.students_impacted.toLocaleString()}</span>
-            )}
-          </div>
-
-          {/* Funding bar */}
-          <div className="w-full bg-gray-200 rounded-full h-2 mb-1">
-            <div
-              className={`h-2 rounded-full ${percentage >= 100 ? "bg-emerald-500" : "bg-amber-500"}`}
-              style={{ width: `${Math.min(percentage, 100)}%` }}
-            />
-          </div>
-          <div className="flex items-center justify-between text-xs text-gray-400">
-            <span>${project.funded.toLocaleString()} raised</span>
-            <span>{percentage}%</span>
+          <div className="flex items-center gap-4 text-sm text-gray-600">
+            <span>👥 {project.people_served.toLocaleString()} people impacted</span>
           </div>
         </div>
       </div>

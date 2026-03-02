@@ -13,13 +13,14 @@ export default async function Home() {
 
   // Calculate totals for the stats banner
   const totalServed = projectList.reduce((sum, p) => sum + p.people_served, 0);
-  const totalStudents = projectList.reduce(
-    (sum, p) => sum + p.students_impacted,
-    0
-  );
-  const totalFunded = projectList.reduce((sum, p) => sum + p.funded, 0);
+  const uniqueCommunities = new Set(
+    projectList.map((p) => p.community).filter(Boolean)
+  ).size;
   const completedCount = projectList.filter(
     (p) => p.status === "completed"
+  ).length;
+  const activeCount = projectList.filter(
+    (p) => p.status === "in_progress"
   ).length;
 
   return (
@@ -42,17 +43,17 @@ export default async function Home() {
             {
               icon: "👥",
               value: totalServed.toLocaleString(),
-              label: "People Served",
+              label: "People Impacted",
             },
             {
-              icon: "🎒",
-              value: totalStudents.toLocaleString(),
-              label: "Students Impacted",
+              icon: "🏘️",
+              value: uniqueCommunities.toString(),
+              label: "Communities Reached",
             },
             {
-              icon: "💰",
-              value: `$${totalFunded.toLocaleString()}`,
-              label: "Total Funded",
+              icon: "🚀",
+              value: activeCount.toString(),
+              label: "Active Projects",
             },
             {
               icon: "✅",

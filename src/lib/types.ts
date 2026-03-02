@@ -14,6 +14,10 @@ export interface Project {
   funded: number;
   hero_image_url: string | null;
   community_context: string | null;
+  community_population: number | null;
+  school_name: string | null;
+  school_size: number | null;
+  grades_served: string | null;
   started_at: string | null;
   completed_at: string | null;
   created_at: string;

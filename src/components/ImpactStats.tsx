@@ -5,17 +5,19 @@ export default function ImpactStats({ project }: { project: Project }) {
     {
       icon: "👥",
       value: project.people_served.toLocaleString(),
-      label: "People Served",
+      label: "People Impacted",
     },
     {
-      icon: "🎒",
-      value: project.students_impacted.toLocaleString(),
-      label: "Students Impacted",
+      icon: "🏘️",
+      value: project.community_population
+        ? project.community_population.toLocaleString()
+        : project.community || "—",
+      label: project.community_population ? "Community Size" : "Community",
     },
     {
-      icon: "💰",
-      value: `$${project.cost.toLocaleString()}`,
-      label: "Project Cost",
+      icon: "📍",
+      value: project.region || project.community || "Guatemala",
+      label: "Region",
     },
     {
       icon: "📅",
