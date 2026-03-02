@@ -60,10 +60,12 @@ export async function GET(request: Request) {
         .single();
 
       if (!profile) {
+        // Check if this user was invited with a specific role (stored in user metadata)
+        const intendedRole = user.user_metadata?.intended_role || "field_team";
         await supabase.from("profiles").insert({
           id: user.id,
           email: user.email,
-          role: "field_team",
+          role: intendedRole,
           preferred_language: "en",
           last_login_at: new Date().toISOString(),
         });

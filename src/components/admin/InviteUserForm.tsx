@@ -23,26 +23,14 @@ export default function InviteUserForm() {
     const supabase = createClient();
 
     try {
-      // Pre-create the profile with the chosen role
-      // The auth callback will skip creation since profile already exists
-      const { error: profileError } = await supabase.from("profiles").insert({
-        id: crypto.randomUUID(),
-        email: email,
-        role: role,
-        preferred_language: "en",
-        is_active: true,
-      });
-
-      if (profileError && !profileError.message.includes("duplicate")) {
-        throw profileError;
-      }
-
-      // Send magic link to the invited email
+      // Send magic link with the intended role stored in user metadata
+      // The auth callback will read this and create the profile with the correct role
       const { error: authError } = await supabase.auth.signInWithOtp({
         email: email,
         options: {
           shouldCreateUser: true,
           emailRedirectTo: `${window.location.origin}/auth/callback`,
+          data: { intended_role: role },
         },
       });
 
