@@ -11,6 +11,7 @@ const navKeys = [
   { href: "/admin", key: "dashboard" as const, icon: "📊" },
   { href: "/admin/projects", key: "projects" as const, icon: "📁" },
   { href: "/admin/updates/new", key: "newUpdate" as const, icon: "📝" },
+  { href: "/admin/updates", key: "reviewUpdates" as const, icon: "👀" },
   { href: "/admin/team", key: "team" as const, icon: "👥" },
 ];
 
@@ -54,7 +55,11 @@ export default function AdminSidebar({
             const isActive =
               item.href === "/admin"
                 ? pathname === "/admin"
-                : pathname.startsWith(item.href);
+                : item.href === "/admin/updates"
+                  ? pathname === "/admin/updates" ||
+                    (pathname.startsWith("/admin/updates/") &&
+                      pathname !== "/admin/updates/new")
+                  : pathname.startsWith(item.href);
             const bl = bilingualLabel(item.key, userLang);
             return (
               <li key={item.href}>

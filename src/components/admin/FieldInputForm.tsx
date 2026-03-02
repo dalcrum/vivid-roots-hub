@@ -6,6 +6,7 @@ import { Project } from "@/lib/types";
 import StepIndicator from "./StepIndicator";
 import { useRouter } from "next/navigation";
 import type { Language } from "@/lib/translations";
+import { polishUpdateAction } from "@/app/(admin)/actions";
 
 interface FormData {
   // Step 1
@@ -204,6 +205,13 @@ export default function FieldInputForm({
             is_hero: i === 0,
           });
         }
+      }
+
+      // Auto-trigger AI polish (non-blocking — if it fails, admin can polish manually)
+      try {
+        await polishUpdateAction(updateData.id);
+      } catch {
+        // Silently continue — update is saved, AI polish can happen later
       }
 
       setSubmitted(true);

@@ -20,6 +20,7 @@ export interface Project {
   grades_served: string | null;
   started_at: string | null;
   completed_at: string | null;
+  impact_story: string | null;
   created_at: string;
 }
 
@@ -36,7 +37,7 @@ export interface ProjectUpdate {
   personal_story: string | null;
   personal_story_after: string | null;
   ai_generated_narrative: string | null;
-  review_status: string;
+  review_status: "draft" | "in_review" | "published";
   created_at: string;
 }
 

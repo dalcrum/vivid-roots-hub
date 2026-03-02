@@ -70,6 +70,25 @@ export const t = {
   cancel: { en: "Cancel", es: "Cancelar" },
   edit: { en: "Edit", es: "Editar" },
   email: { en: "Email", es: "Correo Electrónico" },
+
+  // Review & Publish
+  reviewUpdates: { en: "Review Updates", es: "Revisar Actualizaciones" },
+  editProject: { en: "Edit Project", es: "Editar Proyecto" },
+  publish: { en: "Publish", es: "Publicar" },
+  sendBack: { en: "Send Back", es: "Devolver" },
+  generatePolish: { en: "Generate AI Polish", es: "Generar Pulido con IA" },
+  regenerate: { en: "Regenerate", es: "Regenerar" },
+  impactStory: { en: "Impact Story", es: "Historia de Impacto" },
+  progressSummary: { en: "Progress Summary", es: "Resumen de Progreso" },
+  markComplete: { en: "Mark as Complete", es: "Marcar como Completado" },
+  projectTimeline: { en: "Project Timeline", es: "Cronologia del Proyecto" },
+  aiGenerated: { en: "AI-generated summary", es: "Resumen generado por IA" },
+  draft: { en: "Draft", es: "Borrador" },
+  inReview: { en: "In Review", es: "En Revision" },
+  published: { en: "Published", es: "Publicado" },
+  pendingReview: { en: "Pending Review", es: "Pendientes de Revision" },
+  rawFieldNotes: { en: "Raw Field Notes", es: "Notas de Campo" },
+  aiPolished: { en: "AI-Polished Version", es: "Version Pulida por IA" },
 } as const;
 
 export type TranslationKey = keyof typeof t;

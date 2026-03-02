@@ -2,12 +2,15 @@ import { createServerSupabase } from "@/lib/supabase-server";
 import { Project, ProjectUpdate, UpdatePhoto } from "@/lib/types";
 import ProjectHero from "@/components/ProjectHero";
 import ImpactStats from "@/components/ImpactStats";
+import AISummaryCard from "@/components/AISummaryCard";
+import ProjectTimeline from "@/components/ProjectTimeline";
 import StorySection from "@/components/StorySection";
 import PhotoGallery from "@/components/PhotoGallery";
 import CommunityContext from "@/components/CommunityContext";
 import FieldNotes from "@/components/FieldNotes";
 import CallToAction from "@/components/CallToAction";
 import Link from "next/link";
+import { generateProgressSummary } from "@/lib/ai";
 
 export default async function ProjectPage({
   params,
@@ -39,35 +42,102 @@ export default async function ProjectPage({
     );
   }
 
-  // Fetch the latest published update for this project
+  // Fetch ALL published updates for this project
   const { data: updates } = await supabase
     .from("project_updates")
     .select("*")
     .eq("project_id", id)
     .eq("review_status", "published")
-    .order("created_at", { ascending: false })
-    .limit(1);
+    .order("created_at", { ascending: true });
 
-  const update = updates?.[0] as ProjectUpdate | undefined;
+  const publishedUpdates = (updates as ProjectUpdate[]) || [];
 
-  // Fetch photos
-  let photos: UpdatePhoto[] = [];
-  if (update) {
+  // Fetch photos for all published updates
+  const updateIds = publishedUpdates.map((u) => u.id);
+  let allPhotos: UpdatePhoto[] = [];
+  if (updateIds.length > 0) {
     const { data: photoData } = await supabase
       .from("update_photos")
       .select("*")
-      .eq("update_id", update.id);
-    photos = (photoData as UpdatePhoto[]) || [];
+      .in("update_id", updateIds);
+    allPhotos = (photoData as UpdatePhoto[]) || [];
   }
+
+  // Attach photos to their updates
+  const updatesWithPhotos = publishedUpdates.map((u) => ({
+    ...u,
+    photos: allPhotos.filter((p) => p.update_id === u.id),
+  }));
+
+  // Determine which view to show
+  const hasMultipleUpdates = publishedUpdates.length >= 2;
+  const isCompleted = project.status === "completed";
+  const hasImpactStory = !!project.impact_story;
+  const showTimeline = hasMultipleUpdates || isCompleted;
+
+  // Generate progress summary for active projects with multiple updates
+  let progressSummary: string | null = null;
+  if (hasMultipleUpdates && !isCompleted) {
+    const narratives = publishedUpdates.map(
+      (u) => u.ai_generated_narrative || u.field_notes || ""
+    );
+    try {
+      progressSummary = await generateProgressSummary(
+        project.title,
+        project.community || "",
+        project.type,
+        narratives
+      );
+    } catch {
+      // If AI fails, skip the summary
+    }
+  }
+
+  // For single-update view (legacy/fallback)
+  const latestUpdate =
+    publishedUpdates.length > 0
+      ? publishedUpdates[publishedUpdates.length - 1]
+      : undefined;
+  const latestPhotos = latestUpdate
+    ? allPhotos.filter((p) => p.update_id === latestUpdate.id)
+    : [];
 
   return (
     <main className="min-h-screen bg-gray-50">
       <ProjectHero project={project} />
       <ImpactStats project={project} />
-      {update && <StorySection update={update} />}
-      <PhotoGallery photos={photos} />
+
+      {/* Completed project: Impact Story at top */}
+      {isCompleted && hasImpactStory && (
+        <AISummaryCard
+          title="Impact Story"
+          content={project.impact_story!}
+          badge="Impact Story"
+        />
+      )}
+
+      {/* Active project with multiple updates: Progress Summary */}
+      {!isCompleted && progressSummary && (
+        <AISummaryCard
+          title="Progress Update"
+          content={progressSummary}
+          badge="AI Summary"
+        />
+      )}
+
+      {/* Timeline view (multiple updates or completed) */}
+      {showTimeline && <ProjectTimeline updates={updatesWithPhotos} />}
+
+      {/* Single update fallback (1 or fewer published updates, not completed) */}
+      {!showTimeline && latestUpdate && (
+        <>
+          <StorySection update={latestUpdate} />
+          <PhotoGallery photos={latestPhotos} />
+          {latestUpdate && <FieldNotes update={latestUpdate} />}
+        </>
+      )}
+
       <CommunityContext project={project} />
-      {update && <FieldNotes update={update} />}
       <div className="mt-6" />
       <CallToAction />
     </main>

@@ -62,13 +62,21 @@ export default async function AdminProjects() {
                         </span>
                       </div>
                     </div>
-                    <Link
-                      href={`/projects/${project.id}`}
-                      className="text-sm text-emerald-600 hover:underline"
-                      target="_blank"
-                    >
-                      View public page
-                    </Link>
+                    <div className="flex flex-col items-end gap-1">
+                      <Link
+                        href={`/admin/projects/${project.id}`}
+                        className="text-sm text-emerald-600 hover:underline font-medium"
+                      >
+                        Edit
+                      </Link>
+                      <Link
+                        href={`/projects/${project.id}`}
+                        className="text-xs text-gray-400 hover:underline"
+                        target="_blank"
+                      >
+                        View public page →
+                      </Link>
+                    </div>
                   </div>
                 </li>
               );
