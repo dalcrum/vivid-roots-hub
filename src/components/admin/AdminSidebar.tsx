@@ -4,18 +4,22 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
+import { bilingualLabel, type Language } from "@/lib/translations";
+import BilingualText from "./BilingualText";
 
-const navItems = [
-  { href: "/admin", label: "Dashboard", icon: "📊" },
-  { href: "/admin/projects", label: "Projects", icon: "📁" },
-  { href: "/admin/updates/new", label: "New Update", icon: "📝" },
-  { href: "/admin/team", label: "Team", icon: "👥" },
+const navKeys = [
+  { href: "/admin", key: "dashboard" as const, icon: "📊" },
+  { href: "/admin/projects", key: "projects" as const, icon: "📁" },
+  { href: "/admin/updates/new", key: "newUpdate" as const, icon: "📝" },
+  { href: "/admin/team", key: "team" as const, icon: "👥" },
 ];
 
 export default function AdminSidebar({
   userEmail,
+  userLang = "en",
 }: {
   userEmail: string | null;
+  userLang?: Language;
 }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -26,6 +30,8 @@ export default function AdminSidebar({
     router.push("/login");
   };
 
+  const signOutLabel = bilingualLabel("signOut", userLang);
+
   return (
     <aside className="w-64 bg-gray-900 text-white min-h-screen flex flex-col">
       {/* Logo */}
@@ -34,7 +40,9 @@ export default function AdminSidebar({
           <span className="text-2xl">🌱</span>
           <div>
             <span className="text-lg font-bold">Vivid Roots</span>
-            <span className="block text-xs text-gray-400">Team Portal</span>
+            <span className="block text-xs text-gray-400">
+              {userLang === "es" ? "Portal del Equipo" : "Team Portal"}
+            </span>
           </div>
         </Link>
       </div>
@@ -42,11 +50,12 @@ export default function AdminSidebar({
       {/* Navigation */}
       <nav className="flex-1 p-4">
         <ul className="space-y-1">
-          {navItems.map((item) => {
+          {navKeys.map((item) => {
             const isActive =
               item.href === "/admin"
                 ? pathname === "/admin"
                 : pathname.startsWith(item.href);
+            const bl = bilingualLabel(item.key, userLang);
             return (
               <li key={item.href}>
                 <Link
@@ -58,7 +67,11 @@ export default function AdminSidebar({
                   }`}
                 >
                   <span className="text-lg">{item.icon}</span>
-                  {item.label}
+                  <BilingualText
+                    primary={bl.primary}
+                    subtitle={bl.subtitle}
+                    className={isActive ? "" : ""}
+                  />
                 </Link>
               </li>
             );
@@ -80,13 +93,20 @@ export default function AdminSidebar({
           onClick={handleLogout}
           className="w-full text-left px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors"
         >
-          Sign out
+          <BilingualText
+            primary={signOutLabel.primary}
+            subtitle={signOutLabel.subtitle}
+          />
         </button>
         <Link
           href="/"
           className="block mt-1 px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors"
         >
-          View public site
+          {userLang === "es" ? (
+            <BilingualText primary="Ver sitio público" subtitle="View public site" />
+          ) : (
+            "View public site"
+          )}
         </Link>
       </div>
     </aside>

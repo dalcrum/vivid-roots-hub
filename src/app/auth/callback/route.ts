@@ -64,7 +64,7 @@ export async function GET(request: Request) {
           id: user.id,
           email: user.email,
           role: "field_team",
-          preferred_language: "es",
+          preferred_language: "en",
           last_login_at: new Date().toISOString(),
         });
       } else {

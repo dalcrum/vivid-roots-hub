@@ -29,7 +29,7 @@ export default function InviteUserForm() {
         id: crypto.randomUUID(),
         email: email,
         role: role,
-        preferred_language: "es",
+        preferred_language: "en",
         is_active: true,
       });
 

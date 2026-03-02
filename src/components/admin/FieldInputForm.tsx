@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase";
 import { Project } from "@/lib/types";
 import StepIndicator from "./StepIndicator";
 import { useRouter } from "next/navigation";
+import type { Language } from "@/lib/translations";
 
 interface FormData {
   // Step 1
@@ -53,10 +54,32 @@ const initialFormData: FormData = {
   additionalNotes: "",
 };
 
+// Bilingual label helper
+function BLabel({ en, es, lang }: { en: string; es: string; lang: Language }) {
+  if (lang === "es") {
+    return (
+      <span>
+        {es}
+        <span className="block text-[0.75em] text-gray-400 font-normal leading-tight">
+          {en}
+        </span>
+      </span>
+    );
+  }
+  return <>{en}</>;
+}
+
+// Bilingual placeholder helper
+function ph(en: string, es: string, lang: Language): string {
+  return lang === "es" ? es : en;
+}
+
 export default function FieldInputForm({
   projects,
+  lang = "en",
 }: {
   projects: Project[];
+  lang?: Language;
 }) {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState<FormData>(initialFormData);
@@ -161,7 +184,7 @@ export default function FieldInputForm({
       setSubmitted(true);
     } catch (error) {
       console.error("Error submitting:", error);
-      alert("Something went wrong. Please try again.");
+      alert(lang === "es" ? "Algo salio mal. Intenta de nuevo." : "Something went wrong. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -172,11 +195,14 @@ export default function FieldInputForm({
       <div className="max-w-2xl mx-auto text-center py-12">
         <div className="text-6xl mb-4">🎉</div>
         <h2 className="text-2xl font-bold text-gray-900 mb-2">
-          Update Submitted!
+          <BLabel en="Update Submitted!" es="Actualizacion Enviada!" lang={lang} />
         </h2>
         <p className="text-gray-600 mb-6">
-          Your field update has been saved as a draft. An editor will review it
-          soon.
+          <BLabel
+            en="Your field update has been saved as a draft. An editor will review it soon."
+            es="Tu actualizacion se ha guardado como borrador. Un editor la revisara pronto."
+            lang={lang}
+          />
         </p>
         <div className="flex gap-3 justify-center">
           <button
@@ -188,13 +214,13 @@ export default function FieldInputForm({
             }}
             className="bg-emerald-600 text-white font-medium px-5 py-2.5 rounded-xl hover:bg-emerald-700"
           >
-            Submit Another
+            <BLabel en="Submit Another" es="Enviar Otra" lang={lang} />
           </button>
           <button
             onClick={() => router.push("/admin")}
             className="bg-gray-200 text-gray-700 font-medium px-5 py-2.5 rounded-xl hover:bg-gray-300"
           >
-            Back to Dashboard
+            <BLabel en="Back to Dashboard" es="Volver al Panel" lang={lang} />
           </button>
         </div>
       </div>
@@ -213,7 +239,7 @@ export default function FieldInputForm({
       {step === 0 && (
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
           <h2 className="text-lg font-bold text-gray-900 mb-4">
-            📋 Basic Information
+            📋 <BLabel en="Basic Information" es="Informacion Basica" lang={lang} />
           </h2>
 
           {/* New vs existing project toggle */}
@@ -226,7 +252,7 @@ export default function FieldInputForm({
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               }`}
             >
-              🆕 New Project
+              🆕 <BLabel en="New Project" es="Nuevo Proyecto" lang={lang} />
             </button>
             <button
               onClick={() => update("isNewProject", false)}
@@ -236,69 +262,79 @@ export default function FieldInputForm({
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               }`}
             >
-              🔄 Existing Project
+              🔄 <BLabel en="Existing Project" es="Proyecto Existente" lang={lang} />
             </button>
           </div>
 
           {formData.isNewProject ? (
             <>
               <div className="mb-4">
-                <label className={labelClass}>Project Name</label>
+                <label className={labelClass}>
+                  <BLabel en="Project Name" es="Nombre del Proyecto" lang={lang} />
+                </label>
                 <input
                   type="text"
                   value={formData.projectName}
                   onChange={(e) => update("projectName", e.target.value)}
-                  placeholder="e.g. Escuela El Mirador - Clean Water"
+                  placeholder={ph("e.g. Escuela El Mirador - Clean Water", "ej. Escuela El Mirador - Agua Limpia", lang)}
                   className={inputClass}
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className={labelClass}>Project Type</label>
+                  <label className={labelClass}>
+                    <BLabel en="Project Type" es="Tipo de Proyecto" lang={lang} />
+                  </label>
                   <select
                     value={formData.projectType}
                     onChange={(e) => update("projectType", e.target.value)}
                     className={inputClass}
                   >
-                    <option value="Clean Water">💧 Clean Water</option>
-                    <option value="Education">📚 Education</option>
-                    <option value="Health">🏥 Health</option>
-                    <option value="Infrastructure">🏗️ Infrastructure</option>
+                    <option value="Clean Water">💧 {lang === "es" ? "Agua Limpia" : "Clean Water"}</option>
+                    <option value="Education">📚 {lang === "es" ? "Educacion" : "Education"}</option>
+                    <option value="Health">🏥 {lang === "es" ? "Salud" : "Health"}</option>
+                    <option value="Infrastructure">🏗️ {lang === "es" ? "Infraestructura" : "Infrastructure"}</option>
                   </select>
                 </div>
                 <div>
-                  <label className={labelClass}>Status</label>
+                  <label className={labelClass}>
+                    <BLabel en="Status" es="Estado" lang={lang} />
+                  </label>
                   <select
                     value={formData.status}
                     onChange={(e) => update("status", e.target.value)}
                     className={inputClass}
                   >
-                    <option value="planning">Planning</option>
-                    <option value="in_progress">In Progress</option>
-                    <option value="completed">Completed</option>
+                    <option value="planning">{lang === "es" ? "Planificando" : "Planning"}</option>
+                    <option value="in_progress">{lang === "es" ? "En Progreso" : "In Progress"}</option>
+                    <option value="completed">{lang === "es" ? "Completado" : "Completed"}</option>
                   </select>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className={labelClass}>Community</label>
+                  <label className={labelClass}>
+                    <BLabel en="Community" es="Comunidad" lang={lang} />
+                  </label>
                   <input
                     type="text"
                     value={formData.community}
                     onChange={(e) => update("community", e.target.value)}
-                    placeholder="e.g. El Mirador, Solola"
+                    placeholder={ph("e.g. El Mirador, Solola", "ej. El Mirador, Solola", lang)}
                     className={inputClass}
                   />
                 </div>
                 <div>
-                  <label className={labelClass}>Region</label>
+                  <label className={labelClass}>
+                    <BLabel en="Region" es="Region" lang={lang} />
+                  </label>
                   <input
                     type="text"
                     value={formData.region}
                     onChange={(e) => update("region", e.target.value)}
-                    placeholder="e.g. Solola, Guatemala"
+                    placeholder={ph("e.g. Solola, Guatemala", "ej. Solola, Guatemala", lang)}
                     className={inputClass}
                   />
                 </div>
@@ -306,7 +342,9 @@ export default function FieldInputForm({
 
               <div className="grid grid-cols-3 gap-4">
                 <div>
-                  <label className={labelClass}>People Served</label>
+                  <label className={labelClass}>
+                    <BLabel en="People Served" es="Personas Beneficiadas" lang={lang} />
+                  </label>
                   <input
                     type="number"
                     value={formData.peopleServed}
@@ -316,7 +354,9 @@ export default function FieldInputForm({
                   />
                 </div>
                 <div>
-                  <label className={labelClass}>Students</label>
+                  <label className={labelClass}>
+                    <BLabel en="Students" es="Estudiantes" lang={lang} />
+                  </label>
                   <input
                     type="number"
                     value={formData.studentsImpacted}
@@ -326,7 +366,9 @@ export default function FieldInputForm({
                   />
                 </div>
                 <div>
-                  <label className={labelClass}>Cost (USD)</label>
+                  <label className={labelClass}>
+                    <BLabel en="Cost (USD)" es="Costo (USD)" lang={lang} />
+                  </label>
                   <input
                     type="number"
                     value={formData.cost}
@@ -339,13 +381,15 @@ export default function FieldInputForm({
             </>
           ) : (
             <div className="mb-4">
-              <label className={labelClass}>Select Project</label>
+              <label className={labelClass}>
+                <BLabel en="Select Project" es="Seleccionar Proyecto" lang={lang} />
+              </label>
               <select
                 value={formData.projectId}
                 onChange={(e) => update("projectId", e.target.value)}
                 className={inputClass}
               >
-                <option value="">Choose a project...</option>
+                <option value="">{lang === "es" ? "Elige un proyecto..." : "Choose a project..."}</option>
                 {projects.map((p) => (
                   <option key={p.id} value={p.id}>
                     {p.title} - {p.community}
@@ -361,29 +405,39 @@ export default function FieldInputForm({
       {step === 1 && (
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
           <h2 className="text-lg font-bold text-gray-900 mb-2">
-            📖 The Story
+            📖 <BLabel en="The Story" es="La Historia" lang={lang} />
           </h2>
           <p className="text-sm text-gray-500 mb-6">
-            Tell us what&apos;s happening on the ground. Write in whatever language
-            feels natural.
+            <BLabel
+              en="Tell us what's happening on the ground. Write in whatever language feels natural."
+              es="Cuentanos lo que esta pasando. Escribe en el idioma que te resulte mas natural."
+              lang={lang}
+            />
           </p>
 
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
             <p className="text-sm text-amber-800">
-              💡 <strong>Tip:</strong> Don&apos;t worry about writing perfectly.
-              Just share what you see, hear, and feel. AI will help polish it
-              later.
+              💡 <strong>{lang === "es" ? "Consejo:" : "Tip:"}</strong>{" "}
+              <BLabel
+                en="Don't worry about writing perfectly. Just share what you see, hear, and feel. AI will help polish it later."
+                es="No te preocupes por escribir perfecto. Solo comparte lo que ves, escuchas y sientes. La IA lo pulira despues."
+                lang={lang}
+              />
             </p>
           </div>
 
           <div className="mb-4">
             <label className={labelClass}>
-              What challenge does the community face?
+              <BLabel
+                en="What challenge does the community face?"
+                es="Que desafio enfrenta la comunidad?"
+                lang={lang}
+              />
             </label>
             <textarea
               value={formData.challenge}
               onChange={(e) => update("challenge", e.target.value)}
-              placeholder="Describe the problem or need..."
+              placeholder={ph("Describe the problem or need...", "Describe el problema o la necesidad...", lang)}
               rows={4}
               className={inputClass}
             />
@@ -391,12 +445,16 @@ export default function FieldInputForm({
 
           <div className="mb-4">
             <label className={labelClass}>
-              What is being done to solve it?
+              <BLabel
+                en="What is being done to solve it?"
+                es="Que se esta haciendo para resolverlo?"
+                lang={lang}
+              />
             </label>
             <textarea
               value={formData.solution}
               onChange={(e) => update("solution", e.target.value)}
-              placeholder="Describe the project's approach..."
+              placeholder={ph("Describe the project's approach...", "Describe como el proyecto aborda el problema...", lang)}
               rows={4}
               className={inputClass}
             />
@@ -404,12 +462,16 @@ export default function FieldInputForm({
 
           <div className="mb-6">
             <label className={labelClass}>
-              What will be different now?
+              <BLabel
+                en="What will be different now?"
+                es="Que sera diferente ahora?"
+                lang={lang}
+              />
             </label>
             <textarea
               value={formData.brighterFuture}
               onChange={(e) => update("brighterFuture", e.target.value)}
-              placeholder="Describe the impact or expected outcome..."
+              placeholder={ph("Describe the impact or expected outcome...", "Describe el impacto o resultado esperado...", lang)}
               rows={4}
               className={inputClass}
             />
@@ -420,10 +482,14 @@ export default function FieldInputForm({
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h3 className="font-medium text-gray-900">
-                  Add a Personal Story
+                  <BLabel en="Add a Personal Story" es="Agregar una Historia Personal" lang={lang} />
                 </h3>
                 <p className="text-sm text-gray-500">
-                  A personal story makes the biggest impact on donors.
+                  <BLabel
+                    en="A personal story makes the biggest impact on donors."
+                    es="Una historia personal tiene el mayor impacto en los donantes."
+                    lang={lang}
+                  />
                 </p>
               </div>
               <button
@@ -446,47 +512,61 @@ export default function FieldInputForm({
               <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className={labelClass}>Name</label>
+                    <label className={labelClass}>
+                      <BLabel en="Name" es="Nombre" lang={lang} />
+                    </label>
                     <input
                       type="text"
                       value={formData.personalName}
                       onChange={(e) => update("personalName", e.target.value)}
-                      placeholder="e.g. Maria Elena"
+                      placeholder={ph("e.g. Maria Elena", "ej. Maria Elena", lang)}
                       className={inputClass}
                     />
                   </div>
                   <div>
-                    <label className={labelClass}>Age</label>
+                    <label className={labelClass}>
+                      <BLabel en="Age" es="Edad" lang={lang} />
+                    </label>
                     <input
                       type="number"
                       value={formData.personalAge}
                       onChange={(e) => update("personalAge", e.target.value)}
-                      placeholder="e.g. 8"
+                      placeholder={ph("e.g. 8", "ej. 8", lang)}
                       className={inputClass}
                     />
                   </div>
                 </div>
                 <div>
-                  <label className={labelClass}>Their story</label>
+                  <label className={labelClass}>
+                    <BLabel en="Their story" es="Su historia" lang={lang} />
+                  </label>
                   <textarea
                     value={formData.personalBackground}
                     onChange={(e) =>
                       update("personalBackground", e.target.value)
                     }
-                    placeholder="Who are they? How does this project affect their life?"
+                    placeholder={ph(
+                      "Who are they? How does this project affect their life?",
+                      "Quien es? Como afecta este proyecto su vida?",
+                      lang
+                    )}
                     rows={3}
                     className={inputClass}
                   />
                 </div>
                 <div>
                   <label className={labelClass}>
-                    A quote from them (in their words)
+                    <BLabel en="A quote from them (in their words)" es="Una cita de ellos (en sus palabras)" lang={lang} />
                   </label>
                   <input
                     type="text"
                     value={formData.personalQuote}
                     onChange={(e) => update("personalQuote", e.target.value)}
-                    placeholder='e.g. "Now I can drink water at school..."'
+                    placeholder={ph(
+                      'e.g. "Now I can drink water at school..."',
+                      'ej. "Ahora puedo tomar agua en la escuela..."',
+                      lang
+                    )}
                     className={`${inputClass} italic`}
                   />
                 </div>
@@ -500,11 +580,14 @@ export default function FieldInputForm({
       {step === 2 && (
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
           <h2 className="text-lg font-bold text-gray-900 mb-2">
-            📸 Photos & Details
+            📸 <BLabel en="Photos & Details" es="Fotos y Detalles" lang={lang} />
           </h2>
           <p className="text-sm text-gray-500 mb-6">
-            Upload photos from the field. The first photo will be the main
-            image.
+            <BLabel
+              en="Upload photos from the field. The first photo will be the main image."
+              es="Sube fotos del campo. La primera foto sera la imagen principal."
+              lang={lang}
+            />
           </p>
 
           {/* Photo grid */}
@@ -521,7 +604,7 @@ export default function FieldInputForm({
                 />
                 {index === 0 && (
                   <span className="absolute top-2 left-2 bg-emerald-600 text-white text-xs px-2 py-0.5 rounded-full">
-                    Main
+                    {lang === "es" ? "Principal" : "Main"}
                   </span>
                 )}
                 <button
@@ -536,7 +619,9 @@ export default function FieldInputForm({
             {/* Add photo button */}
             <label className="aspect-square rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-emerald-500 hover:bg-emerald-50 transition-colors">
               <span className="text-3xl text-gray-400 mb-1">+</span>
-              <span className="text-xs text-gray-400">Add Photo</span>
+              <span className="text-xs text-gray-400">
+                {lang === "es" ? "Agregar Foto" : "Add Photo"}
+              </span>
               <input
                 type="file"
                 accept="image/*"
@@ -548,11 +633,17 @@ export default function FieldInputForm({
           </div>
 
           <div>
-            <label className={labelClass}>Additional Notes</label>
+            <label className={labelClass}>
+              <BLabel en="Additional Notes" es="Notas Adicionales" lang={lang} />
+            </label>
             <textarea
               value={formData.additionalNotes}
               onChange={(e) => update("additionalNotes", e.target.value)}
-              placeholder="Any additional details you want to share..."
+              placeholder={ph(
+                "Any additional details you want to share...",
+                "Cualquier detalle adicional que quieras compartir...",
+                lang
+              )}
               rows={4}
               className={inputClass}
             />
@@ -564,18 +655,18 @@ export default function FieldInputForm({
       {step === 3 && (
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
           <h2 className="text-lg font-bold text-gray-900 mb-4">
-            ✅ Review & Submit
+            ✅ <BLabel en="Review & Submit" es="Revisar y Enviar" lang={lang} />
           </h2>
 
           <div className="space-y-4">
             <div className="bg-gray-50 rounded-xl p-4">
               <h3 className="text-sm font-medium text-gray-500 mb-1">
-                Project
+                <BLabel en="Project" es="Proyecto" lang={lang} />
               </h3>
               <p className="font-medium text-gray-900">
                 {formData.isNewProject
-                  ? `🆕 ${formData.projectName || "Unnamed"}`
-                  : `🔄 ${projects.find((p) => p.id === formData.projectId)?.title || "Not selected"}`}
+                  ? `🆕 ${formData.projectName || (lang === "es" ? "Sin nombre" : "Unnamed")}`
+                  : `🔄 ${projects.find((p) => p.id === formData.projectId)?.title || (lang === "es" ? "No seleccionado" : "Not selected")}`}
               </p>
               {formData.isNewProject && (
                 <p className="text-sm text-gray-500 mt-1">
@@ -586,16 +677,21 @@ export default function FieldInputForm({
             </div>
 
             <div className="bg-gray-50 rounded-xl p-4">
-              <h3 className="text-sm font-medium text-gray-500 mb-1">Story</h3>
+              <h3 className="text-sm font-medium text-gray-500 mb-1">
+                <BLabel en="Story" es="Historia" lang={lang} />
+              </h3>
               <div className="space-y-1 text-sm">
                 <p>
-                  {formData.challenge ? "✅" : "⬜"} Challenge described
+                  {formData.challenge ? "✅" : "⬜"}{" "}
+                  <BLabel en="Challenge described" es="Desafio descrito" lang={lang} />
                 </p>
                 <p>
-                  {formData.solution ? "✅" : "⬜"} Solution described
+                  {formData.solution ? "✅" : "⬜"}{" "}
+                  <BLabel en="Solution described" es="Solucion descrita" lang={lang} />
                 </p>
                 <p>
-                  {formData.brighterFuture ? "✅" : "⬜"} Impact described
+                  {formData.brighterFuture ? "✅" : "⬜"}{" "}
+                  <BLabel en="Impact described" es="Impacto descrito" lang={lang} />
                 </p>
               </div>
             </div>
@@ -603,10 +699,10 @@ export default function FieldInputForm({
             {formData.hasPersonalStory && (
               <div className="bg-emerald-50 rounded-xl p-4">
                 <h3 className="text-sm font-medium text-emerald-700 mb-1">
-                  Personal Story
+                  <BLabel en="Personal Story" es="Historia Personal" lang={lang} />
                 </h3>
                 <p className="font-medium text-gray-900">
-                  {formData.personalName}, age {formData.personalAge}
+                  {formData.personalName}, {lang === "es" ? "edad" : "age"} {formData.personalAge}
                 </p>
                 {formData.personalQuote && (
                   <p className="text-sm italic text-gray-600 mt-1">
@@ -618,10 +714,11 @@ export default function FieldInputForm({
 
             <div className="bg-gray-50 rounded-xl p-4">
               <h3 className="text-sm font-medium text-gray-500 mb-1">
-                Photos
+                <BLabel en="Photos" es="Fotos" lang={lang} />
               </h3>
               <p className="text-sm text-gray-900">
-                {photos.length} photo{photos.length !== 1 ? "s" : ""} attached
+                {photos.length} {lang === "es" ? "foto" : "photo"}{photos.length !== 1 ? "s" : ""}{" "}
+                {lang === "es" ? "adjuntas" : "attached"}
               </p>
             </div>
           </div>
@@ -634,7 +731,9 @@ export default function FieldInputForm({
           onClick={() => (step > 0 ? setStep(step - 1) : router.push("/admin"))}
           className="px-5 py-2.5 text-sm font-medium text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors"
         >
-          {step === 0 ? "Cancel" : "Back"}
+          {step === 0
+            ? (lang === "es" ? "Cancelar" : "Cancel")
+            : (lang === "es" ? "Atras" : "Back")}
         </button>
 
         {step < 3 ? (
@@ -642,7 +741,7 @@ export default function FieldInputForm({
             onClick={() => setStep(step + 1)}
             className="px-5 py-2.5 text-sm font-medium text-white bg-emerald-600 rounded-xl hover:bg-emerald-700 transition-colors"
           >
-            Next
+            {lang === "es" ? "Siguiente" : "Next"}
           </button>
         ) : (
           <button
@@ -650,7 +749,9 @@ export default function FieldInputForm({
             disabled={submitting}
             className="px-6 py-2.5 text-sm font-medium text-white bg-emerald-600 rounded-xl hover:bg-emerald-700 transition-colors disabled:opacity-50"
           >
-            {submitting ? "Submitting..." : "Submit Update"}
+            {submitting
+              ? (lang === "es" ? "Enviando..." : "Submitting...")
+              : (lang === "es" ? "Enviar Actualizacion" : "Submit Update")}
           </button>
         )}
       </div>
