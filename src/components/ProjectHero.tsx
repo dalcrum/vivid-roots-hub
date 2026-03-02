@@ -18,7 +18,7 @@ export default function ProjectHero({ project }: { project: Project }) {
   const icon = typeIcons[project.type] || "📋";
 
   return (
-    <section className="relative h-[420px] w-full overflow-hidden">
+    <section className="relative h-[420px] w-full overflow-hidden pb-16">
       {project.hero_image_url && (
         <img
           src={project.hero_image_url}

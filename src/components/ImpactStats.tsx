@@ -23,10 +23,8 @@ export default function ImpactStats({ project }: { project: Project }) {
       icon: "📅",
       value: project.completed_at
         ? new Date(project.completed_at).toLocaleDateString("en-US", { month: "short", year: "numeric" })
-        : project.started_at
-          ? new Date(project.started_at).toLocaleDateString("en-US", { month: "short", year: "numeric" })
-          : "TBD",
-      label: project.completed_at ? "Completed" : "Started",
+        : "In Progress",
+      label: project.completed_at ? "Completed" : "Status",
     },
   ];
 
