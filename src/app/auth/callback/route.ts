@@ -65,7 +65,14 @@ export async function GET(request: Request) {
           email: user.email,
           role: "field_team",
           preferred_language: "es",
+          last_login_at: new Date().toISOString(),
         });
+      } else {
+        // Update last login timestamp
+        await supabase
+          .from("profiles")
+          .update({ last_login_at: new Date().toISOString() })
+          .eq("id", user.id);
       }
     }
 
