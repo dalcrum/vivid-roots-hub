@@ -5,7 +5,7 @@ export default function FieldNotes({ update }: { update: ProjectUpdate }) {
 
   return (
     <section className="max-w-5xl mx-auto px-8 mt-10">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">
+      <h2 className="text-2xl font-bold font-heading text-gray-900 mb-6">
         Notes from the Ground
       </h2>
       <div className="bg-amber-50 border border-amber-200 rounded-xl p-6">

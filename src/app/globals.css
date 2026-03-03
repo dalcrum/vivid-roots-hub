@@ -1,6 +1,19 @@
 @import "tailwindcss";
 
 :root {
+  /* Brand Colors */
+  --brand-primary: #3D7A8A;
+  --brand-primary-dark: #2C5F6E;
+  --brand-primary-deep: #1E4652;
+  --brand-secondary: #C4663A;
+  --brand-secondary-light: #D4784E;
+  --brand-accent: #E8A838;
+  --brand-cream: #FAF6F0;
+  --brand-dark: #2C2520;
+  --brand-gray: #6B6560;
+  --brand-light-gray: #E8E4DF;
+
+  /* Defaults */
   --background: #ffffff;
   --foreground: #171717;
 }
@@ -8,12 +21,30 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+
+  /* Brand color tokens — use as bg-brand-primary, text-brand-secondary, etc. */
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-primary-dark: var(--brand-primary-dark);
+  --color-brand-primary-deep: var(--brand-primary-deep);
+  --color-brand-secondary: var(--brand-secondary);
+  --color-brand-secondary-light: var(--brand-secondary-light);
+  --color-brand-accent: var(--brand-accent);
+  --color-brand-cream: var(--brand-cream);
+  --color-brand-dark: var(--brand-dark);
+  --color-brand-gray: var(--brand-gray);
+  --color-brand-light-gray: var(--brand-light-gray);
+
+  /* Font tokens */
+  --font-heading: var(--font-dm-serif-display);
+  --font-body: var(--font-inter);
+  --font-stats: var(--font-dm-sans);
+  --font-sans: var(--font-inter);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--brand-cream);
+  color: var(--brand-dark);
+  font-family: var(--font-body), system-ui, sans-serif;
 }
 
 /* Utility for line clamping (truncating text) */

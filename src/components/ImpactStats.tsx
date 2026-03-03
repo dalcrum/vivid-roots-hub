@@ -37,8 +37,8 @@ export default function ImpactStats({ project }: { project: Project }) {
             className="bg-white rounded-xl shadow-md p-5 text-center"
           >
             <div className="text-2xl mb-1">{stat.icon}</div>
-            <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
-            <div className="text-sm text-gray-500">{stat.label}</div>
+            <div className="text-2xl font-bold text-brand-dark font-stats">{stat.value}</div>
+            <div className="text-sm text-brand-gray">{stat.label}</div>
           </div>
         ))}
       </div>

@@ -3,20 +3,20 @@ import { ProjectUpdate } from "@/lib/types";
 export default function StorySection({ update }: { update: ProjectUpdate }) {
   return (
     <section className="max-w-5xl mx-auto px-8 mt-10">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">The Story</h2>
+      <h2 className="text-2xl font-bold font-heading text-gray-900 mb-6">The Story</h2>
 
       {/* Personal quote callout */}
       {update.personal_story_quote && (
-        <div className="bg-emerald-50 border-l-4 border-emerald-500 rounded-r-xl p-6 mb-8">
-          <p className="text-emerald-900 text-lg italic mb-1">
+        <div className="bg-brand-primary/10 border-l-4 border-brand-primary rounded-r-xl p-6 mb-8">
+          <p className="text-brand-primary-deep text-lg italic mb-1">
             &ldquo;{update.personal_story_quote}&rdquo;
           </p>
           {update.personal_story_quote_en && (
-            <p className="text-emerald-700 text-sm italic mb-3">
+            <p className="text-brand-primary-dark text-sm italic mb-3">
               &ldquo;{update.personal_story_quote_en}&rdquo;
             </p>
           )}
-          <p className="text-emerald-600 text-sm font-medium">
+          <p className="text-brand-primary text-sm font-medium">
             — {update.personal_story_name}
             {update.personal_story_age ? `, age ${update.personal_story_age}` : ""}
           </p>
@@ -36,7 +36,7 @@ export default function StorySection({ update }: { update: ProjectUpdate }) {
 
       {/* Impact / progress update */}
       {update.personal_story_after && (
-        <div className="bg-gradient-to-r from-emerald-50 to-sky-50 rounded-xl p-6 border border-emerald-100">
+        <div className="bg-gradient-to-r from-brand-primary/10 to-brand-accent/10 rounded-xl p-6 border border-brand-primary/20">
           <h3 className="text-lg font-semibold text-gray-900 mb-3">
             {update.review_status === "published" ? "Impact Update" : "Progress Update"}
           </h3>

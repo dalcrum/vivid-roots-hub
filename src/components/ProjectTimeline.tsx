@@ -13,13 +13,13 @@ export default function ProjectTimeline({
 
   return (
     <section className="max-w-5xl mx-auto px-8 mt-10">
-      <h2 className="text-xl font-bold text-gray-900 mb-6">
+      <h2 className="text-xl font-bold font-heading text-gray-900 mb-6">
         📅 Project Timeline
       </h2>
 
       <div className="relative">
         {/* Vertical line */}
-        <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-emerald-200" />
+        <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-brand-primary/30" />
 
         <div className="space-y-8">
           {updates.map((update, index) => (
@@ -28,14 +28,14 @@ export default function ProjectTimeline({
               <div
                 className={`absolute left-2.5 top-1 w-3 h-3 rounded-full border-2 border-white ${
                   index === updates.length - 1
-                    ? "bg-emerald-600"
-                    : "bg-emerald-300"
+                    ? "bg-brand-primary"
+                    : "bg-brand-primary/40"
                 }`}
               />
 
               {/* Date badge */}
               <div className="mb-2">
-                <span className="text-sm font-medium text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full">
+                <span className="text-sm font-medium text-brand-primary-dark bg-brand-primary/10 px-3 py-1 rounded-full">
                   {new Date(update.created_at).toLocaleDateString("en-US", {
                     month: "long",
                     year: "numeric",
@@ -61,10 +61,10 @@ export default function ProjectTimeline({
 
                 {/* Personal story quote */}
                 {update.personal_story_quote && (
-                  <blockquote className="border-l-4 border-emerald-300 pl-4 my-4 italic text-gray-600">
+                  <blockquote className="border-l-4 border-brand-primary/40 pl-4 my-4 italic text-gray-600">
                     &quot;{update.personal_story_quote}&quot;
                     {update.personal_story_name && (
-                      <span className="block text-sm not-italic mt-1 text-emerald-700 font-medium">
+                      <span className="block text-sm not-italic mt-1 text-brand-primary-dark font-medium">
                         — {update.personal_story_name}
                         {update.personal_story_age &&
                           `, age ${update.personal_story_age}`}

@@ -37,7 +37,7 @@ export default function ProjectHero({ project }: { project: Project }) {
             {icon} {project.type}
           </span>
         </div>
-        <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+        <h1 className="text-3xl md:text-4xl font-bold font-heading text-white mb-2">
           {project.title}
         </h1>
         <p className="text-white/80 text-lg">

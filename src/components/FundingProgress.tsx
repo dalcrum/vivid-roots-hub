@@ -14,13 +14,13 @@ export default function FundingProgress({ project }: { project: Project }) {
             </span>
             <span className="text-gray-500 ml-1">raised</span>
           </div>
-          <span className={`text-lg font-bold ${isFullyFunded ? "text-emerald-600" : "text-amber-600"}`}>
+          <span className={`text-lg font-bold ${isFullyFunded ? "text-brand-primary" : "text-amber-600"}`}>
             {percentage}%
           </span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-3">
           <div
-            className={`h-3 rounded-full transition-all duration-500 ${isFullyFunded ? "bg-emerald-500" : "bg-amber-500"}`}
+            className={`h-3 rounded-full transition-all duration-500 ${isFullyFunded ? "bg-brand-primary" : "bg-amber-500"}`}
             style={{ width: `${Math.min(percentage, 100)}%` }}
           />
         </div>

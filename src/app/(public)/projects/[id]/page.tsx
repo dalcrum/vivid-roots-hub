@@ -34,7 +34,7 @@ export default async function ProjectPage({
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
             Project not found
           </h1>
-          <Link href="/" className="text-emerald-600 hover:underline">
+          <Link href="/impact" className="text-brand-primary hover:underline">
             Back to all projects
           </Link>
         </div>

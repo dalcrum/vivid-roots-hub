@@ -47,7 +47,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           <div className="text-sm text-gray-500 mb-1">
             {icon} {project.type}
           </div>
-          <h3 className="text-lg font-bold text-gray-900 mb-1 line-clamp-2 group-hover:text-emerald-700 transition-colors">
+          <h3 className="text-lg font-bold text-gray-900 mb-1 line-clamp-2 group-hover:text-brand-primary transition-colors">
             {project.title}
           </h3>
           <p className="text-sm text-gray-500 mb-4">

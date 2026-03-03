@@ -1,16 +1,28 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { DM_Serif_Display, Inter, DM_Sans } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const dmSerifDisplay = DM_Serif_Display({
+  variable: "--font-dm-serif-display",
+  subsets: ["latin"],
+  weight: "400",
+});
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+});
+
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Vivid Roots Collective - Project Hub",
+  title: "Vivid Roots Collective — Clean Water. Strong Schools. Healthy Communities.",
   description:
-    "Transforming field updates into donor engagement through maps, emails, social media, and storytelling.",
+    "We partner with rural communities in Guatemala and Ecuador to build clean water systems, renovate schools, and expand health access. $30 provides one person clean water for life. 501(c)(3) nonprofit, on the ground since 2014.",
 };
 
 export default function RootLayout({
@@ -20,7 +32,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} font-sans antialiased`}>
+      <head>
+        <Script
+          src="https://widgets.givebutter.com/latest.umd.cjs?acct=vividroots&ar=false"
+          strategy="afterInteractive"
+        />
+      </head>
+      <body
+        className={`${dmSerifDisplay.variable} ${inter.variable} ${dmSans.variable} font-body antialiased`}
+      >
         {children}
       </body>
     </html>
