@@ -30,11 +30,8 @@ export default function PublicFooter() {
               Navigate
             </div>
             {[
-              { href: "/our-work", label: "Our Work" },
+              { href: "/", label: "Home" },
               { href: "/impact", label: "Impact" },
-              { href: "/the-well", label: "The Well" },
-              { href: "/about", label: "About" },
-              { href: "/contact", label: "Contact" },
             ].map((link) => (
               <Link
                 key={link.href}

@@ -6,11 +6,7 @@ import { useState } from "react";
 import LogoMark from "./LogoMark";
 
 const navLinks = [
-  { href: "/our-work", label: "Our Work" },
   { href: "/impact", label: "Impact" },
-  { href: "/the-well", label: "The Well" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
 ];
 
 const GIVEBUTTER_URL = "https://givebutter.com/vividroots";
