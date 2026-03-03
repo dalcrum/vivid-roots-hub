@@ -1,5 +1,5 @@
+import Image from "next/image";
 import Link from "next/link";
-import LogoMark from "@/components/public/LogoMark";
 
 const GIVEBUTTER_URL = "https://givebutter.com/vividroots";
 
@@ -16,7 +16,14 @@ export default function Home() {
       >
         {/* Decorative elements */}
         <div className="absolute top-[8%] right-[4%] opacity-[0.04]">
-          <LogoMark size={520} color="#FFFFFF" />
+          <Image
+            src="/images/logo-white.png"
+            alt=""
+            width={520}
+            height={520}
+            className="object-contain"
+            aria-hidden="true"
+          />
         </div>
         <div className="absolute bottom-[-12%] left-[-6%] w-[420px] h-[420px] rounded-full bg-brand-secondary/5" />
 
@@ -155,7 +162,14 @@ export default function Home() {
 
           <div className="flex-[0_1_280px] flex flex-col gap-4 items-center">
             <div className="w-[240px] h-[240px] rounded-full bg-gradient-to-br from-brand-primary/20 to-brand-secondary/10 border border-brand-primary/15 flex items-center justify-center">
-              <LogoMark size={140} color="rgba(61,122,138,0.6)" />
+              <Image
+                src="/images/logo-white.png"
+                alt=""
+                width={140}
+                height={140}
+                className="object-contain opacity-60"
+                aria-hidden="true"
+              />
             </div>
             <p className="font-heading text-lg text-white/50 text-center italic leading-[1.5]">
               &ldquo;Roots run deep.&rdquo;
@@ -259,7 +273,14 @@ export default function Home() {
               </div>
             </div>
             <div className="opacity-[0.12]">
-              <LogoMark size={160} color="#FFFFFF" />
+              <Image
+                src="/images/logo-white.png"
+                alt=""
+                width={160}
+                height={160}
+                className="object-contain"
+                aria-hidden="true"
+              />
             </div>
           </div>
 

@@ -1,5 +1,5 @@
+import Image from "next/image";
 import Link from "next/link";
-import LogoMark from "./LogoMark";
 
 const GIVEBUTTER_URL = "https://givebutter.com/vividroots";
 
@@ -12,7 +12,13 @@ export default function PublicFooter() {
           {/* Brand column */}
           <div className="flex-1 min-w-[280px]">
             <div className="flex items-center gap-2.5 mb-3.5">
-              <LogoMark size={28} color="#FAF6F0" />
+              <Image
+                src="/images/logo-white.png"
+                alt="Vivid Roots Collective"
+                width={28}
+                height={33}
+                className="object-contain"
+              />
               <span className="font-heading text-lg text-white">
                 Vivid Roots Collective
               </span>

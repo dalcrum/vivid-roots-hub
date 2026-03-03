@@ -1,9 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import LogoMark from "./LogoMark";
 
 const navLinks = [
   { href: "/impact", label: "Impact" },
@@ -20,7 +20,13 @@ export default function PublicNav() {
       <div className="max-w-[1200px] mx-auto px-6 md:px-8 h-16 flex items-center justify-between">
         {/* Logo + wordmark */}
         <Link href="/" className="flex items-center gap-3">
-          <LogoMark size={34} color="#FAF6F0" />
+          <Image
+            src="/images/logo-white.png"
+            alt="Vivid Roots Collective"
+            width={34}
+            height={40}
+            className="object-contain"
+          />
           <span className="font-heading text-[17px] text-white tracking-[0.2px]">
             Vivid Roots Collective
           </span>
