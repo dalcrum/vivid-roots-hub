@@ -9,23 +9,17 @@ export default function Home() {
       {/* ============ HERO ============ */}
       <section
         className="min-h-[90vh] flex items-center justify-center px-6 md:px-8 py-24 relative overflow-hidden"
-        style={{
-          background:
-            "linear-gradient(165deg, var(--brand-primary-deep) 0%, var(--brand-primary-dark) 35%, var(--brand-primary) 100%)",
-        }}
       >
-        {/* Decorative elements */}
-        <div className="absolute top-[8%] right-[4%] opacity-[0.04]">
-          <Image
-            src="/images/logo-white.png"
-            alt=""
-            width={520}
-            height={520}
-            className="object-contain"
-            aria-hidden="true"
-          />
-        </div>
-        <div className="hidden md:block absolute bottom-[-12%] left-[-6%] w-[420px] h-[420px] rounded-full bg-brand-secondary/5" />
+        {/* Background photo */}
+        <Image
+          src="/images/hero-community.jpg"
+          alt="Vivid Roots community members gathered at a school in Guatemala"
+          fill
+          className="object-cover"
+          priority
+        />
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/50 to-black/30" />
 
         <div className="max-w-[820px] text-center relative z-10">
           <div className="inline-block px-4 py-1.5 rounded-full bg-brand-accent/12 border border-brand-accent/25 text-brand-accent text-[13px] font-medium tracking-[0.3px] mb-8">
@@ -161,14 +155,12 @@ export default function Home() {
           </div>
 
           <div className="flex-[0_1_100%] md:flex-[0_1_280px] flex flex-col gap-4 items-center">
-            <div className="w-[240px] h-[240px] rounded-full bg-gradient-to-br from-brand-primary/20 to-brand-secondary/10 border border-brand-primary/15 flex items-center justify-center">
+            <div className="w-[240px] h-[240px] md:w-[280px] md:h-[280px] rounded-2xl overflow-hidden relative">
               <Image
-                src="/images/logo-white.png"
-                alt=""
-                width={140}
-                height={140}
-                className="object-contain opacity-60"
-                aria-hidden="true"
+                src="/images/chain-reaction.jpg"
+                alt="Team member walking hand-in-hand with a child toward a playground"
+                fill
+                className="object-cover"
               />
             </div>
             <p className="font-heading text-lg text-white/50 text-center italic leading-[1.5]">
@@ -265,23 +257,13 @@ export default function Home() {
       {/* ============ STORY SPOTLIGHT ============ */}
       <section className="py-24 px-6 md:px-8 bg-white">
         <div className="max-w-[900px] mx-auto flex flex-wrap gap-12 items-center">
-          <div className="flex-[1_1_100%] md:flex-[1_1_340px] h-[280px] md:h-[420px] rounded-[20px] bg-gradient-to-br from-brand-primary-dark to-brand-primary flex items-center justify-center relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-            <div className="absolute bottom-5 left-5 right-5 p-3.5 px-4 bg-black/35 backdrop-blur-[10px] rounded-xl">
-              <div className="text-[12px] text-white/80">
-                📷 Community photos coming soon
-              </div>
-            </div>
-            <div className="opacity-[0.12]">
-              <Image
-                src="/images/logo-white.png"
-                alt=""
-                width={160}
-                height={160}
-                className="object-contain"
-                aria-hidden="true"
-              />
-            </div>
+          <div className="flex-[1_1_100%] md:flex-[1_1_340px] h-[280px] md:h-[420px] rounded-[20px] overflow-hidden relative">
+            <Image
+              src="/images/story-spotlight.jpg"
+              alt="Girl and team member smiling together, covered in colorful face paint"
+              fill
+              className="object-cover"
+            />
           </div>
 
           <div className="flex-[1_1_100%] md:flex-[1_1_340px]">
@@ -314,36 +296,49 @@ export default function Home() {
 
       {/* ============ PARTNERSHIP MODEL ============ */}
       <section className="py-20 px-6 md:px-8 bg-brand-cream border-t border-brand-light-gray">
-        <div className="max-w-[700px] mx-auto text-center">
-          <div className="text-[12px] font-semibold tracking-[2px] text-brand-primary uppercase mb-3.5">
-            How We Work
+        <div className="max-w-[900px] mx-auto flex flex-wrap gap-12 items-center">
+          {/* Photo */}
+          <div className="flex-[1_1_100%] md:flex-[1_1_340px] h-[280px] md:h-[400px] rounded-[20px] overflow-hidden relative">
+            <Image
+              src="/images/partnership.jpg"
+              alt="Team member laughing with young girls in a colorful doorway"
+              fill
+              className="object-cover"
+            />
           </div>
-          <h2 className="font-heading text-[34px] text-brand-dark mb-5">
-            With communities, not for them.
-          </h2>
-          <p className="text-base text-brand-gray leading-[1.8] mb-9">
-            We don&apos;t arrive with a plan. We arrive with a question:{" "}
-            <em>what do you need?</em> Every project is led by municipal
-            governments, school directors, and community leaders. We provide
-            resources, funding, and labor. They provide vision, ownership, and
-            sustainability. That&apos;s why our projects last.
-          </p>
-          <div className="flex gap-5 justify-center flex-wrap">
-            {[
-              { num: "16", label: "Community partnerships" },
-              { num: "10+", label: "Years of relationships" },
-              { num: "2", label: "Countries" },
-            ].map(({ num, label }) => (
-              <div
-                key={label}
-                className="px-7 py-5 bg-white rounded-xl border border-brand-light-gray"
-              >
-                <div className="font-stats text-[28px] font-bold text-brand-primary">
-                  {num}
+
+          {/* Text content */}
+          <div className="flex-[1_1_100%] md:flex-[1_1_340px]">
+            <div className="text-[12px] font-semibold tracking-[2px] text-brand-primary uppercase mb-3.5">
+              How We Work
+            </div>
+            <h2 className="font-heading text-[34px] text-brand-dark mb-5">
+              With communities, not for them.
+            </h2>
+            <p className="text-base text-brand-gray leading-[1.8] mb-9">
+              We don&apos;t arrive with a plan. We arrive with a question:{" "}
+              <em>what do you need?</em> Every project is led by municipal
+              governments, school directors, and community leaders. We provide
+              resources, funding, and labor. They provide vision, ownership, and
+              sustainability. That&apos;s why our projects last.
+            </p>
+            <div className="flex gap-5 flex-wrap">
+              {[
+                { num: "16", label: "Community partnerships" },
+                { num: "10+", label: "Years of relationships" },
+                { num: "2", label: "Countries" },
+              ].map(({ num, label }) => (
+                <div
+                  key={label}
+                  className="px-7 py-5 bg-white rounded-xl border border-brand-light-gray"
+                >
+                  <div className="font-stats text-[28px] font-bold text-brand-primary">
+                    {num}
+                  </div>
+                  <div className="text-[13px] text-brand-gray mt-1">{label}</div>
                 </div>
-                <div className="text-[13px] text-brand-gray mt-1">{label}</div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
