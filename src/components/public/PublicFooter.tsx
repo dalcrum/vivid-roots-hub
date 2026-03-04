@@ -10,7 +10,7 @@ export default function PublicFooter() {
         {/* Top section */}
         <div className="flex flex-wrap gap-10 justify-between mb-10">
           {/* Brand column */}
-          <div className="flex-1 min-w-[280px]">
+          <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2.5 mb-3.5">
               <Image
                 src="/images/logo-white.png"
@@ -50,7 +50,7 @@ export default function PublicFooter() {
           </div>
 
           {/* Connect column */}
-          <div className="min-w-[220px]">
+          <div className="min-w-[180px]">
             <div className="text-[11px] font-semibold tracking-[1.2px] text-brand-accent uppercase mb-4">
               Connect
             </div>
@@ -73,7 +73,7 @@ export default function PublicFooter() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[11px] text-white/40 px-3 py-1.5 rounded-md border border-white/10 hover:border-white/25 transition-colors"
+                  className="text-[11px] text-white/40 px-4 py-2.5 rounded-md border border-white/10 hover:border-white/25 transition-colors"
                 >
                   {social.label}
                 </a>

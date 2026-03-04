@@ -4,7 +4,7 @@ export default function PhotoGallery({ photos }: { photos: UpdatePhoto[] }) {
   if (!photos.length) return null;
 
   return (
-    <section className="max-w-5xl mx-auto px-8 mt-10">
+    <section className="max-w-5xl mx-auto px-4 md:px-8 mt-10">
       <h2 className="text-2xl font-bold text-gray-900 mb-6">
         📸 From the Field
       </h2>

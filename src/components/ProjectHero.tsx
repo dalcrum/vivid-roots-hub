@@ -18,7 +18,7 @@ export default function ProjectHero({ project }: { project: Project }) {
   const icon = typeIcons[project.type] || "📋";
 
   return (
-    <section className="relative h-[420px] w-full overflow-hidden pb-16">
+    <section className="relative h-[280px] md:h-[420px] w-full overflow-hidden pb-16">
       {project.hero_image_url && (
         <img
           src={project.hero_image_url}
@@ -27,7 +27,7 @@ export default function ProjectHero({ project }: { project: Project }) {
         />
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-      <div className="relative z-10 flex h-full flex-col justify-end p-8 max-w-5xl mx-auto">
+      <div className="relative z-10 flex h-full flex-col justify-end p-4 md:p-8 max-w-5xl mx-auto">
         <div className="flex items-center gap-3 mb-3">
           <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium ${status.bg} ${status.text}`}>
             <span className="w-2 h-2 rounded-full bg-current" />

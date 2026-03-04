@@ -12,7 +12,7 @@ export default function ProjectTimeline({
   if (updates.length === 0) return null;
 
   return (
-    <section className="max-w-5xl mx-auto px-8 mt-10">
+    <section className="max-w-5xl mx-auto px-4 md:px-8 mt-10">
       <h2 className="text-xl font-bold font-heading text-gray-900 mb-6">
         📅 Project Timeline
       </h2>
@@ -75,7 +75,7 @@ export default function ProjectTimeline({
 
                 {/* Photos */}
                 {update.photos.length > 0 && (
-                  <div className="grid grid-cols-3 gap-2 mt-4">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-4">
                     {update.photos.map((photo) => (
                       <div
                         key={photo.id}

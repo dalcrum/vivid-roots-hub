@@ -29,7 +29,7 @@ export default function ImpactStats({ project }: { project: Project }) {
   ];
 
   return (
-    <section className="max-w-5xl mx-auto px-8 -mt-12 relative z-20">
+    <section className="max-w-5xl mx-auto px-4 md:px-8 -mt-12 relative z-20">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {stats.map((stat) => (
           <div

@@ -39,7 +39,7 @@ export default async function AdminProjects() {
                   : 0;
               return (
                 <li key={project.id} className="p-5">
-                  <div className="flex items-start justify-between">
+                  <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <h3 className="font-bold text-gray-900">

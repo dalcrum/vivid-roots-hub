@@ -52,7 +52,7 @@ export default async function TeamPage() {
 
               return (
                 <li key={member.id} className="p-5">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                     <div className="flex items-center gap-4">
                       {/* Avatar */}
                       <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center text-white text-sm font-bold">

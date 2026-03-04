@@ -343,7 +343,7 @@ export default function FieldInputForm({
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className={labelClass}>
                       <BLabel
@@ -435,7 +435,7 @@ export default function FieldInputForm({
                 />
               </h2>
 
-              <div className="grid grid-cols-2 gap-4 mb-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                   <label className={labelClass}>
                     <BLabel
@@ -474,7 +474,7 @@ export default function FieldInputForm({
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 mb-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                   <label className={labelClass}>
                     <BLabel
@@ -602,7 +602,7 @@ export default function FieldInputForm({
                       className={inputClass}
                     />
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className={labelClass}>
                         <BLabel
@@ -810,7 +810,7 @@ export default function FieldInputForm({
 
             {formData.hasPersonalStory && (
               <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className={labelClass}>
                       <BLabel en="Name" es="Nombre" lang={lang} />
@@ -900,7 +900,7 @@ export default function FieldInputForm({
           </p>
 
           {/* Photo grid */}
-          <div className="grid grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
             {photos.map((photo, index) => (
               <div
                 key={index}

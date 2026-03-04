@@ -1,9 +1,9 @@
 export default function CallToAction() {
   return (
     <section className="mt-14 mb-0">
-      <div className="bg-gradient-to-r from-brand-primary-dark to-brand-primary py-16 px-8">
+      <div className="bg-gradient-to-r from-brand-primary-dark to-brand-primary py-12 md:py-16 px-4 md:px-8">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl font-bold font-heading text-white mb-4">
+          <h2 className="text-2xl md:text-3xl font-bold font-heading text-white mb-4">
             Want to fund a project like this?
           </h2>
           <p className="text-white/70 text-lg mb-8">

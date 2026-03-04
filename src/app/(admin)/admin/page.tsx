@@ -114,7 +114,7 @@ export default async function AdminDashboard() {
         {recentUpdates.length > 0 ? (
           <ul className="divide-y divide-gray-100">
             {recentUpdates.map((update) => (
-              <li key={update.id} className="p-5 flex items-center justify-between">
+              <li key={update.id} className="p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                 <div>
                   <p className="font-medium text-gray-900">
                     {update.projects?.title || "Unknown Project"}

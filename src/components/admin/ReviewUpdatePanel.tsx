@@ -162,7 +162,7 @@ export default function ReviewUpdatePanel({
               <h3 className="text-sm font-medium text-gray-500 mb-2">
                 Photos ({photos.length})
               </h3>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                 {photos.map((photo) => (
                   <div
                     key={photo.id}

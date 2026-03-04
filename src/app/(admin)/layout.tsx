@@ -32,7 +32,7 @@ export default async function AdminLayout({
         userEmail={user.email || null}
         userLang={userLang}
       />
-      <main className="flex-1 bg-gray-50 p-8">{children}</main>
+      <main className="flex-1 bg-gray-50 p-4 md:p-8 pt-16 md:pt-8">{children}</main>
     </div>
   );
 }

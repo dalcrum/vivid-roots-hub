@@ -2,7 +2,7 @@ import { ProjectUpdate } from "@/lib/types";
 
 export default function StorySection({ update }: { update: ProjectUpdate }) {
   return (
-    <section className="max-w-5xl mx-auto px-8 mt-10">
+    <section className="max-w-5xl mx-auto px-4 md:px-8 mt-10">
       <h2 className="text-2xl font-bold font-heading text-gray-900 mb-6">The Story</h2>
 
       {/* Personal quote callout */}

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { DM_Serif_Display, Inter, DM_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -18,6 +18,11 @@ const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin"],
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   title: "Vivid Roots Collective — Clean Water. Strong Schools. Healthy Communities.",

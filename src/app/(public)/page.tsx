@@ -25,7 +25,7 @@ export default function Home() {
             aria-hidden="true"
           />
         </div>
-        <div className="absolute bottom-[-12%] left-[-6%] w-[420px] h-[420px] rounded-full bg-brand-secondary/5" />
+        <div className="hidden md:block absolute bottom-[-12%] left-[-6%] w-[420px] h-[420px] rounded-full bg-brand-secondary/5" />
 
         <div className="max-w-[820px] text-center relative z-10">
           <div className="inline-block px-4 py-1.5 rounded-full bg-brand-accent/12 border border-brand-accent/25 text-brand-accent text-[13px] font-medium tracking-[0.3px] mb-8">
@@ -107,7 +107,7 @@ export default function Home() {
         }}
       >
         <div className="max-w-[880px] mx-auto flex flex-wrap gap-14 items-center">
-          <div className="flex-[1_1_400px]">
+          <div className="flex-[1_1_100%] md:flex-[1_1_400px]">
             <div className="text-[12px] font-semibold tracking-[2px] text-brand-accent uppercase mb-3.5">
               The Chain Reaction
             </div>
@@ -160,7 +160,7 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="flex-[0_1_280px] flex flex-col gap-4 items-center">
+          <div className="flex-[0_1_100%] md:flex-[0_1_280px] flex flex-col gap-4 items-center">
             <div className="w-[240px] h-[240px] rounded-full bg-gradient-to-br from-brand-primary/20 to-brand-secondary/10 border border-brand-primary/15 flex items-center justify-center">
               <Image
                 src="/images/logo-white.png"
@@ -265,7 +265,7 @@ export default function Home() {
       {/* ============ STORY SPOTLIGHT ============ */}
       <section className="py-24 px-6 md:px-8 bg-white">
         <div className="max-w-[900px] mx-auto flex flex-wrap gap-12 items-center">
-          <div className="flex-[1_1_340px] h-[420px] rounded-[20px] bg-gradient-to-br from-brand-primary-dark to-brand-primary flex items-center justify-center relative overflow-hidden">
+          <div className="flex-[1_1_100%] md:flex-[1_1_340px] h-[280px] md:h-[420px] rounded-[20px] bg-gradient-to-br from-brand-primary-dark to-brand-primary flex items-center justify-center relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
             <div className="absolute bottom-5 left-5 right-5 p-3.5 px-4 bg-black/35 backdrop-blur-[10px] rounded-xl">
               <div className="text-[12px] text-white/80">
@@ -284,7 +284,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex-[1_1_340px]">
+          <div className="flex-[1_1_100%] md:flex-[1_1_340px]">
             <div className="text-[12px] font-semibold tracking-[2px] text-brand-secondary uppercase mb-4">
               From the Field
             </div>

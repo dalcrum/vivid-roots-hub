@@ -66,7 +66,7 @@ export default function PublicNav() {
         {/* Mobile hamburger */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden text-white p-2"
+          className="md:hidden text-white p-3"
           aria-label="Toggle menu"
         >
           {mobileOpen ? (

@@ -36,9 +36,9 @@ export default async function ImpactPage() {
   return (
     <main className="min-h-screen bg-brand-cream">
       {/* Hero banner */}
-      <section className="bg-gradient-to-r from-brand-primary-dark to-brand-primary py-16 px-8">
+      <section className="bg-gradient-to-r from-brand-primary-dark to-brand-primary py-12 md:py-16 px-4 md:px-8">
         <div className="max-w-5xl mx-auto text-center">
-          <h1 className="font-heading text-4xl text-white mb-3">Our Impact</h1>
+          <h1 className="font-heading text-3xl md:text-4xl text-white mb-3">Our Impact</h1>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
             Every project tells a story. Explore the communities we partner with
             and see the impact of your support.
@@ -47,7 +47,7 @@ export default async function ImpactPage() {
       </section>
 
       {/* Stats bar */}
-      <section className="max-w-5xl mx-auto px-8 -mt-8 relative z-10">
+      <section className="max-w-5xl mx-auto px-4 md:px-8 -mt-8 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             {
@@ -86,7 +86,7 @@ export default async function ImpactPage() {
       </section>
 
       {/* Project grid */}
-      <section className="max-w-5xl mx-auto px-8 py-12">
+      <section className="max-w-5xl mx-auto px-4 md:px-8 py-12">
         <h2 className="font-heading text-2xl text-brand-dark mb-6">
           Our Projects
         </h2>

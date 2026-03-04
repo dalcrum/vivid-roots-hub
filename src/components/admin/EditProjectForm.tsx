@@ -139,7 +139,7 @@ export default function EditProjectForm({
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className={labelClass}>Status</label>
               <select
@@ -172,7 +172,7 @@ export default function EditProjectForm({
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className={labelClass}>Community</label>
               <input
@@ -193,7 +193,7 @@ export default function EditProjectForm({
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className={labelClass}>Community Population</label>
               <input
@@ -232,7 +232,7 @@ export default function EditProjectForm({
           <h3 className="text-sm font-bold text-gray-500 mb-3">
             🔒 Internal Only
           </h3>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className={labelClass}>Cost (USD)</label>
               <input

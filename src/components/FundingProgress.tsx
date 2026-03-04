@@ -5,7 +5,7 @@ export default function FundingProgress({ project }: { project: Project }) {
   const isFullyFunded = percentage >= 100;
 
   return (
-    <section className="max-w-5xl mx-auto px-8 mt-8">
+    <section className="max-w-5xl mx-auto px-4 md:px-8 mt-8">
       <div className="bg-white rounded-xl shadow-md p-6">
         <div className="flex items-center justify-between mb-2">
           <div>

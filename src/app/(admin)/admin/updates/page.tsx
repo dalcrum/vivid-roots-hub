@@ -45,7 +45,7 @@ export default async function UpdatesPage() {
         href={`/admin/updates/${update.id}`}
         className="block p-4 hover:bg-gray-50 transition-colors"
       >
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
           <div className="flex-1 min-w-0">
             <p className="font-medium text-gray-900 truncate">
               {project?.title || "Unknown Project"}
