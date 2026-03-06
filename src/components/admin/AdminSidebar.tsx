@@ -15,6 +15,7 @@ const navKeys = [
   { href: "/admin/updates", key: "reviewUpdates" as const, icon: "👀" },
   { href: "/admin/team", key: "team" as const, icon: "👥" },
   { href: "/admin/fundraising", key: "fundraising" as const, icon: "💚" },
+  { href: "/admin/donors", key: "donors" as const, icon: "🤝" },
 ];
 
 export default function AdminSidebar({

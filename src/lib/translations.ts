@@ -92,6 +92,9 @@ export const t = {
 
   // Fundraising
   fundraising: { en: "Fundraising", es: "Recaudación" },
+
+  // Donors
+  donors: { en: "Donors", es: "Donantes" },
 } as const;
 
 export type TranslationKey = keyof typeof t;
