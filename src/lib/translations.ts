@@ -89,6 +89,9 @@ export const t = {
   pendingReview: { en: "Pending Review", es: "Pendientes de Revision" },
   rawFieldNotes: { en: "Raw Field Notes", es: "Notas de Campo" },
   aiPolished: { en: "AI-Polished Version", es: "Version Pulida por IA" },
+
+  // Fundraising
+  fundraising: { en: "Fundraising", es: "Recaudación" },
 } as const;
 
 export type TranslationKey = keyof typeof t;
