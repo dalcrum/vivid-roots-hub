@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { createAdminSupabase } from "@/lib/supabase-admin";
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
@@ -53,28 +54,43 @@ export async function GET(request: Request) {
     } = await supabase.auth.getUser();
 
     if (user) {
-      const { data: profile } = await supabase
+      // Use the service role client for profile operations.
+      // The RLS INSERT policy only allows admins, but new users don't have
+      // a profile yet. The admin client bypasses RLS so profiles can be created.
+      const adminSupabase = createAdminSupabase();
+
+      const { data: profile } = await adminSupabase
         .from("profiles")
         .select("id")
         .eq("id", user.id)
         .single();
 
       if (!profile) {
-        // Check if this user was invited with a specific role (stored in user metadata)
+        // Create profile for new user with their invited role
         const intendedRole = user.user_metadata?.intended_role || "field_team";
-        await supabase.from("profiles").insert({
-          id: user.id,
-          email: user.email,
-          role: intendedRole,
-          preferred_language: "en",
-          last_login_at: new Date().toISOString(),
-        });
+        const { error: insertError } = await adminSupabase
+          .from("profiles")
+          .insert({
+            id: user.id,
+            email: user.email,
+            role: intendedRole,
+            preferred_language: "en",
+            last_login_at: new Date().toISOString(),
+          });
+
+        if (insertError) {
+          console.error("Failed to create profile:", user.id, insertError);
+        }
       } else {
         // Update last login timestamp
-        await supabase
+        const { error: updateError } = await adminSupabase
           .from("profiles")
           .update({ last_login_at: new Date().toISOString() })
           .eq("id", user.id);
+
+        if (updateError) {
+          console.error("Failed to update last login:", user.id, updateError);
+        }
       }
     }
 
