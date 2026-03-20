@@ -271,3 +271,48 @@ export async function saveImpactStoryAction(
 
   return { success: !error, error: error?.message };
 }
+
+/**
+ * Archive a project (soft delete)
+ */
+export async function archiveProjectAction(projectId: string) {
+  const supabase = await createServerSupabase();
+
+  const { error } = await supabase
+    .from("projects")
+    .update({ archived_at: new Date().toISOString() })
+    .eq("id", projectId);
+
+  return { success: !error, error: error?.message };
+}
+
+/**
+ * Restore an archived project
+ */
+export async function restoreProjectAction(projectId: string) {
+  const supabase = await createServerSupabase();
+
+  const { error } = await supabase
+    .from("projects")
+    .update({ archived_at: null })
+    .eq("id", projectId);
+
+  return { success: !error, error: error?.message };
+}
+
+/**
+ * Update a project's hero image URL
+ */
+export async function updateProjectHeroAction(
+  projectId: string,
+  heroImageUrl: string
+) {
+  const supabase = await createServerSupabase();
+
+  const { error } = await supabase
+    .from("projects")
+    .update({ hero_image_url: heroImageUrl })
+    .eq("id", projectId);
+
+  return { success: !error, error: error?.message };
+}

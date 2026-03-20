@@ -21,6 +21,7 @@ export interface Project {
   started_at: string | null;
   completed_at: string | null;
   impact_story: string | null;
+  archived_at: string | null;
   created_at: string;
 }
 

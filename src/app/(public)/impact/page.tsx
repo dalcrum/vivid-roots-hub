@@ -14,6 +14,7 @@ export default async function ImpactPage() {
   const { data: projects } = await supabase
     .from("projects")
     .select("*")
+    .is("archived_at", null)
     .order("created_at", { ascending: false });
 
   const projectList = (projects as Project[]) || [];

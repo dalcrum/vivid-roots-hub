@@ -1,6 +1,7 @@
 import { createServerSupabase } from "@/lib/supabase-server";
 import { Project } from "@/lib/types";
 import Link from "next/link";
+import { ArchiveButton, RestoreButton } from "@/components/admin/ProjectActions";
 
 const statusConfig: Record<string, { label: string; bg: string; text: string }> = {
   completed: { label: "Completed", bg: "bg-emerald-100", text: "text-emerald-700" },
@@ -15,7 +16,9 @@ export default async function AdminProjects() {
     .select("*")
     .order("created_at", { ascending: false });
 
-  const projectList = (projects as Project[]) || [];
+  const allProjects = (projects as Project[]) || [];
+  const activeProjects = allProjects.filter((p) => !p.archived_at);
+  const archivedProjects = allProjects.filter((p) => p.archived_at);
 
   return (
     <div className="max-w-5xl">
@@ -23,15 +26,21 @@ export default async function AdminProjects() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Projects</h1>
           <p className="text-gray-500 text-sm mt-1">
-            Manage all your projects.
+            Manage all your projects. Archive duplicates or old projects to keep things clean.
           </p>
         </div>
       </div>
 
+      {/* Active Projects */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-        {projectList.length > 0 ? (
+        <div className="p-5 border-b border-gray-100">
+          <h2 className="text-lg font-bold text-gray-900">
+            Active Projects ({activeProjects.length})
+          </h2>
+        </div>
+        {activeProjects.length > 0 ? (
           <ul className="divide-y divide-gray-100">
-            {projectList.map((project) => {
+            {activeProjects.map((project) => {
               const status = statusConfig[project.status] || statusConfig.planning;
               const percentage =
                 project.cost > 0
@@ -76,6 +85,7 @@ export default async function AdminProjects() {
                       >
                         View public page →
                       </Link>
+                      <ArchiveButton projectId={project.id} projectTitle={project.title} />
                     </div>
                   </div>
                 </li>
@@ -84,10 +94,41 @@ export default async function AdminProjects() {
           </ul>
         ) : (
           <div className="p-8 text-center text-gray-400">
-            <p>No projects yet.</p>
+            <p>No active projects.</p>
           </div>
         )}
       </div>
+
+      {/* Archived Projects */}
+      {archivedProjects.length > 0 && (
+        <div className="mt-8 bg-white rounded-xl shadow-sm border border-gray-100 opacity-75">
+          <div className="p-5 border-b border-gray-100">
+            <h2 className="text-lg font-bold text-gray-500">
+              📦 Archived ({archivedProjects.length})
+            </h2>
+            <p className="text-xs text-gray-400 mt-1">
+              These projects are hidden from the public site. Restore them anytime.
+            </p>
+          </div>
+          <ul className="divide-y divide-gray-100">
+            {archivedProjects.map((project) => (
+              <li key={project.id} className="p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-medium text-gray-500">
+                      {project.title}
+                    </h3>
+                    <p className="text-xs text-gray-400">
+                      📍 {project.community} - {project.type}
+                    </p>
+                  </div>
+                  <RestoreButton projectId={project.id} />
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

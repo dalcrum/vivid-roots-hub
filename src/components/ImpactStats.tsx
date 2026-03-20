@@ -21,10 +21,14 @@ export default function ImpactStats({ project }: { project: Project }) {
     },
     {
       icon: "📅",
-      value: project.completed_at
-        ? new Date(project.completed_at).toLocaleDateString("en-US", { month: "short", year: "numeric" })
-        : "In Progress",
-      label: project.completed_at ? "Completed" : "Status",
+      value: project.status === "completed"
+        ? project.completed_at
+          ? new Date(project.completed_at).toLocaleDateString("en-US", { month: "short", year: "numeric" })
+          : "Completed"
+        : project.status === "in_progress"
+          ? "In Progress"
+          : "Planning",
+      label: "Status",
     },
   ];
 

@@ -7,8 +7,10 @@ import {
   updateProjectMetadataAction,
   generateImpactStoryAction,
   saveImpactStoryAction,
+  updateProjectHeroAction,
 } from "@/app/(admin)/actions";
 import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase";
 import Link from "next/link";
 
 export default function EditProjectForm({
@@ -44,6 +46,46 @@ export default function EditProjectForm({
   const [impactStory, setImpactStory] = useState(
     project.impact_story || ""
   );
+  const [heroUrl, setHeroUrl] = useState(project.hero_image_url || "");
+  const [uploadingHero, setUploadingHero] = useState(false);
+
+  const handleHeroUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingHero(true);
+    setMessage(null);
+
+    try {
+      const supabase = createClient();
+      const ext = file.name.split(".").pop();
+      const fileName = `heroes/${project.id}/${Date.now()}.${ext}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("project-photos")
+        .upload(fileName, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from("project-photos")
+        .getPublicUrl(fileName);
+
+      const result = await updateProjectHeroAction(project.id, publicUrl);
+      if (result.success) {
+        setHeroUrl(publicUrl);
+        setMessage({ type: "success", text: "Hero image updated!" });
+        router.refresh();
+      } else {
+        throw new Error(result.error || "Failed to save");
+      }
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : "Upload failed";
+      setMessage({ type: "error", text: msg });
+    } finally {
+      setUploadingHero(false);
+    }
+  };
 
   const update = (field: string, value: string | number) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -122,6 +164,36 @@ export default function EditProjectForm({
 
   return (
     <div className="space-y-6">
+      {/* Hero Image */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <h2 className="text-lg font-bold text-gray-900 mb-4">
+          📷 Project Photo
+        </h2>
+        {heroUrl ? (
+          <div className="relative rounded-xl overflow-hidden mb-4">
+            <img
+              src={heroUrl}
+              alt={project.title}
+              className="w-full h-48 object-cover"
+            />
+          </div>
+        ) : (
+          <div className="w-full h-48 bg-gray-100 rounded-xl flex items-center justify-center mb-4">
+            <p className="text-gray-400 text-sm">No photo yet — upload one below</p>
+          </div>
+        )}
+        <label className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-emerald-600 bg-emerald-50 rounded-xl hover:bg-emerald-100 transition-colors cursor-pointer">
+          {uploadingHero ? "Uploading..." : heroUrl ? "Replace Photo" : "Upload Photo"}
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleHeroUpload}
+            disabled={uploadingHero}
+            className="hidden"
+          />
+        </label>
+      </div>
+
       {/* Project Metadata */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
         <h2 className="text-lg font-bold text-gray-900 mb-4">
