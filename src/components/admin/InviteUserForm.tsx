@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { createClient } from "@/lib/supabase";
+import { useRouter } from "next/navigation";
+import { inviteTeamMember } from "@/app/(admin)/admin/team/actions";
 
 export default function InviteUserForm() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("field_team");
@@ -20,35 +22,24 @@ export default function InviteUserForm() {
     setSending(true);
     setMessage(null);
 
-    const supabase = createClient();
-
     try {
-      // Send magic link with the intended role stored in user metadata
-      // The auth callback will read this and create the profile with the correct role
-      const { error: authError } = await supabase.auth.signInWithOtp({
-        email: email,
-        options: {
-          shouldCreateUser: true,
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
-          data: { intended_role: role },
-        },
-      });
+      const result = await inviteTeamMember(email, role);
 
-      if (authError) throw authError;
-
-      setMessage({
-        type: "success",
-        text: `Invitation sent to ${email}! They will receive a magic link to sign in.`,
-      });
-      setEmail("");
-      setRole("field_team");
+      if (result.error) {
+        setMessage({ type: "error", text: result.error });
+      } else {
+        setMessage({
+          type: "success",
+          text: `Invitation sent to ${email}! They will appear below and receive a magic link to sign in.`,
+        });
+        setEmail("");
+        setRole("field_team");
+        router.refresh();
+      }
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : "Something went wrong";
-      setMessage({
-        type: "error",
-        text: errorMessage,
-      });
+      setMessage({ type: "error", text: errorMessage });
     } finally {
       setSending(false);
     }
