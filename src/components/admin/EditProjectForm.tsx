@@ -10,7 +10,6 @@ import {
   updateProjectHeroAction,
 } from "@/app/(admin)/actions";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase";
 import Link from "next/link";
 
 export default function EditProjectForm({
@@ -57,23 +56,19 @@ export default function EditProjectForm({
     setMessage(null);
 
     try {
-      const supabase = createClient();
-      const ext = file.name.split(".").pop();
-      const fileName = `heroes/${project.id}/${Date.now()}.${ext}`;
+      // Upload via server API route (uses admin client to bypass storage RLS)
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("folder", `heroes/${project.id}`);
 
-      const { error: uploadError } = await supabase.storage
-        .from("project-photos")
-        .upload(fileName, file);
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const data = await res.json();
 
-      if (uploadError) throw uploadError;
+      if (!res.ok) throw new Error(data.error || "Upload failed");
 
-      const { data: { publicUrl } } = supabase.storage
-        .from("project-photos")
-        .getPublicUrl(fileName);
-
-      const result = await updateProjectHeroAction(project.id, publicUrl);
+      const result = await updateProjectHeroAction(project.id, data.url);
       if (result.success) {
-        setHeroUrl(publicUrl);
+        setHeroUrl(data.url);
         setMessage({ type: "success", text: "Hero image updated!" });
         router.refresh();
       } else {

@@ -184,23 +184,20 @@ export default function FieldInputForm({
 
       if (updateError) throw updateError;
 
-      // Upload photos
+      // Upload photos via server API route (bypasses storage RLS)
       for (let i = 0; i < photos.length; i++) {
         const file = photos[i];
-        const fileName = `${updateData.id}/${Date.now()}-${i}.${file.name.split(".").pop()}`;
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("folder", `updates/${updateData.id}`);
 
-        const { error: uploadError } = await supabase.storage
-          .from("project-photos")
-          .upload(fileName, file);
+        const res = await fetch("/api/upload", { method: "POST", body: formData });
+        const data = await res.json();
 
-        if (!uploadError) {
-          const {
-            data: { publicUrl },
-          } = supabase.storage.from("project-photos").getPublicUrl(fileName);
-
+        if (res.ok && data.url) {
           await supabase.from("update_photos").insert({
             update_id: updateData.id,
-            photo_url: publicUrl,
+            photo_url: data.url,
             caption: null,
             is_hero: i === 0,
           });
