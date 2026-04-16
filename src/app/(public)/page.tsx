@@ -4,10 +4,11 @@ import HeroCycler from "@/components/public/HeroCycler";
 import s from "./page.module.css";
 
 const GIVEBUTTER_URL = "https://givebutter.com/vividroots";
-// Square transparent-bg logos. logo-white.png for dark backgrounds (nav,
-// footer-navy); logo-color.png (blue mark) for the cream footer strip.
-const LOGO_LIGHT = "/images/logo-white.png";
-const LOGO_CREAM = "/images/logo-color.png";
+// Horizontal wordmark logos with transparent backgrounds.
+// logo-wordmark-white.png for dark surfaces (nav, footer-navy);
+// logo-wordmark-teal.png (brand teal) for the cream footer strip.
+const LOGO_LIGHT = "/images/logo-wordmark-white.png";
+const LOGO_CREAM = "/images/logo-wordmark-teal.png";
 
 /**
  * Homepage — 2026 brand refresh.
@@ -425,7 +426,7 @@ export default function Home() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={LOGO_LIGHT}
-              style={{ height: "40px", width: "auto" }}
+              style={{ height: "48px", width: "auto" }}
               alt="Vivid Roots — Live Vividly"
             />
             <div className={s.footLinks}>
@@ -450,7 +451,7 @@ export default function Home() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={LOGO_CREAM}
-              style={{ height: "32px", width: "auto" }}
+              style={{ height: "28px", width: "auto" }}
               alt="Vivid Roots — Live Vividly"
             />
             <span className={s.footLegal}>
