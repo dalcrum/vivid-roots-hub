@@ -50,9 +50,10 @@
   z-index: 2;
   background: linear-gradient(
     to bottom,
-    rgba(26, 46, 53, 0.25) 0%,
-    rgba(26, 46, 53, 0.55) 38%,
-    rgba(26, 46, 53, 0.96) 100%
+    rgba(26, 46, 53, 0.35) 0%,
+    rgba(26, 46, 53, 0.7) 45%,
+    rgba(26, 46, 53, 0.92) 70%,
+    rgba(26, 46, 53, 0.985) 100%
   );
 }
 .nav {
@@ -65,10 +66,10 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 5vw;
-  height: 80px;
+  height: 96px;
 }
 .logoImg {
-  height: 44px;
+  height: 56px;
   width: auto;
 }
 .navLinks {
@@ -179,21 +180,24 @@
   font-size: 0.88rem;
   padding: 11px 22px;
 }
-.btnGhost {
+a.btnGhost {
   display: inline-flex;
   align-items: center;
   padding: 14px 28px;
   border-radius: 999px;
-  background: transparent;
+  background: rgba(26, 46, 53, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   color: #fff;
   font-size: 1rem;
-  font-weight: 400;
-  border: 1px solid rgba(249, 245, 237, 0.38);
-  transition: border-color 0.2s;
+  font-weight: 500;
+  border: 1px solid rgba(249, 245, 237, 0.55);
+  transition: background 0.2s, border-color 0.2s;
   white-space: nowrap;
 }
-.btnGhost:hover {
-  border-color: rgba(249, 245, 237, 0.7);
+a.btnGhost:hover {
+  background: rgba(26, 46, 53, 0.75);
+  border-color: rgba(249, 245, 237, 0.85);
 }
 
 /* ── STAT BAND ── */
