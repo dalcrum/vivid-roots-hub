@@ -1,488 +1,464 @@
 import Image from "next/image";
 import Link from "next/link";
+import HeroCycler from "@/components/public/HeroCycler";
+import s from "./page.module.css";
 
 const GIVEBUTTER_URL = "https://givebutter.com/vividroots";
+const LOGO_LIGHT = "/images/mockup-logo-light.png";
+const LOGO_CREAM = "/images/mockup-logo-cream.png";
 
+/**
+ * Homepage — 2026 brand refresh.
+ *
+ * This page inlines its own nav + footer (part of the new design). The
+ * surrounding (public) layout has been updated to render {children} only,
+ * so /projects and /impact each bring their own PublicNav + PublicFooter.
+ */
 export default function Home() {
   return (
-    <main className="bg-brand-cream overflow-x-hidden">
-      {/* ============ HERO ============ */}
-      <section
-        className="min-h-[90vh] flex items-center justify-center px-6 md:px-8 py-24 relative overflow-hidden"
-      >
-        {/* Background photo */}
-        <Image
-          src="/images/hero-community.jpg"
-          alt="Vivid Roots community members gathered at a school in Guatemala"
-          fill
-          className="object-cover"
-          priority
-        />
-        {/* Dark overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/50 to-black/30" />
-
-        <div className="max-w-[820px] text-center relative z-10">
-          <div className="inline-block px-4 py-1.5 rounded-full bg-brand-accent/12 border border-brand-accent/25 text-brand-accent text-[13px] font-medium tracking-[0.3px] mb-8">
+    <main className={s.page}>
+      {/* ═══ HERO ═══ */}
+      <section className={s.hero}>
+        <div className={s.heroBg} />
+        <div className={s.heroOverlay} />
+        <nav className={s.nav}>
+          <Link href="/" aria-label="Vivid Roots Collective home">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={LOGO_LIGHT}
+              className={s.logoImg}
+              alt="Vivid Roots — Live Vividly"
+            />
+          </Link>
+          <div className={s.navLinks}>
+            <a href="#foundations">Our Work</a>
+            <a href="#the-well">The Well</a>
+            <Link href="/impact">Impact</Link>
+          </div>
+        </nav>
+        <div className={s.heroContent}>
+          <div className={s.badge}>
             On the ground in Guatemala &amp; Ecuador since 2014
           </div>
-
-          <h1 className="font-heading text-[clamp(36px,5.5vw,62px)] text-white leading-[1.12] mb-6">
-            Clean water.
-            <br />
-            Strong schools.
-            <br />
-            Healthy communities.
+          <h1 className={`${s.h1} ${s.serif}`}>
+            <span style={{ display: "block" }}>Some people feel forgotten.</span>
+            <span style={{ display: "block" }}>We go back for them.</span>
+            <HeroCycler />
           </h1>
-
-          <p className="text-[17px] text-white/70 leading-[1.75] max-w-[560px] mx-auto mb-10">
-            Poverty isn&apos;t one problem — it&apos;s a cycle. We break it by
-            building all three foundations together, in partnership with the
-            communities who lead the way.
+          <p className={s.heroSub}>
+            The world keeps moving. Some people get left behind. Your $30 starts
+            a ripple that doesn&apos;t stop &mdash; clean water, a girl back in
+            school, a family that finally has room to breathe. Join us.
           </p>
-
-          <div className="flex gap-3.5 justify-center flex-wrap">
+          <div className={s.btns}>
             <a
               href={GIVEBUTTER_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-base font-semibold bg-brand-secondary text-white border-none rounded-xl px-8 py-4 shadow-[0_4px_20px_rgba(196,102,58,0.35)] transition-all duration-300 hover:bg-brand-secondary-light hover:-translate-y-0.5"
+              className={s.btnGold}
             >
-              Give $30 &rarr; Clean Water for Life
+              Give Hope → Start a Ripple <span className={s.amt}>$30</span>
             </a>
-            <Link
-              href="/impact"
-              className="text-base font-medium bg-transparent text-white border border-white/25 rounded-xl px-7 py-4 transition-all duration-300 hover:border-white/50 hover:bg-white/5"
-            >
-              See the Chain Reaction
-            </Link>
-          </div>
-
-          <div className="mt-14 px-8 py-5 bg-white/6 rounded-[14px] border border-white/8 inline-flex items-center gap-4">
-            <span className="font-stats text-[38px] font-bold text-brand-accent">
-              $30
-            </span>
-            <span className="text-[15px] text-white/65 text-left leading-[1.55]">
-              starts the chain reaction —
-              <br />
-              clean water for one person,{" "}
-              <strong className="text-white">for life</strong>
-            </span>
+            <a href="#foundations" className={s.btnGhost}>
+              See the Ripple
+            </a>
           </div>
         </div>
       </section>
 
-      {/* ============ IMPACT STATS ============ */}
-      <section className="bg-white py-14 px-6 md:px-8 border-b border-brand-light-gray">
-        <div className="max-w-[900px] mx-auto flex justify-around flex-wrap gap-2">
-          {[
-            { value: "5,100+", label: "Lives Impacted" },
-            { value: "16", label: "Communities Partnered" },
-            { value: "14", label: "Schools Transformed" },
-            { value: "10+", label: "Years on the Ground" },
-          ].map((stat) => (
-            <div key={stat.label} className="text-center px-5 py-5">
-              <div className="font-stats text-[44px] font-bold text-brand-accent leading-none">
-                {stat.value}
-              </div>
-              <div className="text-[14px] text-brand-gray mt-2 tracking-[0.3px]">
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ============ CHAIN REACTION ============ */}
-      <section
-        className="py-24 px-6 md:px-8"
-        style={{
-          background:
-            "linear-gradient(170deg, var(--brand-dark) 0%, #3A3530 100%)",
-        }}
-      >
-        <div className="max-w-[880px] mx-auto flex flex-wrap gap-14 items-center">
-          <div className="flex-[1_1_100%] md:flex-[1_1_400px]">
-            <div className="text-[12px] font-semibold tracking-[2px] text-brand-accent uppercase mb-3.5">
-              The Chain Reaction
-            </div>
-            <h2 className="font-heading text-[36px] text-white leading-[1.25] mb-5">
-              Water, education, and health aren&apos;t three separate problems.
-            </h2>
-            <p className="text-base text-white/60 leading-[1.75] mb-9">
-              They&apos;re three threads in the same knot. Pull one, the others
-              loosen. Build all three, and the whole cycle starts to reverse.
-            </p>
-
-            {/* Chain links */}
-            {[
-              {
-                num: "1",
-                text: "A family gets a water filter. Waterborne illness drops almost immediately. Children stop missing school.",
-              },
-              {
-                num: "2",
-                text: "A renovated school with real bathrooms means girls stay enrolled instead of dropping out. Teachers can finally teach.",
-              },
-              {
-                num: "3",
-                text: "A functioning health center brings prenatal care, hygiene education, and trained workers. Families can plan ahead instead of just surviving.",
-              },
-              {
-                num: "4",
-                text: "The cycle reverses. Healthier children stay in school. Educated mothers invest 90% of their income back into their families. Communities build their own future.",
-                isLast: true,
-              },
-            ].map((step) => (
-              <div
-                key={step.num}
-                className={`flex items-start gap-4 ${step.isLast ? "" : "mb-1"}`}
-              >
-                <div className="flex flex-col items-center">
-                  <div className="w-9 h-9 rounded-full bg-brand-accent flex items-center justify-center font-stats text-[14px] font-bold text-brand-dark shrink-0">
-                    {step.num}
-                  </div>
-                  {!step.isLast && (
-                    <div className="w-0.5 h-8 bg-brand-accent/30 my-1" />
-                  )}
-                </div>
-                <p
-                  className={`text-[15px] text-white/85 leading-[1.6] mt-1.5 ${step.isLast ? "" : "pb-3"}`}
-                >
-                  {step.text}
-                </p>
-              </div>
-            ))}
+      {/* ═══ STAT BAND ═══ */}
+      <div className={s.statBand}>
+        <div className={s.statGrid}>
+          <div className={s.statItem}>
+            <div className={`${s.statNum} ${s.serif}`}>100%</div>
+            <div className={s.statLbl}>Community-Led Implementation</div>
           </div>
-
-          <div className="flex-[0_1_100%] md:flex-[0_1_280px] flex flex-col gap-4 items-center">
-            <div className="w-[240px] h-[240px] md:w-[280px] md:h-[280px] rounded-2xl overflow-hidden relative">
-              <Image
-                src="/images/chain-reaction.jpg"
-                alt="Team member walking hand-in-hand with a child toward a playground"
-                fill
-                className="object-cover"
-              />
-            </div>
-            <p className="font-heading text-lg text-white/50 text-center italic leading-[1.5]">
-              &ldquo;Roots run deep.&rdquo;
-            </p>
+          <div className={s.statItem}>
+            <div className={`${s.statNum} ${s.serif}`}>51,000+</div>
+            <div className={s.statLbl}>Lives Changed</div>
+          </div>
+          <div className={s.statItem}>
+            <div className={`${s.statNum} ${s.serif}`}>12</div>
+            <div className={s.statLbl}>Years on the Ground</div>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* ============ THREE PILLARS ============ */}
-      <section className="py-24 px-6 md:px-8 bg-brand-cream">
-        <div className="max-w-[1020px] mx-auto">
-          <div className="text-center mb-14">
-            <div className="text-[12px] font-semibold tracking-[2px] text-brand-secondary uppercase mb-3">
-              Three Foundations
-            </div>
-            <h2 className="font-heading text-[38px] text-brand-dark mb-3">
-              One system. Built together.
-            </h2>
-            <p className="text-base text-brand-gray max-w-[520px] mx-auto leading-[1.7]">
-              Each pillar strengthens the others. That&apos;s why we don&apos;t
-              choose one — we build all three.
-            </p>
-          </div>
-
-          <div className="flex gap-6 flex-wrap justify-center">
-            {[
-              {
-                icon: "💧",
-                title: "Clean Water",
-                subtitle: "Where Everything Starts",
-                description:
-                  "Families drink from the same rivers they wash in. Children contract parasites from water that looks clear. A $30 filtration system changes that \u2014 and returns time, health, and money to families who had none to spare.",
-                ripple:
-                  "When waterborne illness drops, children attend school. Parents stop spending scarce income on preventable medicine. The chain reaction begins.",
-                color: "var(--brand-primary)",
-              },
-              {
-                icon: "\uD83D\uDCDA",
-                title: "Education",
-                subtitle: "The Lever That Lifts Everything",
-                description:
-                  "Schools where roofs leak, classrooms sit empty, and there are no bathrooms \u2014 so adolescent girls simply stop coming. We renovate alongside local teachers and directors to create spaces where learning actually happens.",
-                ripple:
-                  "Every year of schooling increases earning potential by 10%. Educated women invest 90% of income back into their families. A school isn\u2019t a building \u2014 it\u2019s a multiplier.",
-                color: "var(--brand-secondary)",
-              },
-              {
-                icon: "\uD83C\uDFE5",
-                title: "Health Access",
-                subtitle: "The Multiplier",
-                description:
-                  "The nearest health center might be a two-hour walk \u2014 if it exists. Girls miss school monthly without hygiene products. We renovate health centers and partner with Days For Girls to bring reproductive health education.",
-                ripple:
-                  "When families access preventive care, they spend less on emergencies. When girls have hygiene kits, they stay in school. Health gives communities stability to plan, invest, and grow.",
-                color: "var(--brand-accent)",
-              },
-            ].map((pillar) => (
-              <div
-                key={pillar.title}
-                className="flex-[1_1_300px] bg-white rounded-2xl px-7 py-10 transition-all duration-[350ms] shadow-[0_2px_12px_rgba(0,0,0,0.05)] hover:-translate-y-1.5 hover:shadow-[0_16px_40px_rgba(61,122,138,0.14)] cursor-pointer"
-                style={{ borderTop: `4px solid ${pillar.color}` }}
-              >
-                <div className="text-4xl mb-3">{pillar.icon}</div>
-                <div
-                  className="text-[11px] font-semibold tracking-[1.5px] uppercase mb-1.5"
-                  style={{ color: pillar.color }}
-                >
-                  {pillar.subtitle}
-                </div>
-                <h3 className="font-heading text-[22px] text-brand-dark mb-3.5">
-                  {pillar.title}
-                </h3>
-                <p className="text-[15px] text-brand-gray leading-[1.75] mb-4">
-                  {pillar.description}
-                </p>
-                <div
-                  className="p-3 px-4 rounded-[10px]"
-                  style={{
-                    backgroundColor: `${pillar.color}0A`,
-                    borderLeft: `3px solid ${pillar.color}`,
-                  }}
-                >
-                  <p className="text-[13px] text-brand-dark leading-[1.65] italic">
-                    {pillar.ripple}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ============ STORY SPOTLIGHT ============ */}
-      <section className="py-24 px-6 md:px-8 bg-white">
-        <div className="max-w-[900px] mx-auto flex flex-wrap gap-12 items-center">
-          <div className="flex-[1_1_100%] md:flex-[1_1_340px] h-[280px] md:h-[420px] rounded-[20px] overflow-hidden relative">
-            <Image
-              src="/images/story-spotlight.jpg"
-              alt="Girl and team member smiling together, covered in colorful face paint"
-              fill
-              className="object-cover"
-            />
-          </div>
-
-          <div className="flex-[1_1_100%] md:flex-[1_1_340px]">
-            <div className="text-[12px] font-semibold tracking-[2px] text-brand-secondary uppercase mb-4">
-              From the Field
-            </div>
-            <h2 className="font-heading text-[30px] text-brand-dark leading-[1.3] mb-5">
-              &ldquo;The girls came back.&rdquo;
-            </h2>
-            <p className="text-[15px] text-brand-gray leading-[1.8] mb-4">
-              When we built bathrooms at a school in Solol&aacute;, the director
-              told us something we&apos;ll never forget. 47 adolescent girls who
-              had been missing school every month — some permanently — returned.
-            </p>
-            <p className="text-[15px] text-brand-gray leading-[1.8] mb-6">
-              A bathroom. That&apos;s all it took to change the equation.
-              Because when girls stay in school, they earn more, marry later, and
-              invest back into their communities. One renovation. Generations of
-              impact.
-            </p>
-            <Link
-              href="/impact"
-              className="text-[15px] font-semibold text-brand-secondary inline-flex items-center gap-2 hover:gap-3 transition-all"
-            >
-              Read more stories <span>&rarr;</span>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ============ PARTNERSHIP MODEL ============ */}
-      <section className="py-20 px-6 md:px-8 bg-brand-cream border-t border-brand-light-gray">
-        <div className="max-w-[900px] mx-auto flex flex-wrap gap-12 items-center">
-          {/* Photo */}
-          <div className="flex-[1_1_100%] md:flex-[1_1_340px] h-[280px] md:h-[400px] rounded-[20px] overflow-hidden relative">
-            <Image
-              src="/images/partnership.jpg"
-              alt="Team member laughing with young girls in a colorful doorway"
-              fill
-              className="object-cover"
-            />
-          </div>
-
-          {/* Text content */}
-          <div className="flex-[1_1_100%] md:flex-[1_1_340px]">
-            <div className="text-[12px] font-semibold tracking-[2px] text-brand-primary uppercase mb-3.5">
-              How We Work
-            </div>
-            <h2 className="font-heading text-[34px] text-brand-dark mb-5">
-              With communities, not for them.
-            </h2>
-            <p className="text-base text-brand-gray leading-[1.8] mb-9">
-              We don&apos;t arrive with a plan. We arrive with a question:{" "}
-              <em>what do you need?</em> Every project is led by municipal
-              governments, school directors, and community leaders. We provide
-              resources, funding, and labor. They provide vision, ownership, and
-              sustainability. That&apos;s why our projects last.
-            </p>
-            <div className="flex gap-5 flex-wrap">
-              {[
-                { num: "16", label: "Community partnerships" },
-                { num: "10+", label: "Years of relationships" },
-                { num: "2", label: "Countries" },
-              ].map(({ num, label }) => (
-                <div
-                  key={label}
-                  className="px-7 py-5 bg-white rounded-xl border border-brand-light-gray"
-                >
-                  <div className="font-stats text-[28px] font-bold text-brand-primary">
-                    {num}
-                  </div>
-                  <div className="text-[13px] text-brand-gray mt-1">{label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============ THE WELL ============ */}
-      <section
-        className="py-24 px-6 md:px-8"
-        style={{
-          background:
-            "linear-gradient(165deg, var(--brand-primary-deep) 0%, var(--brand-primary-dark) 100%)",
-        }}
-      >
-        <div className="max-w-[960px] mx-auto text-center">
-          <div className="text-[12px] font-semibold tracking-[2px] text-brand-accent uppercase mb-3">
-            Monthly Giving
-          </div>
-          <h2 className="font-heading text-[40px] text-white mb-3">
-            Join The Well
+      {/* ═══ THREE FOUNDATIONS ═══ */}
+      <section className={s.foundations} id="foundations">
+        <div className={s.sectionInner}>
+          <span className={s.eyebrow}>What we build</span>
+          <h2 className={`${s.secH2} ${s.serif}`}>
+            Three things. Built together.
+            <br />
+            Because none of them work alone.
           </h2>
-          <p className="text-base text-white/60 max-w-[520px] mx-auto mb-12 leading-[1.75]">
-            A community of monthly givers building all three foundations —
-            water, schools, and health — together. Choose your level. See your
-            impact. Stay connected.
+          <p className={s.secSub}>
+            Poverty isn&apos;t one problem &mdash; it&apos;s a cycle. We break
+            it by building all three foundations at once, alongside the
+            communities who lead the way.
           </p>
 
-          <div className="flex gap-4 flex-wrap justify-center">
-            {[
-              {
-                name: "Seed",
-                amount: 15,
-                impact:
-                  "Supplies for one student for a month — the basics that make learning possible.",
-                icon: "🌱",
-                featured: false,
-              },
-              {
-                name: "Spring",
-                amount: 30,
-                impact:
-                  "Clean water for one person, for life. Fewer sick days. More school days. The chain reaction starts here.",
-                icon: "💧",
-                featured: true,
-              },
-              {
-                name: "Roots",
-                amount: 75,
-                impact:
-                  "Health supplies for a family — including hygiene kits that keep girls in school.",
-                icon: "🌿",
-                featured: false,
-              },
-              {
-                name: "Canopy",
-                amount: 150,
-                impact:
-                  "Sponsor a classroom renovation. A safe space where futures take shape.",
-                icon: "🌳",
-                featured: false,
-              },
-            ].map((tier) => (
+          <div className={s.ledgerWrap}>
+            {/* Water */}
+            <div className={s.ledgerRow}>
+              <div>
+                <div className={`${s.tag} ${s.serif}`}>
+                  Foundation<sup>01</sup>
+                </div>
+                <div className={s.lMeta}>Infrastructure</div>
+              </div>
+              <div>
+                <h3 className={`${s.lH3} ${s.serif}`}>Clean Water</h3>
+                <p className={s.lLead}>
+                  Dirty water is the 3rd leading cause of death in children
+                  &mdash; and kills more people every year than all forms of
+                  violence combined, including war.
+                </p>
+                <p className={s.lBody}>
+                  220 million women and children spend hours every day walking
+                  to collect water for their family. Walking for water keeps
+                  children out of school and takes time parents could use to
+                  earn money. And when they get there, the water they carry
+                  home often makes everyone sick.
+                </p>
+                <p className={s.lBody}>
+                  The good news?{" "}
+                  <strong>
+                    Just $30 gives one person clean water for life.
+                  </strong>{" "}
+                  Health returns. Time returns. Hope returns.
+                </p>
+              </div>
+              <div className={s.lStatCol}>
+                <div className={`${s.lStatNum} ${s.serif}`}>$30</div>
+                <div className={s.lStatSub}>
+                  clean water for
+                  <br />
+                  one person, for life
+                </div>
+              </div>
+            </div>
+
+            <div className={s.lDivider} />
+
+            {/* Education */}
+            <div className={s.ledgerRow}>
+              <div>
+                <div className={`${s.tag} ${s.serif}`}>
+                  Empowerment<sup>02</sup>
+                </div>
+                <div className={s.lMeta}>Knowledge</div>
+              </div>
+              <div>
+                <h3 className={`${s.lH3} ${s.serif}`}>Education</h3>
+                <p className={s.lLead}>
+                  If all students in low-income countries left school with
+                  basic reading skills, 171 million people could be lifted out
+                  of poverty.
+                </p>
+                <p className={s.lBody}>
+                  Education is the most powerful tool we have to change the
+                  world. It reduces poverty, empowers women, helps prevent
+                  disease, and builds long-term economic stability for
+                  families.
+                </p>
+                <p className={s.lBody}>
+                  We work closely with teachers, school directors, and local
+                  community leaders to ensure every project gives kids the best
+                  possible opportunity at a better education. We also partner
+                  with Days For Girls &mdash; because{" "}
+                  <strong>
+                    a school without bathrooms is a school that fails its
+                    girls.
+                  </strong>
+                </p>
+              </div>
+              <div className={s.lStatCol}>
+                <div className={`${s.lStatNum} ${s.serif}`}>171M</div>
+                <div className={s.lStatSub}>
+                  people lifted from
+                  <br />
+                  poverty through
+                  <br />
+                  basic literacy
+                </div>
+              </div>
+            </div>
+
+            <div className={s.lDivider} />
+
+            {/* Health */}
+            <div className={s.ledgerRow}>
+              <div>
+                <div className={`${s.tag} ${s.serif}`}>
+                  Vitality<sup>03</sup>
+                </div>
+                <div className={s.lMeta}>Care</div>
+              </div>
+              <div>
+                <h3 className={`${s.lH3} ${s.serif}`}>Health</h3>
+                <p className={s.lLead}>
+                  23% of rural Guatemala lives more than an hour from any basic
+                  healthcare facility.
+                </p>
+                <p className={s.lBody}>
+                  We renovate health centers and train community health workers
+                  so that a mother can walk to a checkup &mdash; instead of
+                  choosing between her family&apos;s care and a full day&apos;s
+                  wages she can&apos;t afford to lose.
+                </p>
+                <p className={s.lBody}>
+                  When families can access preventive care, they stop spending
+                  scarce money on emergencies. They can plan. They can invest.{" "}
+                  <strong>
+                    Health gives communities room to breathe &mdash; and hope
+                    room to grow.
+                  </strong>
+                </p>
+              </div>
+              <div className={s.lStatCol}>
+                <div className={`${s.lStatNum} ${s.serif}`}>23%</div>
+                <div className={s.lStatSub}>
+                  of rural Guatemala
+                  <br />
+                  lives 1+ hr from
+                  <br />
+                  any basic care
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className={s.foundCtaStrip}>
+            <p>
+              Each foundation strengthens the others. That&apos;s why we
+              don&apos;t choose one &mdash; we build all three.
+            </p>
+            <a
+              href={GIVEBUTTER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${s.btnGold} ${s.btnGoldSm}`}
+            >
+              Give Hope → Start a Ripple <span className={s.amt}>$30</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ RIPPLE STARTERS ═══ */}
+      <section className={s.rippleSec}>
+        <div className={s.rippleGrid}>
+          <div className={s.photoCol}>
+            <div className={s.photoFrame}>
+              <Image
+                src="/images/mockup-health-center.jpg"
+                alt="Community gathered at the renovated Puesto de Salud health center in San Jacinto, Guatemala"
+                width={900}
+                height={601}
+                sizes="(max-width: 900px) 100vw, 45vw"
+                priority
+              />
+            </div>
+            <p className={s.photoCaption}>
+              Renovated Health Center San Jacinto, Guatemala. Hundreds of women
+              and children who now have access to safe health care.
+            </p>
+          </div>
+          <div className={s.contentCol}>
+            <span className={s.eyebrow}>Ripple starters</span>
+            <h2 className={`${s.rsH2} ${s.serif}`}>
+              The world needs people
+              <br />
+              who go back
+              <br />
+              <em>for the forgotten.</em>
+              <br />
+              Are you one of them?
+            </h2>
+            <p className={s.rsBody}>
+              Not everyone feels it &mdash; that quiet pull toward people the
+              world has moved on from. But some people do. And those are the
+              people who change things. Not because they&apos;re wealthy or
+              powerful. Because they understood that{" "}
+              <em>
+                hope doesn&apos;t cost much to give &mdash; but it means
+                everything to receive.
+              </em>
+            </p>
+            <p className={s.rsBody}>
+              We call them Ripple Starters. They&apos;re teachers, parents,
+              entrepreneurs, and retirees. What they share is simple: they
+              believe hope is worth starting, even when they can&apos;t see
+              where it ends. Every health center, every school, every water
+              filter &mdash; a Ripple Starter made it possible.
+            </p>
+            <div className={s.quoteCard}>
+              <p className={`${s.quoteQ} ${s.serif}`}>
+                &ldquo;God remembered us.&rdquo;
+              </p>
+              <p className={s.quoteSub}>
+                What communities say when a project is complete. A Ripple
+                Starter made them say it.
+              </p>
+            </div>
+            <div className={s.rsActions}>
               <a
-                key={tier.name}
                 href={GIVEBUTTER_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`flex-[1_1_200px] rounded-2xl px-5 text-center transition-all duration-300 cursor-pointer relative group ${
-                  tier.featured
-                    ? "bg-brand-primary-dark py-8 border-2 border-brand-accent shadow-[0_12px_32px_rgba(44,95,110,0.25)] -translate-y-1"
-                    : "bg-white py-7 border border-brand-light-gray hover:bg-brand-primary-dark hover:border-brand-primary-dark hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(44,95,110,0.25)]"
-                }`}
+                className={s.btnGold}
               >
-                {tier.featured && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-accent text-brand-dark text-[10px] font-bold tracking-[1px] uppercase px-3.5 py-1 rounded-full whitespace-nowrap">
-                    Most Popular
-                  </div>
-                )}
-                <div className="text-[32px] mb-2">{tier.icon}</div>
-                <div
-                  className={`text-[11px] font-semibold tracking-[1.5px] uppercase mb-1 ${
-                    tier.featured
-                      ? "text-brand-accent"
-                      : "text-brand-gray group-hover:text-brand-accent"
-                  }`}
-                >
-                  {tier.name}
-                </div>
-                <div
-                  className={`font-stats text-[34px] font-bold ${
-                    tier.featured
-                      ? "text-white"
-                      : "text-brand-dark group-hover:text-white"
-                  }`}
-                >
-                  ${tier.amount}
-                </div>
-                <div
-                  className={`text-[12px] mb-3.5 ${
-                    tier.featured
-                      ? "text-white/60"
-                      : "text-brand-gray group-hover:text-white/60"
-                  }`}
-                >
-                  per month
-                </div>
-                <p
-                  className={`text-[13px] leading-[1.6] ${
-                    tier.featured
-                      ? "text-white/85"
-                      : "text-brand-gray group-hover:text-white/85"
-                  }`}
-                >
-                  {tier.impact}
-                </p>
+                Become a Ripple Starter <span className={s.amt}>$30</span>
               </a>
-            ))}
+              <span className={s.rsMonthly}>or join The Well monthly</span>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ============ TRUST SIGNALS ============ */}
-      <section className="py-16 px-6 md:px-8 bg-brand-cream text-center">
-        <div className="max-w-[700px] mx-auto">
-          <div className="flex flex-wrap justify-center gap-3.5 mb-7">
-            {[
-              "501(c)(3) Registered",
-              "EIN: 84-3705172",
-              "On the Ground Since 2014",
-              "Community-Led Projects",
-            ].map((item) => (
-              <div
-                key={item}
-                className="text-[12px] font-medium text-brand-gray px-4 py-2 rounded-lg bg-white border border-brand-light-gray"
-              >
-                {item}
-              </div>
-            ))}
+      {/* ═══ THE WELL ═══ */}
+      <div className={s.wellTop} id="the-well">
+        <span className={s.eyebrow}>The Well — Monthly Giving</span>
+        <h2 className={s.serif}>Hope, every month.</h2>
+        <p>
+          The steady source behind every water system, school, and health
+          center we build. Join the community of monthly givers making it
+          possible.
+        </p>
+      </div>
+      <div className={s.wellBottom}>
+        <div className={s.gbWrap}>
+          <div className={s.gbTabs}>
+            <div className={`${s.gbTab} ${s.gbTabOn}`}>Monthly</div>
+            <div className={`${s.gbTab} ${s.gbTabOff}`}>One-Time</div>
           </div>
-          <p className="text-[14px] text-brand-gray leading-[1.7]">
-            We partner with municipal governments, local school directors, Days
-            For Girls SE Boise, and community leaders across Guatemala and
-            Ecuador.
-          </p>
+          <div className={s.gbTiers}>
+            <div className={`${s.gbTier} ${s.gbTierOff}`}>
+              <div className={`${s.gbAmt} ${s.serif}`}>$15</div>
+              <div className={s.gbDesc}>
+                Keeps one girl in school, every year you give.
+              </div>
+            </div>
+            <div className={`${s.gbTier} ${s.gbTierOn} ${s.gbTierPop}`}>
+              <div className={`${s.gbAmt} ${s.serif}`}>$30</div>
+              <div className={`${s.gbDesc} ${s.gbDescOn}`}>
+                Clean water for 12 people a year. A village in a decade.
+              </div>
+            </div>
+            <div className={`${s.gbTier} ${s.gbTierOff}`}>
+              <div className={`${s.gbAmt} ${s.serif}`}>$60</div>
+              <div className={s.gbDesc}>
+                Funds a family&apos;s full foundation &mdash; water, school,
+                health.
+              </div>
+            </div>
+            <div className={`${s.gbTier} ${s.gbTierOff}`}>
+              <div className={`${s.gbAmt} ${s.serif}`}>$125</div>
+              <div className={s.gbDesc}>
+                Builds an entire school bathroom block this year.
+              </div>
+            </div>
+          </div>
+          <input className={s.gbOther} placeholder="Other amount" type="text" readOnly />
+          <div className={s.gbFields}>
+            <div className={s.gbField}>First name</div>
+            <div className={s.gbField}>Last name</div>
+          </div>
+          <div className={s.gbEmail}>Email address</div>
+          <a
+            href={GIVEBUTTER_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={s.gbCta}
+          >
+            Join The Well
+          </a>
+          <div className={s.gbSecure}>
+            <svg width="10" height="12" viewBox="0 0 12 14" fill="none" aria-hidden="true">
+              <rect
+                x="1"
+                y="6"
+                width="10"
+                height="7"
+                rx="2"
+                stroke="rgba(26,46,53,.3)"
+                strokeWidth="1.2"
+              />
+              <path
+                d="M3 6V4a3 3 0 016 0v2"
+                stroke="rgba(26,46,53,.3)"
+                strokeWidth="1.2"
+                strokeLinecap="round"
+              />
+            </svg>
+            Secure donation via Givebutter
+          </div>
         </div>
-      </section>
+        <div className={s.trustRow}>
+          <div className={s.trustItem}>
+            <div className={s.trustDot} />
+            <span>100% funds the work</span>
+          </div>
+          <div className={s.trustItem}>
+            <div className={s.trustDot} />
+            <span>On the ground since 2014</span>
+          </div>
+          <div className={s.trustItem}>
+            <div className={s.trustDot} />
+            <span>EIN 84-3705172</span>
+          </div>
+          <div className={s.trustItem}>
+            <div className={s.trustDot} />
+            <span>127 people joined this year</span>
+          </div>
+        </div>
+      </div>
+
+      {/* ═══ FOOTER ═══ */}
+      <footer>
+        <div className={s.footNavy}>
+          <div className={s.footNavyInner}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={LOGO_LIGHT}
+              style={{ height: "30px", width: "auto" }}
+              alt="Vivid Roots — Live Vividly"
+            />
+            <div className={s.footLinks}>
+              <a href="#foundations">Our Work</a>
+              <a href="#the-well">The Well</a>
+              <Link href="/impact">Impact</Link>
+              <a href="#">Our Financials</a>
+              <a href="#">Contact</a>
+              <a
+                href={GIVEBUTTER_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={s.footGold}
+              >
+                Give Hope →
+              </a>
+            </div>
+          </div>
+        </div>
+        <div className={s.footCream}>
+          <div className={s.footCreamInner}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={LOGO_CREAM}
+              style={{ height: "24px", width: "auto" }}
+              alt="Vivid Roots — Live Vividly"
+            />
+            <span className={s.footLegal}>
+              © 2026 Vivid Roots Collective &nbsp;·&nbsp; 501(c)(3) Nonprofit
+              &nbsp;·&nbsp; EIN: 84-3705172 &nbsp;·&nbsp; Guatemala &amp;
+              Ecuador since 2014
+            </span>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }

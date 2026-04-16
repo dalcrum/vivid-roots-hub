@@ -9,6 +9,8 @@ import PhotoGallery from "@/components/PhotoGallery";
 import CommunityContext from "@/components/CommunityContext";
 import FieldNotes from "@/components/FieldNotes";
 import CallToAction from "@/components/CallToAction";
+import PublicNav from "@/components/public/PublicNav";
+import PublicFooter from "@/components/public/PublicFooter";
 import Link from "next/link";
 import { generateProgressSummary } from "@/lib/ai";
 
@@ -29,16 +31,20 @@ export default async function ProjectPage({
 
   if (!project) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            Project not found
-          </h1>
-          <Link href="/impact" className="text-brand-primary hover:underline">
-            Back to all projects
-          </Link>
+      <>
+        <PublicNav />
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              Project not found
+            </h1>
+            <Link href="/impact" className="text-brand-primary hover:underline">
+              Back to all projects
+            </Link>
+          </div>
         </div>
-      </div>
+        <PublicFooter />
+      </>
     );
   }
 
@@ -103,8 +109,10 @@ export default async function ProjectPage({
     : [];
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      <ProjectHero project={project} />
+    <>
+      <PublicNav />
+      <main className="min-h-screen bg-gray-50">
+        <ProjectHero project={project} />
       <ImpactStats project={project} />
 
       {/* Completed project: Impact Story at top */}
@@ -137,9 +145,11 @@ export default async function ProjectPage({
         </>
       )}
 
-      <CommunityContext project={project} />
-      <div className="mt-6" />
-      <CallToAction />
-    </main>
+        <CommunityContext project={project} />
+        <div className="mt-6" />
+        <CallToAction />
+      </main>
+      <PublicFooter />
+    </>
   );
 }
