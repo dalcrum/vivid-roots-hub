@@ -1,7 +1,208 @@
 "use server";
 
 import { createServerSupabase } from "@/lib/supabase-server";
+import { createAdminSupabase } from "@/lib/supabase-admin";
 import { polishUpdate, generateImpactStory } from "@/lib/ai";
+
+/**
+ * Payload accepted by submitFieldUpdateAction.
+ * When `isNewProject` is true, a new projects row is created from the
+ * project-shaped fields. Otherwise `projectId` must reference an existing row.
+ */
+export interface SubmitFieldUpdateInput {
+  // Project selector / new-project fields
+  projectId: string;
+  isNewProject: boolean;
+  projectName: string;
+  projectType: string;
+  status: string;
+  community: string;
+  region: string;
+  communityPopulation: string;
+  communityDescription: string;
+  hasSchool: boolean;
+  schoolName: string;
+  schoolSize: string;
+  gradesServed: string;
+  peopleServed: string;
+  cost: string;
+
+  // Update ("story") fields
+  additionalNotes: string;
+  hasPersonalStory: boolean;
+  personalName: string;
+  personalAge: string;
+  personalBackground: string;
+  personalQuote: string;
+  brighterFuture: string;
+}
+
+export interface SubmitFieldUpdateResult {
+  success: boolean;
+  updateId?: string;
+  projectId?: string;
+  error?: string;
+}
+
+/**
+ * Create a project_updates row (and a new projects row if needed) atomically.
+ *
+ * Uses the admin Supabase client to bypass RLS — the same pattern used by
+ * /api/upload — so team members whose RLS policies don't allow direct inserts
+ * can still submit field updates. Authentication is verified first via the
+ * normal server client so this action is NOT a public write endpoint.
+ *
+ * Atomicity: if we create a new project and the subsequent update insert
+ * fails, we delete the just-created project before returning. This prevents
+ * the "orphan duplicate project" bug caused by retrying a failed submit.
+ */
+export async function submitFieldUpdateAction(
+  input: SubmitFieldUpdateInput
+): Promise<SubmitFieldUpdateResult> {
+  // 1. Verify the caller is signed in. We use the user-scoped server client
+  //    for this check — not the admin client — so we don't accidentally
+  //    create a public write endpoint.
+  const serverSupabase = await createServerSupabase();
+  const {
+    data: { user },
+  } = await serverSupabase.auth.getUser();
+
+  if (!user) {
+    return { success: false, error: "Not authenticated" };
+  }
+
+  // 2. Use admin client for the actual writes so RLS doesn't block team
+  //    members who don't have direct INSERT permission on project_updates.
+  let admin;
+  try {
+    admin = createAdminSupabase();
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    return { success: false, error: `Server config error: ${msg}` };
+  }
+
+  let projectId = input.projectId;
+  let createdProjectId: string | null = null;
+
+  // 3. Create the project first if this is a new one. Track the new id so
+  //    we can roll it back if the update insert fails below.
+  if (input.isNewProject) {
+    const { data: newProject, error: projectError } = await admin
+      .from("projects")
+      .insert({
+        title: input.projectName,
+        type: input.projectType,
+        status: input.status,
+        community: input.community,
+        region: input.region,
+        community_population: parseInt(input.communityPopulation) || null,
+        community_context: input.communityDescription || null,
+        school_name: input.hasSchool ? input.schoolName || null : null,
+        school_size: input.hasSchool
+          ? parseInt(input.schoolSize) || null
+          : null,
+        grades_served: input.hasSchool ? input.gradesServed || null : null,
+        people_served: parseInt(input.peopleServed) || 0,
+        students_impacted: input.hasSchool
+          ? parseInt(input.schoolSize) || 0
+          : 0,
+        cost: parseFloat(input.cost) || 0,
+        funded: 0,
+        started_at: new Date().toISOString().split("T")[0],
+      })
+      .select("id")
+      .single();
+
+    if (projectError || !newProject) {
+      return {
+        success: false,
+        error:
+          projectError?.message ||
+          "Failed to create project (no row returned).",
+      };
+    }
+
+    projectId = newProject.id;
+    createdProjectId = newProject.id;
+  }
+
+  // 4. Create the project_updates row.
+  const { data: updateRow, error: updateError } = await admin
+    .from("project_updates")
+    .insert({
+      project_id: projectId,
+      field_notes: input.additionalNotes || null,
+      personal_story_name: input.hasPersonalStory ? input.personalName : null,
+      personal_story_age: input.hasPersonalStory
+        ? parseInt(input.personalAge) || null
+        : null,
+      personal_story_quote: input.hasPersonalStory
+        ? input.personalQuote
+        : null,
+      personal_story: input.hasPersonalStory ? input.personalBackground : null,
+      personal_story_after: input.brighterFuture || null,
+      review_status: "draft",
+    })
+    .select("id")
+    .single();
+
+  if (updateError || !updateRow) {
+    // Roll back the orphan project if we just created one.
+    if (createdProjectId) {
+      await admin.from("projects").delete().eq("id", createdProjectId);
+    }
+    return {
+      success: false,
+      error:
+        updateError?.message ||
+        "Failed to create update (no row returned).",
+    };
+  }
+
+  return {
+    success: true,
+    updateId: updateRow.id,
+    projectId,
+  };
+}
+
+/**
+ * Attach a photo to an existing update. Uses the admin client to bypass RLS
+ * on update_photos, same rationale as submitFieldUpdateAction above.
+ * The file itself must already be uploaded via /api/upload — this action
+ * only writes the DB row.
+ */
+export async function attachUpdatePhotoAction(
+  updateId: string,
+  photoUrl: string,
+  isHero: boolean
+): Promise<{ success: boolean; error?: string }> {
+  const serverSupabase = await createServerSupabase();
+  const {
+    data: { user },
+  } = await serverSupabase.auth.getUser();
+
+  if (!user) {
+    return { success: false, error: "Not authenticated" };
+  }
+
+  let admin;
+  try {
+    admin = createAdminSupabase();
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    return { success: false, error: `Server config error: ${msg}` };
+  }
+
+  const { error } = await admin.from("update_photos").insert({
+    update_id: updateId,
+    photo_url: photoUrl,
+    caption: null,
+    is_hero: isHero,
+  });
+
+  return { success: !error, error: error?.message };
+}
 
 /**
  * AI-polish a raw field update and move it to "in_review"

@@ -1,12 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { createClient } from "@/lib/supabase";
 import { Project } from "@/lib/types";
 import StepIndicator from "./StepIndicator";
 import { useRouter } from "next/navigation";
 import type { Language } from "@/lib/translations";
-import { polishUpdateAction } from "@/app/(admin)/actions";
+import {
+  polishUpdateAction,
+  submitFieldUpdateAction,
+  attachUpdatePhotoAction,
+} from "@/app/(admin)/actions";
 
 interface FormData {
   // Step 1
@@ -100,6 +103,7 @@ export default function FieldInputForm({
   const [photos, setPhotos] = useState<File[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const router = useRouter();
 
   const update = (field: keyof FormData, value: string | boolean) => {
@@ -118,95 +122,74 @@ export default function FieldInputForm({
 
   const handleSubmit = async () => {
     setSubmitting(true);
-    const supabase = createClient();
+    setSubmitError(null);
 
     try {
-      let projectId = formData.projectId;
+      // 1. Create project (if new) and project_updates row via the server
+      //    action. This uses the admin Supabase client so RLS on team-member
+      //    accounts doesn't block the insert, and it rolls back an
+      //    orphan project if the update insert fails (prevents duplicates).
+      const result = await submitFieldUpdateAction({
+        projectId: formData.projectId,
+        isNewProject: formData.isNewProject,
+        projectName: formData.projectName,
+        projectType: formData.projectType,
+        status: formData.status,
+        community: formData.community,
+        region: formData.region,
+        communityPopulation: formData.communityPopulation,
+        communityDescription: formData.communityDescription,
+        hasSchool: formData.hasSchool,
+        schoolName: formData.schoolName,
+        schoolSize: formData.schoolSize,
+        gradesServed: formData.gradesServed,
+        peopleServed: formData.peopleServed,
+        cost: formData.cost,
+        additionalNotes: formData.additionalNotes,
+        hasPersonalStory: formData.hasPersonalStory,
+        personalName: formData.personalName,
+        personalAge: formData.personalAge,
+        personalBackground: formData.personalBackground,
+        personalQuote: formData.personalQuote,
+        brighterFuture: formData.brighterFuture,
+      });
 
-      // If new project, create it first
-      if (formData.isNewProject) {
-        const { data: newProject, error: projectError } = await supabase
-          .from("projects")
-          .insert({
-            title: formData.projectName,
-            type: formData.projectType,
-            status: formData.status,
-            community: formData.community,
-            region: formData.region,
-            community_population:
-              parseInt(formData.communityPopulation) || null,
-            community_context: formData.communityDescription || null,
-            school_name: formData.hasSchool ? formData.schoolName || null : null,
-            school_size: formData.hasSchool
-              ? parseInt(formData.schoolSize) || null
-              : null,
-            grades_served: formData.hasSchool
-              ? formData.gradesServed || null
-              : null,
-            people_served: parseInt(formData.peopleServed) || 0,
-            students_impacted: formData.hasSchool
-              ? parseInt(formData.schoolSize) || 0
-              : 0,
-            cost: parseFloat(formData.cost) || 0,
-            funded: 0,
-            started_at: new Date().toISOString().split("T")[0],
-          })
-          .select()
-          .single();
-
-        if (projectError) throw projectError;
-        projectId = newProject.id;
+      if (!result.success || !result.updateId) {
+        throw new Error(result.error || "Unknown error creating update");
       }
 
-      // Create the project update
-      const { data: updateData, error: updateError } = await supabase
-        .from("project_updates")
-        .insert({
-          project_id: projectId,
-          field_notes: formData.additionalNotes || null,
-          personal_story_name: formData.hasPersonalStory
-            ? formData.personalName
-            : null,
-          personal_story_age: formData.hasPersonalStory
-            ? parseInt(formData.personalAge) || null
-            : null,
-          personal_story_quote: formData.hasPersonalStory
-            ? formData.personalQuote
-            : null,
-          personal_story: formData.hasPersonalStory
-            ? formData.personalBackground
-            : null,
-          personal_story_after: formData.brighterFuture || null,
-          review_status: "draft",
-        })
-        .select()
-        .single();
+      const updateId = result.updateId;
 
-      if (updateError) throw updateError;
-
-      // Upload photos via server API route (bypasses storage RLS)
+      // 2. Upload photos only after the update is safely saved.
+      //    Files go via /api/upload (storage), then attachUpdatePhotoAction
+      //    inserts the update_photos row using the admin client.
       for (let i = 0; i < photos.length; i++) {
         const file = photos[i];
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("folder", `updates/${updateData.id}`);
+        const fd = new FormData();
+        fd.append("file", file);
+        fd.append("folder", `updates/${updateId}`);
 
-        const res = await fetch("/api/upload", { method: "POST", body: formData });
+        const res = await fetch("/api/upload", { method: "POST", body: fd });
         const data = await res.json();
 
-        if (res.ok && data.url) {
-          await supabase.from("update_photos").insert({
-            update_id: updateData.id,
-            photo_url: data.url,
-            caption: null,
-            is_hero: i === 0,
-          });
+        if (!res.ok || !data.url) {
+          // Photo upload failed but update is already saved. Surface the
+          // error, but keep the update; don't throw — let the admin
+          // re-upload missing photos later.
+          console.error("Photo upload failed:", data.error || res.statusText);
+          continue;
+        }
+
+        const attach = await attachUpdatePhotoAction(updateId, data.url, i === 0);
+        if (!attach.success) {
+          console.error("Photo attach failed:", attach.error);
         }
       }
 
-      // Auto-trigger AI polish (non-blocking — if it fails, admin can polish manually)
+      // 3. Auto-trigger AI polish (non-blocking — if it fails, admin can
+      //    polish manually from the Review Updates page).
       try {
-        await polishUpdateAction(updateData.id);
+        await polishUpdateAction(updateId);
       } catch {
         // Silently continue — update is saved, AI polish can happen later
       }
@@ -214,11 +197,13 @@ export default function FieldInputForm({
       setSubmitted(true);
     } catch (error) {
       console.error("Error submitting:", error);
-      alert(
+      const detail =
+        error instanceof Error ? error.message : String(error);
+      const prefix =
         lang === "es"
           ? "Algo salio mal. Intenta de nuevo."
-          : "Something went wrong. Please try again."
-      );
+          : "Something went wrong. Please try again.";
+      setSubmitError(`${prefix} (${detail})`);
     } finally {
       setSubmitting(false);
     }
@@ -1121,6 +1106,23 @@ export default function FieldInputForm({
           </button>
         )}
       </div>
+
+      {submitError && (
+        <div
+          role="alert"
+          className="mt-4 p-4 bg-red-50 border border-red-200 rounded-xl text-sm text-red-800"
+        >
+          <div className="font-medium mb-1">
+            {lang === "es" ? "Error al enviar" : "Submit error"}
+          </div>
+          <div className="whitespace-pre-wrap break-words">{submitError}</div>
+          <div className="mt-2 text-xs text-red-600">
+            {lang === "es"
+              ? "Comparte este mensaje con el administrador si no puedes resolverlo."
+              : "Share this message with your admin if you can't resolve it."}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

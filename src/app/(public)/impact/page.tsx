@@ -1,6 +1,8 @@
 import { createServerSupabase } from "@/lib/supabase-server";
 import { Project } from "@/lib/types";
 import ProjectCard from "@/components/ProjectCard";
+import PublicNav from "@/components/public/PublicNav";
+import PublicFooter from "@/components/public/PublicFooter";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -35,6 +37,8 @@ export default async function ImpactPage() {
   ).length;
 
   return (
+    <>
+      <PublicNav />
     <main className="min-h-screen bg-brand-cream">
       {/* Hero banner */}
       <section className="bg-gradient-to-r from-brand-primary-dark to-brand-primary py-12 md:py-16 px-4 md:px-8">
@@ -104,5 +108,7 @@ export default async function ImpactPage() {
         )}
       </section>
     </main>
+      <PublicFooter />
+    </>
   );
 }

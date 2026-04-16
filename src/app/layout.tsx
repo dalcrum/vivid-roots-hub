@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { DM_Serif_Display, Inter, DM_Sans } from "next/font/google";
+import { DM_Serif_Display, Inter, DM_Sans, Newsreader } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
@@ -12,11 +12,19 @@ const dmSerifDisplay = DM_Serif_Display({
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  weight: ["300", "400", "500"],
 });
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin"],
+});
+
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
+  subsets: ["latin"],
+  weight: ["300", "400"],
+  style: ["normal", "italic"],
 });
 
 export const viewport: Viewport = {
@@ -44,7 +52,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${dmSerifDisplay.variable} ${inter.variable} ${dmSans.variable} font-body antialiased`}
+        className={`${dmSerifDisplay.variable} ${inter.variable} ${dmSans.variable} ${newsreader.variable} font-body antialiased`}
       >
         {children}
       </body>

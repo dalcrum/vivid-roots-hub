@@ -13,6 +13,13 @@
   --brand-gray: #6B6560;
   --brand-light-gray: #E8E4DF;
 
+  /* New homepage palette (2026 refresh) */
+  --brand-navy: #1A2E35;
+  --brand-sky: #2BAEC8;
+  --brand-sky-light: #6DD5ED;
+  --brand-gold-bright: #F7C948;
+  --brand-cream-warm: #F9F5ED;
+
   /* Defaults */
   --background: #ffffff;
   --foreground: #171717;
@@ -34,11 +41,19 @@
   --color-brand-gray: var(--brand-gray);
   --color-brand-light-gray: var(--brand-light-gray);
 
+  /* New homepage palette tokens */
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-sky: var(--brand-sky);
+  --color-brand-sky-light: var(--brand-sky-light);
+  --color-brand-gold-bright: var(--brand-gold-bright);
+  --color-brand-cream-warm: var(--brand-cream-warm);
+
   /* Font tokens */
   --font-heading: var(--font-dm-serif-display);
   --font-body: var(--font-inter);
   --font-stats: var(--font-dm-sans);
   --font-sans: var(--font-inter);
+  --font-serif-display: var(--font-newsreader);
 }
 
 body {
