@@ -15,7 +15,7 @@ export default async function DonorsPage() {
     return (
       <div className="max-w-5xl">
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">Donors</h1>
+          <h1 className="text-2xl font-bold text-[var(--brand-navy)]">Donors</h1>
           <p className="text-gray-500 text-sm mt-1">
             View and manage your donor relationships.
           </p>
@@ -64,7 +64,7 @@ export default async function DonorsPage() {
     <div className="max-w-5xl">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Donors</h1>
+        <h1 className="text-2xl font-bold text-[var(--brand-navy)]">Donors</h1>
         <p className="text-gray-500 text-sm mt-1">
           View and manage your donor relationships.
         </p>
@@ -78,7 +78,7 @@ export default async function DonorsPage() {
             className="bg-white rounded-xl shadow-sm p-5 border border-gray-100"
           >
             <div className="text-2xl mb-1">{stat.icon}</div>
-            <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
+            <div className="text-2xl font-bold text-[var(--brand-navy)]">{stat.value}</div>
             <div className="text-sm text-gray-500">{stat.label}</div>
           </div>
         ))}
@@ -87,7 +87,7 @@ export default async function DonorsPage() {
       {/* Donor list */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100">
         <div className="p-5 border-b border-gray-100">
-          <h2 className="text-lg font-bold text-gray-900">
+          <h2 className="text-lg font-bold text-[var(--brand-navy)]">
             All Donors ({data.donors.length})
           </h2>
         </div>
@@ -104,16 +104,16 @@ export default async function DonorsPage() {
                 <li key={donor.email} className="p-5">
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center text-white text-sm font-bold shrink-0">
+                      <div className="w-10 h-10 rounded-full bg-[var(--brand-sky)] flex items-center justify-center text-white text-sm font-bold shrink-0">
                         {initial}
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <p className="font-bold text-gray-900">
+                          <p className="font-bold text-[var(--brand-navy)]">
                             {donor.firstName} {donor.lastName}
                           </p>
                           {donor.isRecurring && (
-                            <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">
+                            <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-[var(--brand-sky-light)]/20 text-[var(--brand-sky)]">
                               Recurring
                             </span>
                           )}
@@ -135,12 +135,12 @@ export default async function DonorsPage() {
                     </div>
 
                     <div className="flex items-center gap-4 ml-14 md:ml-0">
-                      <span className="text-lg font-bold text-emerald-600">
+                      <span className="text-lg font-bold text-[var(--brand-sky)]">
                         {fmt(donor.totalDonated)}
                       </span>
                       <Link
                         href={`/admin/donors/${encodeURIComponent(donor.email)}`}
-                        className="text-sm text-emerald-600 hover:underline font-medium"
+                        className="text-sm text-[var(--brand-sky)] hover:underline font-medium"
                       >
                         View →
                       </Link>

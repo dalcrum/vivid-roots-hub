@@ -6,7 +6,7 @@ import InviteUserForm from "@/components/admin/InviteUserForm";
 const roleConfig: Record<string, { label: string; bg: string; text: string }> = {
   admin: { label: "Admin", bg: "bg-purple-100", text: "text-purple-700" },
   editor: { label: "Editor", bg: "bg-blue-100", text: "text-blue-700" },
-  field_team: { label: "Field Team", bg: "bg-emerald-100", text: "text-emerald-700" },
+  field_team: { label: "Field Team", bg: "bg-[var(--brand-sky-light)]/20", text: "text-[var(--brand-sky)]" },
 };
 
 export default async function TeamPage() {
@@ -23,7 +23,7 @@ export default async function TeamPage() {
     <div className="max-w-5xl">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Team</h1>
+          <h1 className="text-2xl font-bold text-[var(--brand-navy)]">Team</h1>
           <p className="text-gray-500 text-sm mt-1">
             Manage your team members and their roles.
           </p>
@@ -36,7 +36,7 @@ export default async function TeamPage() {
       {/* Team list */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 mt-6">
         <div className="p-5 border-b border-gray-100">
-          <h2 className="text-lg font-bold text-gray-900">
+          <h2 className="text-lg font-bold text-[var(--brand-navy)]">
             Team Members ({memberList.length})
           </h2>
         </div>
@@ -55,14 +55,14 @@ export default async function TeamPage() {
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                     <div className="flex items-center gap-4">
                       {/* Avatar */}
-                      <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center text-white text-sm font-bold">
+                      <div className="w-10 h-10 rounded-full bg-[var(--brand-sky)] flex items-center justify-center text-white text-sm font-bold">
                         {initial}
                       </div>
 
                       {/* Info */}
                       <div>
                         <div className="flex items-center gap-2">
-                          <p className="font-bold text-gray-900">
+                          <p className="font-bold text-[var(--brand-navy)]">
                             {member.full_name || "No name set"}
                           </p>
                           <span
@@ -93,7 +93,7 @@ export default async function TeamPage() {
                     {/* Edit link */}
                     <Link
                       href={`/admin/team/${member.id}`}
-                      className="text-sm text-emerald-600 hover:underline font-medium"
+                      className="text-sm text-[var(--brand-sky)] hover:underline font-medium"
                     >
                       Edit
                     </Link>

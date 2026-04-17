@@ -213,7 +213,7 @@ export default function FieldInputForm({
     return (
       <div className="max-w-2xl mx-auto text-center py-12">
         <div className="text-6xl mb-4">🎉</div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+        <h2 className="text-2xl font-bold text-[var(--brand-navy)] mb-2">
           <BLabel
             en="Update Submitted!"
             es="Actualizacion Enviada!"
@@ -235,7 +235,7 @@ export default function FieldInputForm({
               setStep(0);
               setSubmitted(false);
             }}
-            className="bg-emerald-600 text-white font-medium px-5 py-2.5 rounded-xl hover:bg-emerald-700"
+            className="bg-[var(--brand-sky)] text-white font-medium px-5 py-2.5 rounded-xl hover:bg-[#2599B3]"
           >
             <BLabel en="Submit Another" es="Enviar Otra" lang={lang} />
           </button>
@@ -251,7 +251,7 @@ export default function FieldInputForm({
   }
 
   const inputClass =
-    "w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-gray-900 focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none";
+    "w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-[var(--brand-navy)] focus:ring-2 focus:ring-[var(--brand-sky)] focus:border-transparent outline-none";
   const labelClass = "block text-sm font-medium text-gray-700 mb-1";
 
   return (
@@ -263,7 +263,7 @@ export default function FieldInputForm({
         <div className="space-y-6">
           {/* Project selection */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <h2 className="text-lg font-bold text-gray-900 mb-4">
+            <h2 className="text-lg font-bold text-[var(--brand-navy)] mb-4">
               📋{" "}
               <BLabel
                 en="Basic Information"
@@ -278,7 +278,7 @@ export default function FieldInputForm({
                 onClick={() => update("isNewProject", true)}
                 className={`flex-1 py-3 rounded-xl text-sm font-medium transition-colors ${
                   formData.isNewProject
-                    ? "bg-emerald-600 text-white"
+                    ? "bg-[var(--brand-sky)] text-white"
                     : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                 }`}
               >
@@ -289,7 +289,7 @@ export default function FieldInputForm({
                 onClick={() => update("isNewProject", false)}
                 className={`flex-1 py-3 rounded-xl text-sm font-medium transition-colors ${
                   !formData.isNewProject
-                    ? "bg-emerald-600 text-white"
+                    ? "bg-[var(--brand-sky)] text-white"
                     : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                 }`}
               >
@@ -408,7 +408,7 @@ export default function FieldInputForm({
           {/* Community Details — only show for new projects */}
           {formData.isNewProject && (
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-4">
+              <h2 className="text-lg font-bold text-[var(--brand-navy)] mb-4">
                 🏘️{" "}
                 <BLabel
                   en="Community Details"
@@ -531,7 +531,7 @@ export default function FieldInputForm({
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h2 className="text-lg font-bold text-gray-900">
+                  <h2 className="text-lg font-bold text-[var(--brand-navy)]">
                     🏫{" "}
                     <BLabel
                       en="School Details"
@@ -551,7 +551,7 @@ export default function FieldInputForm({
                   type="button"
                   onClick={() => update("hasSchool", !formData.hasSchool)}
                   className={`relative w-12 h-6 rounded-full transition-colors ${
-                    formData.hasSchool ? "bg-emerald-600" : "bg-gray-300"
+                    formData.hasSchool ? "bg-[var(--brand-sky)]" : "bg-gray-300"
                   }`}
                 >
                   <span
@@ -669,7 +669,7 @@ export default function FieldInputForm({
       {/* Step 2: The Story */}
       {step === 1 && (
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-2">
+          <h2 className="text-lg font-bold text-[var(--brand-navy)] mb-2">
             📖 <BLabel en="The Story" es="La Historia" lang={lang} />
           </h2>
           <p className="text-sm text-gray-500 mb-6">
@@ -758,7 +758,7 @@ export default function FieldInputForm({
           <div className="border-t border-gray-100 pt-6">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="font-medium text-gray-900">
+                <h3 className="font-medium text-[var(--brand-navy)]">
                   <BLabel
                     en="Add a Personal Story"
                     es="Agregar una Historia Personal"
@@ -779,7 +779,7 @@ export default function FieldInputForm({
                   update("hasPersonalStory", !formData.hasPersonalStory)
                 }
                 className={`relative w-12 h-6 rounded-full transition-colors ${
-                  formData.hasPersonalStory ? "bg-emerald-600" : "bg-gray-300"
+                  formData.hasPersonalStory ? "bg-[var(--brand-sky)]" : "bg-gray-300"
                 }`}
               >
                 <span
@@ -791,7 +791,7 @@ export default function FieldInputForm({
             </div>
 
             {formData.hasPersonalStory && (
-              <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 space-y-4">
+              <div className="bg-[var(--brand-cream-warm)] border border-[var(--brand-sky)]/30 rounded-xl p-4 space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className={labelClass}>
@@ -869,7 +869,7 @@ export default function FieldInputForm({
       {/* Step 3: Photos */}
       {step === 2 && (
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-2">
+          <h2 className="text-lg font-bold text-[var(--brand-navy)] mb-2">
             📸{" "}
             <BLabel en="Photos & Details" es="Fotos y Detalles" lang={lang} />
           </h2>
@@ -894,7 +894,7 @@ export default function FieldInputForm({
                   className="h-full w-full object-cover"
                 />
                 {index === 0 && (
-                  <span className="absolute top-2 left-2 bg-emerald-600 text-white text-xs px-2 py-0.5 rounded-full">
+                  <span className="absolute top-2 left-2 bg-[var(--brand-sky)] text-white text-xs px-2 py-0.5 rounded-full">
                     {lang === "es" ? "Principal" : "Main"}
                   </span>
                 )}
@@ -908,7 +908,7 @@ export default function FieldInputForm({
             ))}
 
             {/* Add photo button */}
-            <label className="aspect-square rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-emerald-500 hover:bg-emerald-50 transition-colors">
+            <label className="aspect-square rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-[var(--brand-sky)] hover:bg-[var(--brand-cream-warm)] transition-colors">
               <span className="text-3xl text-gray-400 mb-1">+</span>
               <span className="text-xs text-gray-400">
                 {lang === "es" ? "Agregar Foto" : "Add Photo"}
@@ -949,7 +949,7 @@ export default function FieldInputForm({
       {/* Step 4: Preview */}
       {step === 3 && (
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">
+          <h2 className="text-lg font-bold text-[var(--brand-navy)] mb-4">
             ✅{" "}
             <BLabel en="Review & Submit" es="Revisar y Enviar" lang={lang} />
           </h2>
@@ -959,7 +959,7 @@ export default function FieldInputForm({
               <h3 className="text-sm font-medium text-gray-500 mb-1">
                 <BLabel en="Project" es="Proyecto" lang={lang} />
               </h3>
-              <p className="font-medium text-gray-900">
+              <p className="font-medium text-[var(--brand-navy)]">
                 {formData.isNewProject
                   ? `🆕 ${formData.projectName || (lang === "es" ? "Sin nombre" : "Unnamed")}`
                   : `🔄 ${projects.find((p) => p.id === formData.projectId)?.title || (lang === "es" ? "No seleccionado" : "Not selected")}`}
@@ -1032,15 +1032,15 @@ export default function FieldInputForm({
             </div>
 
             {formData.hasPersonalStory && (
-              <div className="bg-emerald-50 rounded-xl p-4">
-                <h3 className="text-sm font-medium text-emerald-700 mb-1">
+              <div className="bg-[var(--brand-cream-warm)] rounded-xl p-4">
+                <h3 className="text-sm font-medium text-[var(--brand-sky)] mb-1">
                   <BLabel
                     en="Personal Story"
                     es="Historia Personal"
                     lang={lang}
                   />
                 </h3>
-                <p className="font-medium text-gray-900">
+                <p className="font-medium text-[var(--brand-navy)]">
                   {formData.personalName},{" "}
                   {lang === "es" ? "edad" : "age"} {formData.personalAge}
                 </p>
@@ -1056,7 +1056,7 @@ export default function FieldInputForm({
               <h3 className="text-sm font-medium text-gray-500 mb-1">
                 <BLabel en="Photos" es="Fotos" lang={lang} />
               </h3>
-              <p className="text-sm text-gray-900">
+              <p className="text-sm text-[var(--brand-navy)]">
                 {photos.length} {lang === "es" ? "foto" : "photo"}
                 {photos.length !== 1 ? "s" : ""}{" "}
                 {lang === "es" ? "adjuntas" : "attached"}
@@ -1086,7 +1086,7 @@ export default function FieldInputForm({
         {step < 3 ? (
           <button
             onClick={() => setStep(step + 1)}
-            className="px-5 py-2.5 text-sm font-medium text-white bg-emerald-600 rounded-xl hover:bg-emerald-700 transition-colors"
+            className="px-5 py-2.5 text-sm font-medium text-white bg-[var(--brand-sky)] rounded-xl hover:bg-[#2599B3] transition-colors"
           >
             {lang === "es" ? "Siguiente" : "Next"}
           </button>
@@ -1094,7 +1094,7 @@ export default function FieldInputForm({
           <button
             onClick={handleSubmit}
             disabled={submitting}
-            className="px-6 py-2.5 text-sm font-medium text-white bg-emerald-600 rounded-xl hover:bg-emerald-700 transition-colors disabled:opacity-50"
+            className="px-6 py-2.5 text-sm font-medium text-white bg-[var(--brand-sky)] rounded-xl hover:bg-[#2599B3] transition-colors disabled:opacity-50"
           >
             {submitting
               ? lang === "es"

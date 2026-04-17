@@ -88,8 +88,8 @@ export default function ReviewUpdatePanel({
     },
     published: {
       label: "Published",
-      bg: "bg-emerald-100",
-      text: "text-emerald-700",
+      bg: "bg-[var(--brand-sky-light)]/20",
+      text: "text-[var(--brand-sky)]",
     },
   }[status] || { label: "Draft", bg: "bg-gray-100", text: "text-gray-700" };
 
@@ -108,7 +108,7 @@ export default function ReviewUpdatePanel({
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left: Raw field notes */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">
+          <h2 className="text-lg font-bold text-[var(--brand-navy)] mb-4">
             📝 Raw Field Notes
           </h2>
 
@@ -124,11 +124,11 @@ export default function ReviewUpdatePanel({
           )}
 
           {update.personal_story_name && (
-            <div className="mb-4 bg-emerald-50 rounded-xl p-4">
-              <h3 className="text-sm font-medium text-emerald-700 mb-2">
+            <div className="mb-4 bg-[var(--brand-cream-warm)] rounded-xl p-4">
+              <h3 className="text-sm font-medium text-[var(--brand-sky)] mb-2">
                 Personal Story
               </h3>
-              <p className="font-medium text-gray-900">
+              <p className="font-medium text-[var(--brand-navy)]">
                 {update.personal_story_name}
                 {update.personal_story_age &&
                   `, age ${update.personal_story_age}`}
@@ -145,7 +145,7 @@ export default function ReviewUpdatePanel({
               )}
               {update.personal_story_after && (
                 <div className="mt-2">
-                  <span className="text-xs text-emerald-600 font-medium">
+                  <span className="text-xs text-[var(--brand-sky)] font-medium">
                     Impact:
                   </span>
                   <p className="text-sm text-gray-600">
@@ -182,7 +182,7 @@ export default function ReviewUpdatePanel({
 
         {/* Right: AI-polished version */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">
+          <h2 className="text-lg font-bold text-[var(--brand-navy)] mb-4">
             ✨ AI-Polished Version
           </h2>
 
@@ -194,7 +194,7 @@ export default function ReviewUpdatePanel({
               <button
                 onClick={handlePolish}
                 disabled={loading === "polish"}
-                className="bg-emerald-600 text-white font-medium px-6 py-3 rounded-xl hover:bg-emerald-700 transition-colors disabled:opacity-50"
+                className="bg-[var(--brand-sky)] text-white font-medium px-6 py-3 rounded-xl hover:bg-[#2599B3] transition-colors disabled:opacity-50"
               >
                 {loading === "polish" ? (
                   <span className="flex items-center gap-2">
@@ -211,7 +211,7 @@ export default function ReviewUpdatePanel({
                 value={narrative}
                 onChange={(e) => setNarrative(e.target.value)}
                 rows={16}
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-gray-900 focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none text-sm leading-relaxed"
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-[var(--brand-navy)] focus:ring-2 focus:ring-[var(--brand-sky)] focus:border-transparent outline-none text-sm leading-relaxed"
                 placeholder="AI-polished narrative will appear here..."
               />
               <p className="text-xs text-gray-400 mt-1">
@@ -251,7 +251,7 @@ export default function ReviewUpdatePanel({
             <button
               onClick={handlePublish}
               disabled={!!loading}
-              className="px-6 py-2.5 text-sm font-medium text-white bg-emerald-600 rounded-xl hover:bg-emerald-700 transition-colors disabled:opacity-50"
+              className="px-6 py-2.5 text-sm font-medium text-white bg-[var(--brand-sky)] rounded-xl hover:bg-[#2599B3] transition-colors disabled:opacity-50"
             >
               {loading === "publish"
                 ? "Publishing..."
@@ -259,7 +259,7 @@ export default function ReviewUpdatePanel({
             </button>
           )}
           {status === "published" && (
-            <span className="text-sm text-emerald-600 font-medium">
+            <span className="text-sm text-[var(--brand-sky)] font-medium">
               ✅ Live on the public site
             </span>
           )}
@@ -271,7 +271,7 @@ export default function ReviewUpdatePanel({
         <div
           className={`mt-4 p-3 rounded-xl text-sm ${
             message.type === "success"
-              ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+              ? "bg-[var(--brand-cream-warm)] text-[var(--brand-sky)] border border-[var(--brand-sky)]/30"
               : "bg-red-50 text-red-700 border border-red-200"
           }`}
         >

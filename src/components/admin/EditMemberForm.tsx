@@ -54,13 +54,13 @@ export default function EditMemberForm({ profile }: { profile: Profile }) {
   };
 
   const inputClass =
-    "w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-gray-900 focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none";
+    "w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-[var(--brand-navy)] focus:ring-2 focus:ring-[var(--brand-sky)] focus:border-transparent outline-none";
   const labelClass = "block text-sm font-medium text-gray-700 mb-1";
 
   return (
     <form onSubmit={handleSave}>
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-        <h2 className="text-lg font-bold text-gray-900 mb-6">
+        <h2 className="text-lg font-bold text-[var(--brand-navy)] mb-6">
           Edit Team Member
         </h2>
 
@@ -133,7 +133,7 @@ export default function EditMemberForm({ profile }: { profile: Profile }) {
           {/* Active toggle */}
           <div className="flex items-center justify-between pt-4 border-t border-gray-100">
             <div>
-              <h3 className="font-medium text-gray-900">Account Active</h3>
+              <h3 className="font-medium text-[var(--brand-navy)]">Account Active</h3>
               <p className="text-sm text-gray-500">
                 Inactive users cannot log in or submit updates.
               </p>
@@ -142,7 +142,7 @@ export default function EditMemberForm({ profile }: { profile: Profile }) {
               type="button"
               onClick={() => update("is_active", !formData.is_active)}
               className={`relative w-12 h-6 rounded-full transition-colors ${
-                formData.is_active ? "bg-emerald-600" : "bg-gray-300"
+                formData.is_active ? "bg-[var(--brand-sky)]" : "bg-gray-300"
               }`}
             >
               <span
@@ -166,7 +166,7 @@ export default function EditMemberForm({ profile }: { profile: Profile }) {
           <button
             type="submit"
             disabled={saving}
-            className="px-6 py-2.5 text-sm font-medium text-white bg-emerald-600 rounded-xl hover:bg-emerald-700 transition-colors disabled:opacity-50"
+            className="px-6 py-2.5 text-sm font-medium text-white bg-[var(--brand-sky)] rounded-xl hover:bg-[#2599B3] transition-colors disabled:opacity-50"
           >
             {saving ? "Saving..." : "Save Changes"}
           </button>
@@ -176,7 +176,7 @@ export default function EditMemberForm({ profile }: { profile: Profile }) {
           <div
             className={`mt-4 p-3 rounded-xl text-sm ${
               message.type === "success"
-                ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                ? "bg-[var(--brand-cream-warm)] text-[var(--brand-sky)] border border-[var(--brand-sky)]/30"
                 : "bg-red-50 text-red-700 border border-red-200"
             }`}
           >

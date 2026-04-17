@@ -37,13 +37,17 @@ export default function LoginPage() {
       <div className="max-w-md w-full">
         {/* Logo */}
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2">
-            <span className="text-4xl">🌱</span>
-            <span className="text-2xl font-bold text-gray-900">
-              Vivid Roots
-            </span>
+          <Link href="/" className="inline-flex flex-col items-center gap-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/logo-wordmark-teal.png"
+              alt="Vivid Roots — Live Vividly"
+              className="h-14 w-auto"
+            />
+            <p className="text-xs font-medium uppercase tracking-[0.14em] text-[var(--brand-sky)]">
+              Team Portal
+            </p>
           </Link>
-          <p className="text-gray-500 mt-2">Team Portal</p>
         </div>
 
         <div className="bg-white rounded-xl shadow-md p-8">
@@ -51,7 +55,7 @@ export default function LoginPage() {
             /* Success state */
             <div className="text-center">
               <div className="text-5xl mb-4">📧</div>
-              <h2 className="text-xl font-bold text-gray-900 mb-2">
+              <h2 className="text-xl font-bold text-[var(--brand-navy)] mb-2">
                 Check your email!
               </h2>
               <p className="text-gray-600 mb-4">
@@ -66,7 +70,7 @@ export default function LoginPage() {
                   setSent(false);
                   setEmail("");
                 }}
-                className="mt-6 text-sm text-emerald-600 hover:underline"
+                className="mt-6 text-sm text-[var(--brand-sky)] hover:underline"
               >
                 Try a different email
               </button>
@@ -74,7 +78,7 @@ export default function LoginPage() {
           ) : (
             /* Login form */
             <>
-              <h2 className="text-xl font-bold text-gray-900 mb-1">
+              <h2 className="text-xl font-bold text-[var(--brand-navy)] mb-1">
                 Sign in to your account
               </h2>
               <p className="text-sm text-gray-500 mb-6">
@@ -95,7 +99,7 @@ export default function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@vividroots.org"
                   required
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-gray-900 focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-[var(--brand-navy)] focus:ring-2 focus:ring-[var(--brand-sky)] focus:border-transparent outline-none"
                 />
 
                 {error && (
@@ -105,7 +109,7 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={loading || !email}
-                  className="w-full mt-4 bg-emerald-600 text-white font-medium py-3 rounded-xl hover:bg-emerald-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full mt-4 bg-[var(--brand-sky)] text-white font-medium py-3 rounded-xl hover:bg-[#2599B3] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? "Sending..." : "Send Magic Link"}
                 </button>
@@ -115,7 +119,7 @@ export default function LoginPage() {
         </div>
 
         <p className="text-center text-sm text-gray-400 mt-6">
-          <Link href="/" className="hover:text-emerald-600">
+          <Link href="/" className="hover:text-[var(--brand-sky)]">
             Back to public site
           </Link>
         </p>

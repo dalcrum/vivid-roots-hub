@@ -67,7 +67,7 @@ export function RestoreButton({ projectId }: { projectId: string }) {
     <button
       onClick={handleRestore}
       disabled={loading}
-      className="text-xs text-emerald-600 hover:underline font-medium disabled:opacity-50"
+      className="text-xs text-[var(--brand-sky)] hover:underline font-medium disabled:opacity-50"
     >
       {loading ? "Restoring..." : "Restore"}
     </button>

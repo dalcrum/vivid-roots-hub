@@ -49,7 +49,7 @@ export default function InviteUserForm() {
     return (
       <button
         onClick={() => setIsOpen(true)}
-        className="bg-emerald-600 text-white font-medium px-5 py-2.5 rounded-xl hover:bg-emerald-700 transition-colors"
+        className="bg-[var(--brand-sky)] text-white font-medium px-5 py-2.5 rounded-xl hover:bg-[#2599B3] transition-colors"
       >
         + Invite Team Member
       </button>
@@ -57,12 +57,12 @@ export default function InviteUserForm() {
   }
 
   const inputClass =
-    "w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-gray-900 focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none";
+    "w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-[var(--brand-navy)] focus:ring-2 focus:ring-[var(--brand-sky)] focus:border-transparent outline-none";
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-bold text-gray-900">
+        <h2 className="text-lg font-bold text-[var(--brand-navy)]">
           Invite Team Member
         </h2>
         <button
@@ -109,7 +109,7 @@ export default function InviteUserForm() {
             <button
               type="submit"
               disabled={sending}
-              className="w-full bg-emerald-600 text-white font-medium px-5 py-3 rounded-xl hover:bg-emerald-700 transition-colors disabled:opacity-50"
+              className="w-full bg-[var(--brand-sky)] text-white font-medium px-5 py-3 rounded-xl hover:bg-[#2599B3] transition-colors disabled:opacity-50"
             >
               {sending ? "Sending..." : "Send Invite"}
             </button>
@@ -121,7 +121,7 @@ export default function InviteUserForm() {
         <div
           className={`mt-4 p-3 rounded-xl text-sm ${
             message.type === "success"
-              ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+              ? "bg-[var(--brand-cream-warm)] text-[var(--brand-sky)] border border-[var(--brand-sky)]/30"
               : "bg-red-50 text-red-700 border border-red-200"
           }`}
         >

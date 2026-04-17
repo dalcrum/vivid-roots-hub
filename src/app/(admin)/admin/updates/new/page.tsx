@@ -30,7 +30,7 @@ export default async function NewUpdatePage() {
   return (
     <div>
       <div className="text-center mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">
+        <h1 className="text-2xl font-bold text-[var(--brand-navy)]">
           {userLang === "es" ? (
             <>
               Enviar Actualizacion de Campo
