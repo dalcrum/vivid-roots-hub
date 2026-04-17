@@ -46,8 +46,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Givebutter widgets loader. Uses the Vivid Roots account and
+            serves all <givebutter-widget id="..."> elements on the site.
+            Primary campaign button: g8MMdJ. */}
         <Script
-          src="https://widgets.givebutter.com/latest.umd.cjs?acct=vividroots&ar=false"
+          src="https://widgets.givebutter.com/latest.umd.cjs?acct=hjnfyglNQMCk5oir&p=other"
           strategy="afterInteractive"
         />
       </head>
