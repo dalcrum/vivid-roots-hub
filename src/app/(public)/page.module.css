@@ -762,4 +762,35 @@ a.btnGhost:hover {
     flex-direction: column;
     align-items: stretch;
   }
+  a.btnGhost,
+  .btnGold {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+/* Hide anchor-only nav links on narrow screens (homepage has on-page
+   scroll targets; keeping them makes the nav wrap and collide with the
+   wordmark at ~375px). Keep the Impact link visible so users can still
+   reach the other public pages. */
+.navOnlyWide {
+  display: inline-flex;
+}
+@media (max-width: 720px) {
+  .nav {
+    height: 80px;
+    padding: 0 5vw;
+  }
+  .logoImg {
+    height: 44px;
+  }
+  .navLinks {
+    gap: 1rem;
+  }
+  .navLinks a {
+    font-size: 0.78rem;
+  }
+  .navOnlyWide {
+    display: none !important;
+  }
 }
