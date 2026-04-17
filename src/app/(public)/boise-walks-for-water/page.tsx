@@ -2,18 +2,24 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
+import GivebutterButton from "@/components/GivebutterButton";
 import s from "./page.module.css";
 
 const LOGO_WHITE = "/images/logo-wordmark-white.png";
+
+/**
+ * Givebutter campaign for this event. Configured as a "button" widget
+ * in the Givebutter dashboard and loaded by the <Script> tag in
+ * src/app/layout.tsx. Every CTA on this page renders its own
+ * <GivebutterButton id={GB_WIDGET_ID} /> — the loader hydrates each
+ * into a branded Register/Donate button.
+ */
+const GB_WIDGET_ID = "g8MMdJ";
 
 /* TODO when assets are ready:
  *   - Replace hero videoPlaceholder with a real <video> element
  *   - Replace Guatemala/story/why image placeholders with real <img>/<Image>
  *   - Replace route-map placeholder with embedded map
- *   - Confirm the Givebutter widget account + ID ("LZoorN") renders —
- *     the main site script is loaded by src/app/layout.tsx with
- *     acct=vividroots; the event mockup referenced acct=69436, which
- *     may be a different org.
  */
 
 const rotatingLines = [
@@ -130,7 +136,6 @@ const faqs: FaqCategory[] = [
 export default function BoiseWalksForWaterPage() {
   const [lineIndex, setLineIndex] = useState(0);
   const [videoOpen, setVideoOpen] = useState(false);
-  const [registerOpen, setRegisterOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<string | null>(null);
 
   // Rotating hero tagline
@@ -141,19 +146,17 @@ export default function BoiseWalksForWaterPage() {
     return () => clearInterval(id);
   }, []);
 
-  // Esc closes modals
+  // Esc closes the video modal
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setVideoOpen(false);
-        setRegisterOpen(false);
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const openRegister = useCallback(() => setRegisterOpen(true), []);
   const openVideo = useCallback(() => setVideoOpen(true), []);
 
   return (
@@ -171,14 +174,7 @@ export default function BoiseWalksForWaterPage() {
         <div className={s.navLinks}>
           <a href="#how">How It Works</a>
           <a href="#register">Register</a>
-          <button
-            type="button"
-            onClick={openRegister}
-            className={s.navCta}
-            style={{ border: "none", cursor: "pointer" }}
-          >
-            Register Now
-          </button>
+          <GivebutterButton id={GB_WIDGET_ID} />
         </div>
       </nav>
 
@@ -213,14 +209,7 @@ export default function BoiseWalksForWaterPage() {
             Greenbelt — so 1,500 people never have to again.
           </p>
           <div className={s.heroCtas}>
-            <button
-              type="button"
-              onClick={openRegister}
-              className={s.btnGold}
-              style={{ border: "none" }}
-            >
-              Start Your Team <span style={{ marginLeft: 4 }}>→</span>
-            </button>
+            <GivebutterButton id={GB_WIDGET_ID} />
             <a href="#how" className={s.btnGhost}>
               See how it works
             </a>
@@ -508,13 +497,7 @@ export default function BoiseWalksForWaterPage() {
                 Carry a 5-gallon jug on your own — the same weight families
                 carry every day. T-shirt included.
               </div>
-              <button
-                type="button"
-                onClick={openRegister}
-                className={s.tierCardCta}
-              >
-                Register Solo
-              </button>
+              <GivebutterButton id={GB_WIDGET_ID} variant="block" />
             </div>
             {/* Team of 4 */}
             <div className={`${s.tierCard} ${s.featured}`}>
@@ -533,13 +516,7 @@ export default function BoiseWalksForWaterPage() {
                 Four friends, one jug, passing it between you for 3 miles.
                 The way it&apos;s meant to be done.
               </div>
-              <button
-                type="button"
-                onClick={openRegister}
-                className={s.tierCardCta}
-              >
-                Start Your Team
-              </button>
+              <GivebutterButton id={GB_WIDGET_ID} variant="block" />
             </div>
             {/* Team of 3 */}
             <div className={s.tierCard}>
@@ -557,13 +534,7 @@ export default function BoiseWalksForWaterPage() {
                 Three people, one jug, sharing the load — and the story
                 you&apos;ll tell after.
               </div>
-              <button
-                type="button"
-                onClick={openRegister}
-                className={s.tierCardCta}
-              >
-                Start Your Team
-              </button>
+              <GivebutterButton id={GB_WIDGET_ID} variant="block" />
             </div>
           </div>
           <div className={s.tiersMore}>
@@ -733,26 +704,7 @@ export default function BoiseWalksForWaterPage() {
             is waiting.
           </p>
           <div className={s.finalCtaButtons}>
-            <button
-              type="button"
-              onClick={openRegister}
-              className={s.btnGold}
-              style={{
-                border: "none",
-                fontSize: "1.1rem",
-                padding: "18px 36px",
-              }}
-            >
-              Start Your Team <span>→</span>
-            </button>
-            <button
-              type="button"
-              onClick={openRegister}
-              className={s.btnGhost}
-              style={{ border: "1px solid rgba(249,245,237,0.55)" }}
-            >
-              Register Solo
-            </button>
+            <GivebutterButton id={GB_WIDGET_ID} />
           </div>
           <div className={s.finalCtaMeta}>
             100% of net proceeds fund clean water infrastructure in San
@@ -793,23 +745,9 @@ export default function BoiseWalksForWaterPage() {
               >
                 Instagram
               </a>
-              <button
-                type="button"
-                onClick={openRegister}
-                className="goldLink"
-                style={{
-                  background: "none",
-                  border: "none",
-                  padding: 0,
-                  fontSize: "0.9rem",
-                  color: "var(--brand-gold-bright)",
-                  fontFamily: "inherit",
-                  cursor: "pointer",
-                  textAlign: "left",
-                }}
-              >
+              <a href="#register" style={{ color: "var(--brand-gold-bright)" }}>
                 Register →
-              </button>
+              </a>
             </div>
           </div>
           <div className={s.footerBottom}>
@@ -857,31 +795,6 @@ export default function BoiseWalksForWaterPage() {
         </div>
       </div>
 
-      {/* ===== REGISTER MODAL ===== */}
-      <div
-        className={`${s.registerModal} ${registerOpen ? s.open : ""}`}
-        onClick={(e) => {
-          if (e.target === e.currentTarget) setRegisterOpen(false);
-        }}
-      >
-        <div className={s.registerModalInner}>
-          <button
-            type="button"
-            className={s.registerModalClose}
-            onClick={() => setRegisterOpen(false)}
-            aria-label="Close register"
-          >
-            ×
-          </button>
-          {/* Givebutter widget — the account + campaign ID need to be
-              confirmed. If the widget doesn't render, the currently
-              loaded Givebutter script (acct=vividroots, configured in
-              src/app/layout.tsx) probably needs to match the campaign's
-              owning account. */}
-          {/* @ts-expect-error givebutter-widget is a custom element */}
-          <givebutter-widget id="LZoorN"></givebutter-widget>
-        </div>
-      </div>
     </div>
   );
 }
