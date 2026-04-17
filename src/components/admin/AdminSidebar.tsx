@@ -8,6 +8,14 @@ import { useState, useEffect } from "react";
 import { bilingualLabel, type Language } from "@/lib/translations";
 import BilingualText from "./BilingualText";
 
+/**
+ * Admin sidebar — 2026 brand refresh.
+ *
+ * Matches the public brand: navy background, horizontal wordmark logo,
+ * gold accent for the active item, sky-light hover state on inactive
+ * items. Layout + nav structure unchanged from the previous version.
+ */
+
 const navKeys = [
   { href: "/admin", key: "dashboard" as const, icon: "📊" },
   { href: "/admin/projects", key: "projects" as const, icon: "📁" },
@@ -29,7 +37,6 @@ export default function AdminSidebar({
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // Close sidebar on navigation
   useEffect(() => {
     setMobileOpen(false);
   }, [pathname]);
@@ -44,10 +51,10 @@ export default function AdminSidebar({
 
   return (
     <>
-      {/* Mobile hamburger button */}
+      {/* Mobile hamburger */}
       <button
         onClick={() => setMobileOpen(true)}
-        className="md:hidden fixed top-4 left-4 z-50 bg-gray-900 text-white p-3 rounded-lg shadow-lg"
+        className="md:hidden fixed top-4 left-4 z-50 rounded-lg bg-[var(--brand-navy)] p-3 text-white shadow-lg"
         aria-label="Open menu"
       >
         <svg
@@ -62,7 +69,7 @@ export default function AdminSidebar({
         </svg>
       </button>
 
-      {/* Mobile overlay backdrop */}
+      {/* Mobile backdrop */}
       {mobileOpen && (
         <div
           className="md:hidden fixed inset-0 bg-black/50 z-40"
@@ -73,17 +80,17 @@ export default function AdminSidebar({
       {/* Sidebar */}
       <aside
         className={`
-          w-64 bg-gray-900 text-white min-h-screen flex flex-col
+          w-64 bg-[var(--brand-navy)] text-white min-h-screen flex flex-col
           fixed md:sticky top-0 z-40
           transition-transform duration-300 ease-in-out
           ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
         `}
       >
-        {/* Close button — mobile only */}
+        {/* Close button (mobile) */}
         <div className="md:hidden flex justify-end p-3">
           <button
             onClick={() => setMobileOpen(false)}
-            className="text-gray-400 hover:text-white p-2"
+            className="text-white/60 hover:text-white p-2"
             aria-label="Close menu"
           >
             <svg
@@ -99,16 +106,18 @@ export default function AdminSidebar({
           </button>
         </div>
 
-        {/* Logo */}
-        <div className="p-6 border-b border-gray-800">
-          <Link href="/admin" className="flex items-center gap-2">
-            <span className="text-2xl">🌱</span>
-            <div>
-              <span className="text-lg font-bold">Vivid Roots</span>
-              <span className="block text-xs text-gray-400">
-                {userLang === "es" ? "Portal del Equipo" : "Team Portal"}
-              </span>
-            </div>
+        {/* Wordmark + portal label */}
+        <div className="px-6 pt-5 pb-6 border-b border-white/10">
+          <Link href="/admin" className="flex flex-col gap-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/logo-wordmark-white.png"
+              alt="Vivid Roots — Live Vividly"
+              className="h-12 w-auto"
+            />
+            <span className="text-[11px] font-medium uppercase tracking-[0.12em] text-[var(--brand-sky-light)]/80">
+              {userLang === "es" ? "Portal del Equipo" : "Team Portal"}
+            </span>
           </Link>
         </div>
 
@@ -131,15 +140,14 @@ export default function AdminSidebar({
                     href={item.href}
                     className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                       isActive
-                        ? "bg-emerald-600 text-white"
-                        : "text-gray-300 hover:bg-gray-800 hover:text-white"
+                        ? "bg-[var(--brand-sky)]/20 text-[var(--brand-sky-light)] ring-1 ring-inset ring-[var(--brand-sky-light)]/30"
+                        : "text-white/75 hover:bg-white/5 hover:text-white"
                     }`}
                   >
                     <span className="text-lg">{item.icon}</span>
                     <BilingualText
                       primary={bl.primary}
                       subtitle={bl.subtitle}
-                      className={isActive ? "" : ""}
                     />
                   </Link>
                 </li>
@@ -149,18 +157,18 @@ export default function AdminSidebar({
         </nav>
 
         {/* User section */}
-        <div className="p-4 border-t border-gray-800">
+        <div className="p-4 border-t border-white/10">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center text-sm font-bold">
+            <div className="w-8 h-8 rounded-full bg-[var(--brand-sky)] flex items-center justify-center text-sm font-bold text-[var(--brand-navy)]">
               {userEmail?.[0]?.toUpperCase() || "?"}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm text-gray-300 truncate">{userEmail}</p>
+              <p className="text-sm text-white/80 truncate">{userEmail}</p>
             </div>
           </div>
           <button
             onClick={handleLogout}
-            className="w-full text-left px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors"
+            className="w-full text-left px-4 py-2 text-sm text-white/60 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
           >
             <BilingualText
               primary={signOutLabel.primary}
@@ -169,10 +177,13 @@ export default function AdminSidebar({
           </button>
           <Link
             href="/"
-            className="block mt-1 px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors"
+            className="block mt-1 px-4 py-2 text-sm text-white/60 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
           >
             {userLang === "es" ? (
-              <BilingualText primary="Ver sitio público" subtitle="View public site" />
+              <BilingualText
+                primary="Ver sitio público"
+                subtitle="View public site"
+              />
             ) : (
               "View public site"
             )}

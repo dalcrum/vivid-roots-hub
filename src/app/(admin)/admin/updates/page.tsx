@@ -13,8 +13,8 @@ const statusConfig: Record<
   },
   published: {
     label: "Published",
-    bg: "bg-emerald-100",
-    text: "text-emerald-700",
+    bg: "bg-[var(--brand-sky-light)]/20",
+    text: "text-[var(--brand-sky)]",
   },
 };
 
@@ -47,7 +47,7 @@ export default async function UpdatesPage() {
       >
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
           <div className="flex-1 min-w-0">
-            <p className="font-medium text-gray-900 truncate">
+            <p className="font-medium text-[var(--brand-navy)] truncate">
               {project?.title || "Unknown Project"}
             </p>
             <p className="text-sm text-gray-500">
@@ -80,7 +80,7 @@ export default async function UpdatesPage() {
   return (
     <div className="max-w-4xl">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Review Updates</h1>
+        <h1 className="text-2xl font-bold text-[var(--brand-navy)]">Review Updates</h1>
         <p className="text-gray-500 text-sm mt-1">
           Review field team submissions, polish with AI, and publish for donors.
         </p>
@@ -107,7 +107,7 @@ export default async function UpdatesPage() {
       {drafts.length > 0 && (
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 mb-6">
           <div className="p-5 border-b border-gray-100">
-            <h2 className="text-lg font-bold text-gray-900">
+            <h2 className="text-lg font-bold text-[var(--brand-navy)]">
               📝 Drafts ({drafts.length})
             </h2>
             <p className="text-sm text-gray-500">
@@ -123,7 +123,7 @@ export default async function UpdatesPage() {
       {/* Published */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100">
         <div className="p-5 border-b border-gray-100">
-          <h2 className="text-lg font-bold text-gray-900">
+          <h2 className="text-lg font-bold text-[var(--brand-navy)]">
             ✅ Published ({published.length})
           </h2>
           <p className="text-sm text-gray-500">Live on the public site</p>

@@ -20,10 +20,10 @@ export default async function EditMemberPage({
   if (!profile) {
     return (
       <div className="max-w-2xl mx-auto text-center py-12">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">
+        <h1 className="text-2xl font-bold text-[var(--brand-navy)] mb-2">
           Team member not found
         </h1>
-        <Link href="/admin/team" className="text-emerald-600 hover:underline">
+        <Link href="/admin/team" className="text-[var(--brand-sky)] hover:underline">
           Back to Team
         </Link>
       </div>

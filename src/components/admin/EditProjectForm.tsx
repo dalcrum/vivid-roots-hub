@@ -154,14 +154,14 @@ export default function EditProjectForm({
   };
 
   const inputClass =
-    "w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-gray-900 focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none";
+    "w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-[var(--brand-navy)] focus:ring-2 focus:ring-[var(--brand-sky)] focus:border-transparent outline-none";
   const labelClass = "block text-sm font-medium text-gray-700 mb-1";
 
   return (
     <div className="space-y-6">
       {/* Hero Image */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-        <h2 className="text-lg font-bold text-gray-900 mb-4">
+        <h2 className="text-lg font-bold text-[var(--brand-navy)] mb-4">
           📷 Project Photo
         </h2>
         {heroUrl ? (
@@ -177,7 +177,7 @@ export default function EditProjectForm({
             <p className="text-gray-400 text-sm">No photo yet — upload one below</p>
           </div>
         )}
-        <label className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-emerald-600 bg-emerald-50 rounded-xl hover:bg-emerald-100 transition-colors cursor-pointer">
+        <label className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-[var(--brand-sky)] bg-[var(--brand-cream-warm)] rounded-xl hover:bg-[var(--brand-sky-light)]/20 transition-colors cursor-pointer">
           {uploadingHero ? "Uploading..." : heroUrl ? "Replace Photo" : "Upload Photo"}
           <input
             type="file"
@@ -191,7 +191,7 @@ export default function EditProjectForm({
 
       {/* Project Metadata */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-        <h2 className="text-lg font-bold text-gray-900 mb-4">
+        <h2 className="text-lg font-bold text-[var(--brand-navy)] mb-4">
           📋 Project Details
         </h2>
 
@@ -325,14 +325,14 @@ export default function EditProjectForm({
           <Link
             href={`/projects/${project.id}`}
             target="_blank"
-            className="text-sm text-emerald-600 hover:underline"
+            className="text-sm text-[var(--brand-sky)] hover:underline"
           >
             View public page →
           </Link>
           <button
             onClick={handleSave}
             disabled={saving}
-            className="px-6 py-2.5 text-sm font-medium text-white bg-emerald-600 rounded-xl hover:bg-emerald-700 transition-colors disabled:opacity-50"
+            className="px-6 py-2.5 text-sm font-medium text-white bg-[var(--brand-sky)] rounded-xl hover:bg-[#2599B3] transition-colors disabled:opacity-50"
           >
             {saving ? "Saving..." : "Save Changes"}
           </button>
@@ -344,7 +344,7 @@ export default function EditProjectForm({
         <div className="bg-white rounded-xl shadow-sm border border-purple-200 p-6">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="text-lg font-bold text-gray-900">
+              <h2 className="text-lg font-bold text-[var(--brand-navy)]">
                 📖 Impact Story
               </h2>
               <p className="text-sm text-gray-500">
@@ -409,7 +409,7 @@ export default function EditProjectForm({
         <div
           className={`p-3 rounded-xl text-sm ${
             message.type === "success"
-              ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+              ? "bg-[var(--brand-cream-warm)] text-[var(--brand-sky)] border border-[var(--brand-sky)]/30"
               : "bg-red-50 text-red-700 border border-red-200"
           }`}
         >

@@ -9,7 +9,7 @@ export default function FundraisingCharts({
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-8">
-      <h2 className="text-lg font-bold text-gray-900 mb-4">Monthly Giving</h2>
+      <h2 className="text-lg font-bold text-[var(--brand-navy)] mb-4">Monthly Giving</h2>
 
       <div className="flex items-end gap-1.5 sm:gap-2 h-52">
         {monthlyTotals.map((m) => {
@@ -30,7 +30,7 @@ export default function FundraisingCharts({
                 style={{ height: "160px" }}
               >
                 <div
-                  className="w-full max-w-[40px] bg-emerald-500 rounded-t-md transition-all duration-300 hover:bg-emerald-600 cursor-default"
+                  className="w-full max-w-[40px] bg-[var(--brand-sky)] rounded-t-md transition-all duration-300 hover:bg-[var(--brand-sky)] cursor-default"
                   style={{ height: `${Math.max(heightPercent, 2)}%` }}
                   title={`${m.month}: $${m.amount.toLocaleString()}`}
                 />

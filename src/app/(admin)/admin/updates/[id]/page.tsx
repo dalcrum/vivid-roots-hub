@@ -21,12 +21,12 @@ export default async function ReviewUpdatePage({
   if (!update) {
     return (
       <div className="text-center py-12">
-        <h1 className="text-xl font-bold text-gray-900 mb-2">
+        <h1 className="text-xl font-bold text-[var(--brand-navy)] mb-2">
           Update not found
         </h1>
         <Link
           href="/admin/updates"
-          className="text-emerald-600 hover:underline"
+          className="text-[var(--brand-sky)] hover:underline"
         >
           Back to updates
         </Link>
@@ -59,7 +59,7 @@ export default async function ReviewUpdatePage({
       </div>
 
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">
+        <h1 className="text-2xl font-bold text-[var(--brand-navy)]">
           {project.title}
         </h1>
         <p className="text-gray-500 text-sm">

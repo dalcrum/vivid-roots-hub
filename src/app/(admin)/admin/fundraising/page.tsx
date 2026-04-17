@@ -15,7 +15,7 @@ export default async function FundraisingPage() {
     return (
       <div className="max-w-5xl">
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">Fundraising</h1>
+          <h1 className="text-2xl font-bold text-[var(--brand-navy)]">Fundraising</h1>
           <p className="text-gray-500 text-sm mt-1">
             Track your Givebutter fundraising performance.
           </p>
@@ -60,7 +60,7 @@ export default async function FundraisingPage() {
     <div className="max-w-5xl">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Fundraising</h1>
+        <h1 className="text-2xl font-bold text-[var(--brand-navy)]">Fundraising</h1>
         <p className="text-gray-500 text-sm mt-1">
           Track your Givebutter fundraising performance.
         </p>
@@ -74,7 +74,7 @@ export default async function FundraisingPage() {
             className="bg-white rounded-xl shadow-sm p-5 border border-gray-100"
           >
             <div className="text-2xl mb-1">{stat.icon}</div>
-            <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
+            <div className="text-2xl font-bold text-[var(--brand-navy)]">{stat.value}</div>
             <div className="text-sm text-gray-500">{stat.label}</div>
           </div>
         ))}
@@ -82,14 +82,14 @@ export default async function FundraisingPage() {
 
       {/* Recurring giving banner */}
       {metrics.recurringMonthlyTotal > 0 && (
-        <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-5 mb-8">
+        <div className="bg-[var(--brand-cream-warm)] border border-[var(--brand-sky)]/30 rounded-xl p-5 mb-8">
           <div className="flex items-center gap-3">
             <span className="text-2xl">🔄</span>
             <div>
-              <p className="font-bold text-emerald-800">
+              <p className="font-bold text-[var(--brand-navy)]">
                 {fmt(metrics.recurringMonthlyTotal)}/month
               </p>
-              <p className="text-sm text-emerald-600">
+              <p className="text-sm text-[var(--brand-sky)]">
                 Active recurring giving from {metrics.recurringDonors} donor
                 {metrics.recurringDonors !== 1 ? "s" : ""}
               </p>
@@ -104,7 +104,7 @@ export default async function FundraisingPage() {
       {/* Campaign performance */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 mb-8">
         <div className="p-5 border-b border-gray-100">
-          <h2 className="text-lg font-bold text-gray-900">
+          <h2 className="text-lg font-bold text-[var(--brand-navy)]">
             Campaign Performance ({metrics.campaignCount})
           </h2>
         </div>
@@ -115,13 +115,13 @@ export default async function FundraisingPage() {
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-bold text-gray-900">
+                      <h3 className="font-bold text-[var(--brand-navy)]">
                         {campaign.title}
                       </h3>
                       <span
                         className={`px-2 py-0.5 rounded-full text-xs font-medium ${
                           campaign.status === "active"
-                            ? "bg-emerald-100 text-emerald-700"
+                            ? "bg-[var(--brand-sky-light)]/20 text-[var(--brand-sky)]"
                             : "bg-gray-100 text-gray-600"
                         }`}
                       >
@@ -144,7 +144,7 @@ export default async function FundraisingPage() {
                         <div
                           className={`h-2 rounded-full ${
                             campaign.percentFunded >= 100
-                              ? "bg-emerald-500"
+                              ? "bg-[var(--brand-sky)]"
                               : "bg-amber-500"
                           }`}
                           style={{
@@ -168,7 +168,7 @@ export default async function FundraisingPage() {
       {/* Recent donations */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100">
         <div className="p-5 border-b border-gray-100">
-          <h2 className="text-lg font-bold text-gray-900">Recent Donations</h2>
+          <h2 className="text-lg font-bold text-[var(--brand-navy)]">Recent Donations</h2>
         </div>
         {metrics.recentTransactions.length > 0 ? (
           <ul className="divide-y divide-gray-100">
@@ -178,7 +178,7 @@ export default async function FundraisingPage() {
                 className="p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3"
               >
                 <div>
-                  <p className="font-medium text-gray-900">
+                  <p className="font-medium text-[var(--brand-navy)]">
                     {tx.first_name} {tx.last_name}
                   </p>
                   <p className="text-sm text-gray-500">
@@ -187,7 +187,7 @@ export default async function FundraisingPage() {
                     {tx.plan_id ? " (recurring)" : ""}
                   </p>
                 </div>
-                <span className="text-lg font-bold text-emerald-600">
+                <span className="text-lg font-bold text-[var(--brand-sky)]">
                   ${(tx.donated / 100).toLocaleString()}
                 </span>
               </li>

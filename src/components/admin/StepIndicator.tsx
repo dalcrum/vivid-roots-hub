@@ -10,9 +10,9 @@ export default function StepIndicator({ currentStep }: { currentStep: number }) 
             <div
               className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-colors ${
                 index < currentStep
-                  ? "bg-emerald-600 text-white"
+                  ? "bg-[var(--brand-sky)] text-white"
                   : index === currentStep
-                    ? "bg-emerald-600 text-white ring-4 ring-emerald-100"
+                    ? "bg-[var(--brand-sky)] text-white ring-4 ring-[var(--brand-sky-light)]/30"
                     : "bg-gray-200 text-gray-500"
               }`}
             >
@@ -20,7 +20,7 @@ export default function StepIndicator({ currentStep }: { currentStep: number }) 
             </div>
             <span
               className={`text-xs mt-1.5 font-medium ${
-                index <= currentStep ? "text-emerald-700" : "text-gray-400"
+                index <= currentStep ? "text-[var(--brand-sky)]" : "text-gray-400"
               }`}
             >
               {label}
@@ -30,7 +30,7 @@ export default function StepIndicator({ currentStep }: { currentStep: number }) 
           {index < steps.length - 1 && (
             <div
               className={`w-16 h-1 mx-2 rounded-full ${
-                index < currentStep ? "bg-emerald-500" : "bg-gray-200"
+                index < currentStep ? "bg-[var(--brand-sky)]" : "bg-gray-200"
               }`}
             />
           )}

@@ -51,14 +51,14 @@ export default async function AdminDashboard() {
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+          <h1 className="text-2xl font-bold text-[var(--brand-navy)]">Dashboard</h1>
           <p className="text-gray-500 text-sm mt-1">
             Welcome back! Here&apos;s an overview of your projects.
           </p>
         </div>
         <Link
           href="/admin/updates/new"
-          className="bg-emerald-600 text-white font-medium px-5 py-2.5 rounded-xl hover:bg-emerald-700 transition-colors"
+          className="bg-[var(--brand-sky)] text-white font-medium px-5 py-2.5 rounded-xl hover:bg-[#2599B3] transition-colors"
         >
           + New Update
         </Link>
@@ -72,7 +72,7 @@ export default async function AdminDashboard() {
             className="bg-white rounded-xl shadow-sm p-5 border border-gray-100"
           >
             <div className="text-2xl mb-1">{stat.icon}</div>
-            <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
+            <div className="text-2xl font-bold text-[var(--brand-navy)]">{stat.value}</div>
             <div className="text-sm text-gray-500">{stat.label}</div>
           </div>
         ))}
@@ -82,10 +82,10 @@ export default async function AdminDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
         <Link
           href="/admin/updates/new"
-          className="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:border-emerald-300 hover:shadow-md transition-all group"
+          className="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:border-[var(--brand-sky)]/40 hover:shadow-md transition-all group"
         >
           <div className="text-3xl mb-2">📝</div>
-          <h3 className="font-bold text-gray-900 group-hover:text-emerald-700">
+          <h3 className="font-bold text-[var(--brand-navy)] group-hover:text-[var(--brand-sky)]">
             Submit Field Update
           </h3>
           <p className="text-sm text-gray-500 mt-1">
@@ -94,10 +94,10 @@ export default async function AdminDashboard() {
         </Link>
         <Link
           href="/admin/projects"
-          className="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:border-emerald-300 hover:shadow-md transition-all group"
+          className="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:border-[var(--brand-sky)]/40 hover:shadow-md transition-all group"
         >
           <div className="text-3xl mb-2">📁</div>
-          <h3 className="font-bold text-gray-900 group-hover:text-emerald-700">
+          <h3 className="font-bold text-[var(--brand-navy)] group-hover:text-[var(--brand-sky)]">
             Manage Projects
           </h3>
           <p className="text-sm text-gray-500 mt-1">
@@ -109,14 +109,14 @@ export default async function AdminDashboard() {
       {/* Recent updates */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100">
         <div className="p-5 border-b border-gray-100">
-          <h2 className="text-lg font-bold text-gray-900">Recent Updates</h2>
+          <h2 className="text-lg font-bold text-[var(--brand-navy)]">Recent Updates</h2>
         </div>
         {recentUpdates.length > 0 ? (
           <ul className="divide-y divide-gray-100">
             {recentUpdates.map((update) => (
               <li key={update.id} className="p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                 <div>
-                  <p className="font-medium text-gray-900">
+                  <p className="font-medium text-[var(--brand-navy)]">
                     {update.projects?.title || "Unknown Project"}
                   </p>
                   <p className="text-sm text-gray-500 mt-0.5">
@@ -130,7 +130,7 @@ export default async function AdminDashboard() {
                 <span
                   className={`px-3 py-1 rounded-full text-xs font-medium ${
                     update.review_status === "published"
-                      ? "bg-emerald-100 text-emerald-700"
+                      ? "bg-[var(--brand-sky-light)]/20 text-[var(--brand-sky)]"
                       : update.review_status === "in_review"
                         ? "bg-amber-100 text-amber-700"
                         : "bg-gray-100 text-gray-600"

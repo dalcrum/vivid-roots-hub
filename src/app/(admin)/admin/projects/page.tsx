@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ArchiveButton, RestoreButton } from "@/components/admin/ProjectActions";
 
 const statusConfig: Record<string, { label: string; bg: string; text: string }> = {
-  completed: { label: "Completed", bg: "bg-emerald-100", text: "text-emerald-700" },
+  completed: { label: "Completed", bg: "bg-[var(--brand-sky-light)]/20", text: "text-[var(--brand-sky)]" },
   in_progress: { label: "In Progress", bg: "bg-amber-100", text: "text-amber-700" },
   planning: { label: "Planning", bg: "bg-sky-100", text: "text-sky-700" },
 };
@@ -24,7 +24,7 @@ export default async function AdminProjects() {
     <div className="max-w-5xl">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Projects</h1>
+          <h1 className="text-2xl font-bold text-[var(--brand-navy)]">Projects</h1>
           <p className="text-gray-500 text-sm mt-1">
             Manage all your projects. Archive duplicates or old projects to keep things clean.
           </p>
@@ -34,7 +34,7 @@ export default async function AdminProjects() {
       {/* Active Projects */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100">
         <div className="p-5 border-b border-gray-100">
-          <h2 className="text-lg font-bold text-gray-900">
+          <h2 className="text-lg font-bold text-[var(--brand-navy)]">
             Active Projects ({activeProjects.length})
           </h2>
         </div>
@@ -51,7 +51,7 @@ export default async function AdminProjects() {
                   <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-bold text-gray-900">
+                        <h3 className="font-bold text-[var(--brand-navy)]">
                           {project.title}
                         </h3>
                         <span
@@ -74,7 +74,7 @@ export default async function AdminProjects() {
                     <div className="flex flex-col items-end gap-1">
                       <Link
                         href={`/admin/projects/${project.id}`}
-                        className="text-sm text-emerald-600 hover:underline font-medium"
+                        className="text-sm text-[var(--brand-sky)] hover:underline font-medium"
                       >
                         Edit
                       </Link>

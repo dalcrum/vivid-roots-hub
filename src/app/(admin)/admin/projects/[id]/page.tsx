@@ -20,12 +20,12 @@ export default async function EditProjectPage({
   if (!project) {
     return (
       <div className="text-center py-12">
-        <h1 className="text-xl font-bold text-gray-900 mb-2">
+        <h1 className="text-xl font-bold text-[var(--brand-navy)] mb-2">
           Project not found
         </h1>
         <Link
           href="/admin/projects"
-          className="text-emerald-600 hover:underline"
+          className="text-[var(--brand-sky)] hover:underline"
         >
           Back to projects
         </Link>
