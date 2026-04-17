@@ -1,52 +1,57 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-const navLinks = [
-  { href: "/impact", label: "Impact" },
-];
+/**
+ * Sticky public-site nav used on non-homepage routes
+ * (currently /impact, /projects/[id]).
+ *
+ * Brand-refresh (2026): matches the homepage visual language —
+ *   - navy background w/ translucent blur
+ *   - horizontal wordmark logo (white on transparent)
+ *   - gold "Give Hope" CTA linking to Givebutter
+ *   - collapses to wordmark + mobile drawer below 720px
+ */
 
+const navLinks = [{ href: "/impact", label: "Impact" }];
 const GIVEBUTTER_URL = "https://givebutter.com/vividroots";
+const LOGO_LIGHT = "/images/logo-wordmark-white.png";
 
 export default function PublicNav() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 bg-[var(--brand-primary-deep)]/[0.88] backdrop-blur-[12px] transition-colors duration-300">
-      <div className="max-w-[1200px] mx-auto px-6 md:px-8 h-16 flex items-center justify-between">
-        {/* Logo + wordmark */}
-        <Link href="/" className="flex items-center gap-3">
-          <Image
-            src="/images/logo-white.png"
-            alt="Vivid Roots Collective"
-            width={34}
-            height={40}
-            className="object-contain"
+    <nav className="sticky top-0 z-50 bg-[var(--brand-navy)]/90 backdrop-blur-md border-b border-white/5">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-10 h-[80px] md:h-[96px] flex items-center justify-between gap-4">
+        {/* Wordmark */}
+        <Link
+          href="/"
+          className="flex items-center"
+          aria-label="Vivid Roots Collective — home"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={LOGO_LIGHT}
+            alt="Vivid Roots — Live Vividly"
+            className="h-[48px] md:h-[64px] w-auto"
           />
-          <span className="font-heading text-[17px] text-white tracking-[0.2px]">
-            Vivid Roots Collective
-          </span>
         </Link>
 
-        {/* Desktop nav links */}
-        <div className="hidden md:flex items-center gap-7">
+        {/* Desktop links + CTA */}
+        <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => {
-            const isActive =
-              link.href === "/"
-                ? pathname === "/"
-                : pathname.startsWith(link.href);
+            const isActive = pathname.startsWith(link.href);
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-[13px] font-medium tracking-[0.2px] transition-colors duration-200 ${
+                className={`text-sm tracking-wide transition-colors ${
                   isActive
-                    ? "text-brand-accent"
-                    : "text-white/80 hover:text-brand-accent"
+                    ? "text-[var(--brand-sky-light)]"
+                    : "text-white/75 hover:text-white"
                 }`}
               >
                 {link.label}
@@ -57,22 +62,23 @@ export default function PublicNav() {
             href={GIVEBUTTER_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-brand-secondary text-white text-[13px] font-semibold px-5 py-2.5 rounded-lg transition-all duration-200 hover:bg-brand-secondary-light"
+            className="inline-flex items-center gap-1.5 rounded-full bg-[var(--brand-gold-bright)] px-5 py-2.5 text-sm font-medium text-[var(--brand-navy)] transition-transform hover:-translate-y-0.5"
           >
-            Donate
+            Give Hope <span className="text-xs opacity-60">$30</span>
           </a>
         </div>
 
-        {/* Mobile hamburger */}
+        {/* Mobile toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden text-white p-3"
-          aria-label="Toggle menu"
+          className="md:hidden rounded-lg p-2 text-white/85 hover:text-white"
+          aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileOpen}
         >
           {mobileOpen ? (
             <svg
-              width="24"
-              height="24"
+              width="22"
+              height="22"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -82,8 +88,8 @@ export default function PublicNav() {
             </svg>
           ) : (
             <svg
-              width="24"
-              height="24"
+              width="22"
+              height="22"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -95,22 +101,21 @@ export default function PublicNav() {
         </button>
       </div>
 
-      {/* Mobile dropdown */}
+      {/* Mobile drawer */}
       {mobileOpen && (
-        <div className="md:hidden bg-[var(--brand-primary-deep)] border-t border-white/10 px-6 py-5">
+        <div className="md:hidden border-t border-white/10 bg-[var(--brand-navy)] px-6 py-5">
           <div className="flex flex-col gap-4">
             {navLinks.map((link) => {
-              const isActive =
-                link.href === "/"
-                  ? pathname === "/"
-                  : pathname.startsWith(link.href);
+              const isActive = pathname.startsWith(link.href);
               return (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className={`text-[15px] font-medium transition-colors ${
-                    isActive ? "text-brand-accent" : "text-white/80"
+                  className={`text-base ${
+                    isActive
+                      ? "text-[var(--brand-sky-light)]"
+                      : "text-white/80"
                   }`}
                 >
                   {link.label}
@@ -121,9 +126,9 @@ export default function PublicNav() {
               href={GIVEBUTTER_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-brand-secondary text-white text-[14px] font-semibold px-5 py-3 rounded-lg text-center mt-2"
+              className="mt-2 inline-flex items-center justify-center gap-1.5 rounded-full bg-[var(--brand-gold-bright)] px-5 py-3 text-sm font-medium text-[var(--brand-navy)]"
             >
-              Donate
+              Give Hope <span className="text-xs opacity-60">$30</span>
             </a>
           </div>
         </div>

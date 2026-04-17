@@ -1,119 +1,74 @@
-import Image from "next/image";
 import Link from "next/link";
 
+/**
+ * Public site footer used on non-homepage routes. Matches the
+ * homepage's two-tier layout (navy top with links + cream bottom
+ * with legal), updated for the 2026 brand refresh.
+ */
+
 const GIVEBUTTER_URL = "https://givebutter.com/vividroots";
+const LOGO_LIGHT = "/images/logo-wordmark-white.png";
+const LOGO_CREAM = "/images/logo-wordmark-teal.png";
 
 export default function PublicFooter() {
   return (
-    <footer className="bg-[var(--brand-primary-deep)] pt-14 pb-8">
-      <div className="max-w-[960px] mx-auto px-6 md:px-8">
-        {/* Top section */}
-        <div className="flex flex-wrap gap-10 justify-between mb-10">
-          {/* Brand column */}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2.5 mb-3.5">
-              <Image
-                src="/images/logo-white.png"
-                alt="Vivid Roots Collective"
-                width={28}
-                height={33}
-                className="object-contain"
-              />
-              <span className="font-heading text-lg text-white">
-                Vivid Roots Collective
-              </span>
-            </div>
-            <p className="text-[14px] text-white/55 leading-[1.7]">
-              Clean water. Strong schools. Healthy communities.
-              <br />
-              Based in Boise, Idaho. Building in Guatemala &amp; Ecuador.
-            </p>
-          </div>
-
-          {/* Navigate column */}
-          <div className="min-w-[140px]">
-            <div className="text-[11px] font-semibold tracking-[1.2px] text-brand-accent uppercase mb-4">
-              Navigate
-            </div>
-            {[
-              { href: "/", label: "Home" },
-              { href: "/impact", label: "Impact" },
-            ].map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="block text-[14px] text-white/55 hover:text-white transition-colors mb-2.5"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-
-          {/* Connect column */}
-          <div className="min-w-[180px]">
-            <div className="text-[11px] font-semibold tracking-[1.2px] text-brand-accent uppercase mb-4">
-              Connect
-            </div>
-            <p className="text-[14px] text-white/55 leading-[1.7] mb-4">
-              dylan@vividrootscollective.org
-            </p>
-            <div className="flex gap-2">
-              {[
-                {
-                  label: "Instagram",
-                  href: "https://instagram.com/vividrootscollective",
-                },
-                {
-                  label: "Facebook",
-                  href: "https://facebook.com/Vivid-Roots-Collective-113677173420314/",
-                },
-              ].map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[11px] text-white/40 px-4 py-2.5 rounded-md border border-white/10 hover:border-white/25 transition-colors"
-                >
-                  {social.label}
-                </a>
-              ))}
-            </div>
+    <footer>
+      {/* Top — navy band with wordmark + quick links */}
+      <div className="bg-[var(--brand-navy)] px-[5vw] py-6">
+        <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-between gap-4">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={LOGO_LIGHT}
+            alt="Vivid Roots — Live Vividly"
+            className="h-10 w-auto"
+          />
+          <div className="flex flex-wrap items-center gap-6 text-sm text-white/55">
+            <Link href="/" className="transition-colors hover:text-white">
+              Home
+            </Link>
+            <Link href="/impact" className="transition-colors hover:text-white">
+              Impact
+            </Link>
+            <a
+              href={`mailto:dylan@vividrootscollective.org`}
+              className="transition-colors hover:text-white"
+            >
+              Contact
+            </a>
+            <a
+              href="https://instagram.com/vividrootscollective"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-white"
+            >
+              Instagram
+            </a>
             <a
               href={GIVEBUTTER_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block mt-4 bg-brand-secondary text-white text-[13px] font-semibold px-5 py-2.5 rounded-lg hover:bg-brand-secondary-light transition-colors"
+              className="font-medium text-[var(--brand-gold-bright)] transition-opacity hover:opacity-80"
             >
-              Donate Now
+              Give Hope →
             </a>
           </div>
         </div>
+      </div>
 
-        {/* Trust signals */}
-        <div className="flex flex-wrap gap-3 justify-center mb-7">
-          {[
-            "501(c)(3) Registered",
-            "EIN: 84-3705172",
-            "On the Ground Since 2014",
-            "Community-Led Projects",
-          ].map((item) => (
-            <div
-              key={item}
-              className="text-[12px] font-medium text-white/40 px-4 py-2 rounded-lg bg-white/5 border border-white/8"
-            >
-              {item}
-            </div>
-          ))}
-        </div>
-
-        {/* Bottom bar */}
-        <div className="border-t border-white/7 pt-5 flex flex-wrap justify-between gap-2 text-[12px] text-white/25">
-          <span>
-            &copy; 2026 Vivid Roots Collective. 501(c)(3) nonprofit. EIN:
-            84-3705172
+      {/* Bottom — cream strip with teal wordmark + legal */}
+      <div className="border-t border-[rgba(26,46,53,0.1)] bg-[var(--brand-cream-warm)] px-[5vw] py-3.5">
+        <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-between gap-2">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={LOGO_CREAM}
+            alt="Vivid Roots — Live Vividly"
+            className="h-7 w-auto"
+          />
+          <span className="text-xs text-[rgba(26,46,53,0.4)]">
+            © 2026 Vivid Roots Collective &nbsp;·&nbsp; 501(c)(3) Nonprofit
+            &nbsp;·&nbsp; EIN: 84-3705172 &nbsp;·&nbsp; Guatemala &amp;
+            Ecuador since 2014
           </span>
-          <span>Privacy Policy &middot; Terms</span>
         </div>
       </div>
     </footer>

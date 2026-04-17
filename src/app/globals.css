@@ -1,19 +1,32 @@
 @import "tailwindcss";
 
 :root {
-  /* Brand Colors */
-  --brand-primary: #3D7A8A;
-  --brand-primary-dark: #2C5F6E;
-  --brand-primary-deep: #1E4652;
-  --brand-secondary: #C4663A;
-  --brand-secondary-light: #D4784E;
-  --brand-accent: #E8A838;
-  --brand-cream: #FAF6F0;
-  --brand-dark: #2C2520;
+  /* ─────────────────────────────────────────────────────────────────
+     Brand palette (2026 refresh)
+     All `--brand-*` tokens below are the shipped palette. Existing
+     Tailwind classes (bg-brand-primary, text-brand-secondary, etc.)
+     keep working and auto-adopt the new colors.
+     ───────────────────────────────────────────────────────────────── */
+
+  /* Primary: navy (was teal #3D7A8A) */
+  --brand-primary: #1A2E35;
+  --brand-primary-dark: #0F1E24;
+  --brand-primary-deep: #091418;
+
+  /* Secondary: sky (was terracotta #C4663A) */
+  --brand-secondary: #2BAEC8;
+  --brand-secondary-light: #6DD5ED;
+
+  /* Accent: brighter gold (was amber #E8A838) */
+  --brand-accent: #F7C948;
+
+  /* Cream + neutrals */
+  --brand-cream: #F9F5ED;
+  --brand-dark: #1A2E35; /* body text — now matches navy */
   --brand-gray: #6B6560;
   --brand-light-gray: #E8E4DF;
 
-  /* New homepage palette (2026 refresh) */
+  /* Aliases for homepage CSS module (kept for backward compat) */
   --brand-navy: #1A2E35;
   --brand-sky: #2BAEC8;
   --brand-sky-light: #6DD5ED;
@@ -48,12 +61,16 @@
   --color-brand-gold-bright: var(--brand-gold-bright);
   --color-brand-cream-warm: var(--brand-cream-warm);
 
-  /* Font tokens */
-  --font-heading: var(--font-dm-serif-display);
+  /* Font tokens — Newsreader is the primary display serif as of the
+     2026 refresh. The old DM Serif Display family still loads in
+     layout.tsx for anywhere that pins the variable explicitly, but
+     the default font-heading class now routes to Newsreader. */
+  --font-heading: var(--font-newsreader);
   --font-body: var(--font-inter);
   --font-stats: var(--font-dm-sans);
   --font-sans: var(--font-inter);
   --font-serif-display: var(--font-newsreader);
+  --font-serif-legacy: var(--font-dm-serif-display);
 }
 
 body {
