@@ -34,8 +34,12 @@ export default function Home() {
             />
           </Link>
           <div className={s.navLinks}>
-            <a href="#foundations">Our Work</a>
-            <a href="#the-well">The Well</a>
+            <a href="#foundations" className={s.navOnlyWide}>
+              Our Work
+            </a>
+            <a href="#the-well" className={s.navOnlyWide}>
+              The Well
+            </a>
             <Link href="/impact">Impact</Link>
           </div>
         </nav>
