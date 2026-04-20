@@ -696,25 +696,55 @@ a.btnGhost:hover {
   background: rgba(26, 46, 53, 0.04);
 }
 .tiersMore {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  max-width: 1000px;
+  margin: 1.25rem auto 0;
 }
 .tiersMoreItem {
   text-align: center;
-  padding: 1rem 2rem;
+  padding: 1.5rem 1.25rem;
   border: 1px solid rgba(26, 46, 53, 0.1);
   border-radius: 12px;
   background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  transition: border-color 0.2s ease, transform 0.2s ease;
 }
-.tiersMoreItem .price {
+.tiersMoreItem:hover {
+  border-color: var(--brand-sky);
+  transform: translateY(-2px);
+}
+.tiersMorePrice {
   font-family: var(--font-newsreader), serif;
-  font-size: 1.5rem;
+  font-size: 1.9rem;
+  line-height: 1;
+  color: var(--brand-navy);
 }
-.tiersMoreItem .label {
-  font-size: 0.8rem;
+.tiersMorePriceUnit {
+  font-size: 0.6em;
+  font-family: var(--font-inter), sans-serif;
+  opacity: 0.6;
+  margin-left: 2px;
+}
+.tiersMoreLabel {
+  font-family: var(--font-newsreader), serif;
+  font-size: 1.1rem;
+  color: var(--brand-navy);
+  margin-top: 0.15rem;
+}
+.tiersMoreSub {
+  font-size: 0.78rem;
   color: var(--muted);
+  line-height: 1.4;
+  min-height: 2.6em;
+}
+.tiersMoreCta {
+  margin-top: 0.85rem;
+  width: 100%;
 }
 .tiersReassure {
   text-align: center;
@@ -1194,14 +1224,11 @@ a.btnGhost:hover {
     text-align: center;
   }
   .tiersMore {
-    flex-direction: column;
-    align-items: stretch;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
   }
-  .tiersMoreItem {
-    text-align: left;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  .tiersMoreSub {
+    min-height: 0;
   }
   .nav {
     padding: 1rem 5vw;

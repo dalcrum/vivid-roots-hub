@@ -576,40 +576,43 @@ export default function BoiseWalksForWaterPage() {
               <GivebutterButton id={GB_WIDGET_ID} variant="block" />
             </div>
           </div>
+          {/* Secondary tiers — smaller cards but fully buyable, each
+              with its own Register widget beneath. */}
           <div className={s.tiersMore}>
-            <div className={s.tiersMoreItem}>
-              <div className="price" style={{ fontFamily: "var(--font-newsreader)" }}>
-                $50
-                <span
-                  style={{
-                    fontSize: "0.6em",
-                    fontFamily: "var(--font-inter)",
-                    opacity: 0.6,
-                  }}
-                >
-                  /person
-                </span>
+            {[
+              {
+                price: "$50",
+                perPerson: true,
+                label: "Team of 2",
+                sub: "$100 total · 1 jug, 2 shirts",
+              },
+              {
+                price: "$40",
+                perPerson: false,
+                label: "Supporter",
+                sub: "No jug, all heart",
+              },
+              {
+                price: "$20",
+                perPerson: false,
+                label: "Kid (12 & under)",
+                sub: "Walks with the team, t-shirt included",
+              },
+            ].map((tier) => (
+              <div key={tier.label} className={s.tiersMoreItem}>
+                <div className={s.tiersMorePrice}>
+                  {tier.price}
+                  {tier.perPerson && (
+                    <span className={s.tiersMorePriceUnit}>/person</span>
+                  )}
+                </div>
+                <div className={s.tiersMoreLabel}>{tier.label}</div>
+                <div className={s.tiersMoreSub}>{tier.sub}</div>
+                <div className={s.tiersMoreCta}>
+                  <GivebutterButton id={GB_WIDGET_ID} variant="block" />
+                </div>
               </div>
-              <div className="label" style={{ fontSize: "0.8rem", color: "var(--muted, rgba(26,46,53,0.65))" }}>
-                Team of 2 · $100 total
-              </div>
-            </div>
-            <div className={s.tiersMoreItem}>
-              <div className="price" style={{ fontFamily: "var(--font-newsreader)" }}>
-                $40
-              </div>
-              <div className="label" style={{ fontSize: "0.8rem", color: "var(--muted, rgba(26,46,53,0.65))" }}>
-                Supporter · No jug, all heart
-              </div>
-            </div>
-            <div className={s.tiersMoreItem}>
-              <div className="price" style={{ fontFamily: "var(--font-newsreader)" }}>
-                $20
-              </div>
-              <div className="label" style={{ fontSize: "0.8rem", color: "var(--muted, rgba(26,46,53,0.65))" }}>
-                Kid (12 &amp; under)
-              </div>
-            </div>
+            ))}
           </div>
           <div className={s.tiersReassure}>
             Don&apos;t know your full team yet? No stress. As the captain,
