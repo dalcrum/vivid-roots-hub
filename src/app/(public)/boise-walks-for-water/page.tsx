@@ -1,11 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import GivebutterButton from "@/components/GivebutterButton";
 import s from "./page.module.css";
 
 const LOGO_WHITE = "/images/logo-wordmark-white.png";
+const PROMO_VIDEO_MP4 = "/videos/vivid-roots-promo.mp4";
+const PROMO_VIDEO_MOV = "/videos/vivid-roots-promo.mov";
+const PROMO_VIDEO_POSTER = "/images/vivid-roots-promo-poster.jpg";
 
 /**
  * Givebutter campaign for this event. Configured as a "button" widget
@@ -137,6 +140,7 @@ export default function BoiseWalksForWaterPage() {
   const [lineIndex, setLineIndex] = useState(0);
   const [videoOpen, setVideoOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<string | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   // Rotating hero tagline
   useEffect(() => {
@@ -150,14 +154,41 @@ export default function BoiseWalksForWaterPage() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setVideoOpen(false);
+        closeVideo();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // When the modal opens, autoplay from the beginning; when it closes,
+  // pause + reset. Also lock body scroll while open so on mobile the
+  // page behind doesn't scroll if a touch goes past the modal edges.
+  useEffect(() => {
+    const v = videoRef.current;
+    if (videoOpen) {
+      document.body.style.overflow = "hidden";
+      if (v) {
+        v.currentTime = 0;
+        // autoplay may be blocked by browser policy. If the promise
+        // rejects we just let the user hit the play control — the
+        // native <video controls> UI is still there.
+        v.play().catch(() => {});
+      }
+    } else {
+      document.body.style.overflow = "";
+      if (v) {
+        v.pause();
+      }
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [videoOpen]);
+
   const openVideo = useCallback(() => setVideoOpen(true), []);
+  const closeVideo = useCallback(() => setVideoOpen(false), []);
 
   return (
     <div className={s.page}>
@@ -255,9 +286,23 @@ export default function BoiseWalksForWaterPage() {
             onClick={openVideo}
             role="button"
             tabIndex={0}
-            onKeyDown={(e) => (e.key === "Enter" ? openVideo() : null)}
+            aria-label="Play the Vivid Roots promo video"
+            onKeyDown={(e) =>
+              e.key === "Enter" || e.key === " " ? openVideo() : null
+            }
           >
             <div className={s.videoInlineFrame}>
+              {/* Poster frame so the card shows the first frame of the
+                  video instead of a gradient. Decoded lazily. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={PROMO_VIDEO_POSTER}
+                alt=""
+                aria-hidden="true"
+                className={s.videoInlinePoster}
+                loading="lazy"
+                decoding="async"
+              />
               <div className={s.videoPlayCircle}>
                 <svg viewBox="0 0 24 24">
                   <polygon points="8,5 20,12 8,19" />
@@ -763,35 +808,44 @@ export default function BoiseWalksForWaterPage() {
       <div
         className={`${s.videoModal} ${videoOpen ? s.open : ""}`}
         onClick={(e) => {
-          if (e.target === e.currentTarget) setVideoOpen(false);
+          // Clicking outside the video closes it (but not clicks on
+          // the <video> itself or the close button).
+          if (e.target === e.currentTarget) closeVideo();
         }}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Vivid Roots promo video"
       >
         <div className={s.videoModalInner}>
           <button
             type="button"
             className={s.videoModalClose}
-            onClick={() => setVideoOpen(false)}
+            onClick={closeVideo}
             aria-label="Close video"
           >
             ×
           </button>
-          <div className={s.videoModalPlaceholder}>
-            <svg
-              width="64"
-              height="64"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
+          {/* Only mount the <video> while the modal is open so we don't
+              eagerly fetch the file on page load. The poster + preload
+              "metadata" keeps the experience snappy when reopened. */}
+          {videoOpen && (
+            <video
+              ref={videoRef}
+              className={s.videoModalPlayer}
+              controls
+              playsInline
+              preload="metadata"
+              poster={PROMO_VIDEO_POSTER}
+              onEnded={closeVideo}
             >
-              <polygon points="8,5 20,12 8,19" />
-            </svg>
-            Vertical video goes here
-            <span style={{ fontSize: "0.75rem", opacity: 0.5 }}>
-              9:16 aspect ratio
-            </span>
-          </div>
+              {/* H.264 MP4 first — universal support. HEVC .mov as a
+                  secondary source: Safari will prefer it (smaller file,
+                  better battery), other browsers skip it. */}
+              <source src={PROMO_VIDEO_MP4} type="video/mp4" />
+              <source src={PROMO_VIDEO_MOV} type="video/quicktime" />
+              Your browser doesn&apos;t support HTML5 video.
+            </video>
+          )}
         </div>
       </div>
 
