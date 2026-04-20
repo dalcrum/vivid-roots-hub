@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import GivebutterButton from "@/components/GivebutterButton";
 import s from "./page.module.css";
@@ -377,21 +378,15 @@ export default function BoiseWalksForWaterPage() {
         <div className={s.container}>
           <div className={s.whyGrid}>
             <div className={s.whyImage}>
-              <div className={s.whyImagePlaceholder}>
-                <svg
-                  width="48"
-                  height="48"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                >
-                  <rect x="3" y="3" width="18" height="18" rx="2" />
-                  <circle cx="8.5" cy="8.5" r="1.5" />
-                  <path d="M21 15l-5-5L5 21" />
-                </svg>
-                Guatemala community photo
-              </div>
+              <Image
+                src="/images/why-guatemala-student.jpg"
+                alt="A young student from San Jacinto, Guatemala smiling at her desk in a classroom"
+                width={1600}
+                height={1066}
+                sizes="(max-width: 768px) 100vw, 44vw"
+                className={s.whyImageImg}
+                priority={false}
+              />
             </div>
             <div>
               <div className={s.sectionEyebrow}>The why</div>
@@ -492,20 +487,19 @@ export default function BoiseWalksForWaterPage() {
                 </div>
               ))}
             </div>
-            <div className={s.routeMapPlaceholder}>
-              <svg
-                width="48"
-                height="48"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              >
-                <path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z" />
-                <path d="M8 2v16M16 6v16" />
-              </svg>
-              Route map coming soon
+            <div className={s.routeMap}>
+              <Image
+                src="/images/walk-route-map.png"
+                alt="Boise Walks for Water 2026 route map — 3-mile loop starting at Veterans Memorial Park through Heron Park and Garden City"
+                width={738}
+                height={433}
+                sizes="(max-width: 768px) 100vw, 45vw"
+                className={s.routeMapImg}
+              />
+              <p className={s.routeMapCaption}>
+                3-mile loop · Veterans Memorial Park → Heron Park → Garden
+                City
+              </p>
             </div>
           </div>
         </div>
