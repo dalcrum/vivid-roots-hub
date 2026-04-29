@@ -15,7 +15,10 @@ import { useState } from "react";
  *   - collapses to wordmark + mobile drawer below 720px
  */
 
-const navLinks = [{ href: "/impact", label: "Impact" }];
+const navLinks = [
+  { href: "/boise-walks-for-water", label: "Walk for Water" },
+  { href: "/impact", label: "Impact" },
+];
 const GIVEBUTTER_URL = "https://givebutter.com/vividroots";
 const LOGO_LIGHT = "/images/logo-wordmark-white.png";
 

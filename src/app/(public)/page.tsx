@@ -40,6 +40,7 @@ export default function Home() {
             <a href="#the-well" className={s.navOnlyWide}>
               The Well
             </a>
+            <Link href="/boise-walks-for-water">Walk for Water</Link>
             <Link href="/impact">Impact</Link>
           </div>
         </nav>
@@ -58,16 +59,16 @@ export default function Home() {
             school, a family that finally has room to breathe. Join us.
           </p>
           <div className={s.btns}>
+            <Link href="/boise-walks-for-water" className={s.btnGold}>
+              Join Boise Walks for Water →
+            </Link>
             <a
               href={GIVEBUTTER_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className={s.btnGold}
+              className={s.btnGhost}
             >
-              Give Hope → Start a Ripple <span className={s.amt}>$30</span>
-            </a>
-            <a href="#foundations" className={s.btnGhost}>
-              See the Ripple
+              Give Hope <span className={s.amt}>$30</span>
             </a>
           </div>
         </div>
@@ -436,6 +437,7 @@ export default function Home() {
             <div className={s.footLinks}>
               <a href="#foundations">Our Work</a>
               <a href="#the-well">The Well</a>
+              <Link href="/boise-walks-for-water">Walk for Water</Link>
               <Link href="/impact">Impact</Link>
               <a href="#">Our Financials</a>
               <a href="#">Contact</a>
